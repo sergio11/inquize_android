@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.dreamsoftware.inquize"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.dreamsoftware.inquize"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
@@ -48,16 +48,17 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.androidComposeCompiler.get()
     }
     packaging {
         resources {
@@ -68,12 +69,17 @@ android {
 
 dependencies {
 
+    coreLibraryDesugaring(libs.core.library.desugaring)
+
     // compose
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
     implementation(libs.bundles.compose)
     androidTestImplementation(libs.bundles.composeTest)
+
+    // Brownie UI
+    implementation(libs.brownie.ui)
 
     // CameraX
     implementation(libs.camera.core)
