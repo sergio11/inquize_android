@@ -1,0 +1,5 @@
+package com.dreamsoftware.inquize.utils
+
+import com.dreamsoftware.brownie.utils.IBrownieApplicationAware
+
+interface IInquizeApplicationAware: IBrownieApplicationAware

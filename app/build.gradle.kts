@@ -81,6 +81,9 @@ dependencies {
     // Brownie UI
     implementation(libs.brownie.ui)
 
+    //Exoplayer
+    implementation(libs.exoplayer)
+
     // CameraX
     implementation(libs.camera.core)
     implementation(libs.camera.camera2)
