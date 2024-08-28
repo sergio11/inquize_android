@@ -1,8 +1,9 @@
-package com.dreamsoftware.inquize.domain.speech.tts
+package com.dreamsoftware.inquize.framework.tts
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import com.dreamsoftware.inquize.domain.service.ITTSService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.IllegalArgumentException
@@ -13,12 +14,12 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 /**
- * A [TextToSpeechService] implementation that uses the Android [TextToSpeech] under the hood
+ * A [ITTSService] implementation that uses the Android [TextToSpeech] under the hood
  * to speak text.
  */
-class AndroidTextToSpeechService @Inject constructor(
+class ITTSServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
-) : TextToSpeechService {
+) : ITTSService {
 
     private var textToSpeech: TextToSpeech? = null
 

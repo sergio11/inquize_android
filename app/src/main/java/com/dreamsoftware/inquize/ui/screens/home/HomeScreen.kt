@@ -1,4 +1,4 @@
-package com.dreamsoftware.inquize.ui.home
+package com.dreamsoftware.inquize.ui.screens.home
 
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.layout.Box

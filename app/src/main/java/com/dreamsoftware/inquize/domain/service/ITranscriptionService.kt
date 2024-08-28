@@ -1,9 +1,9 @@
-package com.dreamsoftware.inquize.domain.speech.transcription
+package com.dreamsoftware.inquize.domain.service
 
 /**
  * A service that listens to the user's speech and transcribes it.
  */
-interface TranscriptionService {
+interface ITranscriptionService {
     /**
      * Starts listening to the user's speech.
      *

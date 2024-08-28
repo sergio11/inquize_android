@@ -8,7 +8,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.dreamsoftware.inquize.data.local.preferences.PerceiveUserPreferencesManager
-import com.dreamsoftware.inquize.di.InquizeApplication
+import com.dreamsoftware.inquize.InquizeApplication
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After

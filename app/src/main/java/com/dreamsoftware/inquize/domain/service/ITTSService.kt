@@ -1,11 +1,11 @@
-package com.dreamsoftware.inquize.domain.speech.tts
+package com.dreamsoftware.inquize.domain.service
 
 import java.lang.Exception
 
 /**
  * A service that provides text-to-speech functionality.
  */
-interface TextToSpeechService {
+interface ITTSService {
 
     /**
      * Starts speaking the given text. Throws [Exception] if any error occurs.

@@ -1,4 +1,4 @@
-package com.dreamsoftware.inquize.domain.sound
+package com.dreamsoftware.inquize.domain.service
 
 import androidx.annotation.RawRes
 import com.dreamsoftware.inquize.R
@@ -6,7 +6,7 @@ import com.dreamsoftware.inquize.R
 /**
  * Represents a player for UI sounds.
  */
-interface UISoundPlayer {
+interface ISoundPlayerService {
 
     /**
      * Plays the provided UI sound.

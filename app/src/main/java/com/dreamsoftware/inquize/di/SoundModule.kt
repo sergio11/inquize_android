@@ -1,7 +1,7 @@
 package com.dreamsoftware.inquize.di
 
-import com.dreamsoftware.inquize.domain.sound.AndroidUISoundPlayer
-import com.dreamsoftware.inquize.domain.sound.UISoundPlayer
+import com.dreamsoftware.inquize.framework.sound.ISoundPlayerServiceImpl
+import com.dreamsoftware.inquize.domain.service.ISoundPlayerService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ abstract class SoundModule {
 
     @Binds
     @Singleton
-    abstract fun bindUISoundPlayer(impl: AndroidUISoundPlayer): UISoundPlayer
+    abstract fun bindUISoundPlayer(impl: ISoundPlayerServiceImpl): ISoundPlayerService
 }

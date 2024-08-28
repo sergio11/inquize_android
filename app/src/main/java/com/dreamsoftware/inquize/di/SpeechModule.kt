@@ -1,9 +1,9 @@
 package com.dreamsoftware.inquize.di
 
-import com.dreamsoftware.inquize.domain.speech.transcription.AndroidTranscriptionService
-import com.dreamsoftware.inquize.domain.speech.transcription.TranscriptionService
-import com.dreamsoftware.inquize.domain.speech.tts.AndroidTextToSpeechService
-import com.dreamsoftware.inquize.domain.speech.tts.TextToSpeechService
+import com.dreamsoftware.inquize.framework.transcription.ITranscriptionServiceImpl
+import com.dreamsoftware.inquize.domain.service.ITranscriptionService
+import com.dreamsoftware.inquize.framework.tts.ITTSServiceImpl
+import com.dreamsoftware.inquize.domain.service.ITTSService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,9 +16,9 @@ abstract class SpeechModule {
 
     @Binds
     @Singleton
-    abstract fun bindTranscriptionService(impl: AndroidTranscriptionService): TranscriptionService
+    abstract fun bindTranscriptionService(impl: ITranscriptionServiceImpl): ITranscriptionService
 
     @Binds
     @Singleton
-    abstract fun bindTextToSpeechService(impl: AndroidTextToSpeechService): TextToSpeechService
+    abstract fun bindTextToSpeechService(impl: ITTSServiceImpl): ITTSService
 }

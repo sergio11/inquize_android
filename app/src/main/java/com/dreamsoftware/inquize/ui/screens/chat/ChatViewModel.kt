@@ -1,4 +1,4 @@
-package com.dreamsoftware.inquize.ui.chat
+package com.dreamsoftware.inquize.ui.screens.chat
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.inquize.data.local.bitmapstore.BitmapStore
 import com.dreamsoftware.inquize.data.local.preferences.UserPreferencesManager
 import com.dreamsoftware.inquize.data.remote.languagemodel.MultiModalLanguageModelClient
-import com.dreamsoftware.inquize.domain.chat.ChatMessage
-import com.dreamsoftware.inquize.domain.speech.transcription.TranscriptionService
-import com.dreamsoftware.inquize.domain.speech.tts.TextToSpeechService
+import com.dreamsoftware.inquize.domain.model.ChatMessageBO
+import com.dreamsoftware.inquize.domain.service.ITranscriptionService
+import com.dreamsoftware.inquize.domain.service.ITTSService
 import com.dreamsoftware.inquize.ui.navigation.PerceiveNavigationDestinations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
@@ -25,17 +25,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val transcriptionService: TranscriptionService,
-    private val textToSpeechService: TextToSpeechService,
+    private val ITranscriptionService: ITranscriptionService,
+    private val ITTSService: ITTSService,
     private val languageModelClient: MultiModalLanguageModelClient,
     private val bitmapStore: BitmapStore,
     private val preferencesManager: UserPreferencesManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val initialUserChatMessage = ChatMessage(
+    private val initialUserChatMessageBO = ChatMessageBO(
         message = savedStateHandle.get<String>(PerceiveNavigationDestinations.ChatScreen.NAV_ARG_INITIAL_USER_PROMPT)!!,
-        role = ChatMessage.Role.USER
+        role = ChatMessageBO.Role.USER
     )
     private val conversationImageBitmapUri = savedStateHandle
         .get<String>(PerceiveNavigationDestinations.ChatScreen.NAV_ARG_ASSOCIATED_IMAGE_URI_BASE64)!!
@@ -62,12 +62,12 @@ class ChatViewModel @Inject constructor(
         languageModelClient.startNewChatSession()
 
         // Generate response for initial prompt adding message to chat items list
-        _uiState.update { it.copy(messages = listOf(initialUserChatMessage)) }
+        _uiState.update { it.copy(messages = listOf(initialUserChatMessageBO)) }
         viewModelScope.launch {
             val initialBitmap = bitmapStore
                 .retrieveBitmapForUri(conversationImageBitmapUri) // todo: error handling / delete image after using it
             generateLanguageModelResponseUpdatingUiState(
-                messageToModel = initialUserChatMessage.message,
+                messageToModel = initialUserChatMessageBO.message,
                 image = initialBitmap
             )
         }
@@ -76,7 +76,7 @@ class ChatViewModel @Inject constructor(
     fun startTranscription() {
         _userSpeechTranscriptionStream.update { "" }
         _uiState.update { it.copy(isListening = true) }
-        transcriptionService.startListening(
+        ITranscriptionService.startListening(
             transcription = { transcription -> _userSpeechTranscriptionStream.update { transcription } },
             onEndOfSpeech = {
                 _uiState.update { it.copy(isListening = false) }
@@ -88,11 +88,11 @@ class ChatViewModel @Inject constructor(
                 // If it is a valid transcription, add transcription to chat messages
                 // Before adding the transcription to the chat, clear the transcription stream
                 _userSpeechTranscriptionStream.update { null }
-                val userTranscriptionChatMessage = ChatMessage(
+                val userTranscriptionChatMessageBO = ChatMessageBO(
                     message = userTranscription,
-                    role = ChatMessage.Role.USER
+                    role = ChatMessageBO.Role.USER
                 )
-                _uiState.update { it.copy(messages = it.messages + userTranscriptionChatMessage) }
+                _uiState.update { it.copy(messages = it.messages + userTranscriptionChatMessageBO) }
 
                 viewModelScope.launch {
                     generateLanguageModelResponseUpdatingUiState(messageToModel = userTranscription)
@@ -104,7 +104,7 @@ class ChatViewModel @Inject constructor(
 
     fun stopTranscription() {
         _userSpeechTranscriptionStream.update { null }
-        transcriptionService.stopListening()
+        ITranscriptionService.stopListening()
         _uiState.update { it.copy(isListening = false) }
     }
 
@@ -112,12 +112,12 @@ class ChatViewModel @Inject constructor(
     fun onAssistantMutedStateChange(isMuted: Boolean) {
         _uiState.update { it.copy(isAssistantMuted = isMuted) }
         viewModelScope.launch { preferencesManager.setAssistantMutedStatus(isMuted) }
-        if (isMuted) textToSpeechService.stop()
+        if (isMuted) ITTSService.stop()
     }
 
     fun stopAssistantIfSpeaking() {
         if (!_uiState.value.isAssistantSpeaking) return
-        textToSpeechService.stop()
+        ITTSService.stop()
     }
 
     private suspend fun generateLanguageModelResponseUpdatingUiState(
@@ -139,7 +139,7 @@ class ChatViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         val modelResponse = languageModelClient.sendMessage(messageContentList)
             .getOrNull()
-            ?.let { ChatMessage(message = it, role = ChatMessage.Role.ASSISTANT) }
+            ?.let { ChatMessageBO(message = it, role = ChatMessageBO.Role.ASSISTANT) }
         if (modelResponse == null) {
             _uiState.update { it.copy(isLoading = false, hasErrorOccurred = true) }
             return
@@ -154,7 +154,7 @@ class ChatViewModel @Inject constructor(
     private suspend fun speakTextUpdatingUiState(text: String) {
         try {
             _uiState.update { it.copy(isAssistantSpeaking = true) }
-            textToSpeechService.startSpeaking(text = text)
+            ITTSService.startSpeaking(text = text)
         } catch (exception: Exception) {
             if (exception is CancellationException) throw exception
             _uiState.update { it.copy(hasErrorOccurred = true) }
@@ -171,8 +171,8 @@ class ChatViewModel @Inject constructor(
 
     override fun onCleared() {
         languageModelClient.endChatSession()
-        textToSpeechService.stop()
-        textToSpeechService.releaseResources()
+        ITTSService.stop()
+        ITTSService.releaseResources()
         super.onCleared()
     }
 }

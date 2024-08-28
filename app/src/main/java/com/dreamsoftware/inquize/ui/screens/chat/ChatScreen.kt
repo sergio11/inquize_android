@@ -1,4 +1,4 @@
-package com.dreamsoftware.inquize.ui.chat
+package com.dreamsoftware.inquize.ui.screens
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
@@ -42,7 +42,7 @@ import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.inquize.R
-import com.dreamsoftware.inquize.domain.chat.ChatMessage
+import com.dreamsoftware.inquize.domain.model.ChatMessageBO
 import com.dreamsoftware.inquize.ui.components.AnimatedMicButtonWithTranscript
 import com.dreamsoftware.inquize.ui.components.ChatMessageCard
 import com.dreamsoftware.inquize.ui.components.Role
@@ -56,7 +56,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChatScreen(
     isAssistantResponseLoading: Boolean,
-    chatMessages: List<ChatMessage>,
+    chatMessageBOS: List<ChatMessageBO>,
     currentTranscription: String?,
     isListening: Boolean,
     onStartListening: () -> Unit,
@@ -100,7 +100,7 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f),
-            chatMessages = chatMessages
+            chatMessageBOS = chatMessageBOS
         )
         Divider()
         AnimatedContent(
@@ -143,20 +143,20 @@ fun ChatScreen(
 }
 
 @Composable
-private fun ChatMessagesList(chatMessages: List<ChatMessage>, modifier: Modifier = Modifier) {
+private fun ChatMessagesList(chatMessageBOS: List<ChatMessageBO>, modifier: Modifier = Modifier) {
     val lazyListState = rememberLazyListState()
-    LaunchedEffect(chatMessages) {
-        lazyListState.animateScrollToItem(chatMessages.lastIndex)
+    LaunchedEffect(chatMessageBOS) {
+        lazyListState.animateScrollToItem(chatMessageBOS.lastIndex)
     }
     LazyColumn(modifier = modifier, state = lazyListState) {
-        items(items = chatMessages, key = { it.id }) { chatMessage ->
+        items(items = chatMessageBOS, key = { it.id }) { chatMessage ->
             BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
                 val alignment = remember {
-                    if (chatMessage.role == ChatMessage.Role.USER) Alignment.CenterEnd
+                    if (chatMessage.role == ChatMessageBO.Role.USER) Alignment.CenterEnd
                     else Alignment.CenterStart
                 }
                 ChatMessageCard(
@@ -164,7 +164,7 @@ private fun ChatMessagesList(chatMessages: List<ChatMessage>, modifier: Modifier
                         .align(alignment = alignment)
                         .widthIn(max = this.maxWidth / 1.5f),
                     messageContent = chatMessage.message,
-                    role = if (chatMessage.role == ChatMessage.Role.USER) Role.USER
+                    role = if (chatMessage.role == ChatMessageBO.Role.USER) Role.USER
                     else Role.RESPONDER
                 )
             }
@@ -253,16 +253,16 @@ private fun ChatScreenPreview() {
         ) {
             ChatScreen(
                 isAssistantResponseLoading = false,
-                chatMessages = listOf(
-                    ChatMessage(
+                chatMessageBOS = listOf(
+                    ChatMessageBO(
                         id = "1",
                         message = "Hello, how can I help you?",
-                        role = ChatMessage.Role.ASSISTANT
+                        role = ChatMessageBO.Role.ASSISTANT
                     ),
-                    ChatMessage(
+                    ChatMessageBO(
                         id = "2",
                         message = "I'm looking for a good place to eat",
-                        role = ChatMessage.Role.USER
+                        role = ChatMessageBO.Role.USER
                     )
                 ),
                 currentTranscription = "I'm looking for a good place to eat",

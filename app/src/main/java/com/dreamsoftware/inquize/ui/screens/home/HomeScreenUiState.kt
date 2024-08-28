@@ -1,4 +1,4 @@
-package com.dreamsoftware.inquize.ui.home
+package com.dreamsoftware.inquize.ui.screens.home
 
 /**
  * A data class that represents the current UI state of the [HomeScreen].

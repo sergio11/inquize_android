@@ -22,10 +22,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.dreamsoftware.inquize.ui.chat.ChatScreen
-import com.dreamsoftware.inquize.ui.chat.ChatViewModel
-import com.dreamsoftware.inquize.ui.home.HomeScreen
-import com.dreamsoftware.inquize.ui.home.HomeViewModel
+import com.dreamsoftware.inquize.ui.screens.ChatScreen
+import com.dreamsoftware.inquize.ui.screens.chat.ChatViewModel
+import com.dreamsoftware.inquize.ui.screens.home.HomeScreen
+import com.dreamsoftware.inquize.ui.screens.home.HomeViewModel
 import com.dreamsoftware.inquize.ui.navigation.PerceiveNavigationDestinations
 import com.dreamsoftware.inquize.ui.onboarding.WelcomeScreen
 import com.dreamsoftware.inquize.ui.permission.PermissionsDeniedScreen
@@ -141,7 +141,7 @@ private fun NavGraphBuilder.chatScreen(route: String, navController: NavControll
         DisposableEffect(Unit) { onDispose(viewModel::clearCache) }
         ChatScreen(
             isAssistantResponseLoading = uiState.isLoading,
-            chatMessages = uiState.messages,
+            chatMessageBOS = uiState.messages,
             currentTranscription = currentUserTranscription,
             isListening = uiState.isListening,
             onStartListening = {

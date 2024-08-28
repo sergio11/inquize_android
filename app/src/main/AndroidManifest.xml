@@ -17,7 +17,7 @@
 
     <!-- Set allowBackup to false to ensure that welcome screen is shown after re-installation-->
     <application
-        android:name=".di.InquizeApplication"
+        android:name=".InquizeApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

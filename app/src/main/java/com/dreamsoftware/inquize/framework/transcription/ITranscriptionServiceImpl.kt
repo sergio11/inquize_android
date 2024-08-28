@@ -1,19 +1,20 @@
-package com.dreamsoftware.inquize.domain.speech.transcription
+package com.dreamsoftware.inquize.framework.transcription
 
 import android.content.Context
 import android.content.Intent
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.utils.createRecognitionListener
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 /**
- * A concrete impl of [TranscriptionService] that uses [SpeechRecognizer].
+ * A concrete impl of [ITranscriptionService] that uses [SpeechRecognizer].
  */
-class AndroidTranscriptionService @Inject constructor(
+class ITranscriptionServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
-) : TranscriptionService {
+) : ITranscriptionService {
 
     private val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
     private val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {

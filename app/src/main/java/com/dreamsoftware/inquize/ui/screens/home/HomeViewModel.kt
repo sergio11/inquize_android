@@ -1,4 +1,4 @@
-package com.dreamsoftware.inquize.ui.home
+package com.dreamsoftware.inquize.ui.screens.home
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
@@ -7,7 +7,7 @@ import androidx.camera.core.ImageProxy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.inquize.data.local.bitmapstore.BitmapStore
-import com.dreamsoftware.inquize.domain.speech.transcription.TranscriptionService
+import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val transcriptionService: TranscriptionService,
+    private val ITranscriptionService: ITranscriptionService,
     private val bitmapStore: BitmapStore
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeScreenUiState())
@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
         _userSpeechTranscriptionStream.update { "" }
         // use a completely new state to remove old stale states
         _uiState.update { HomeScreenUiState(isListening = true) }
-        transcriptionService.startListening(
+        ITranscriptionService.startListening(
             transcription = { transcription -> _userSpeechTranscriptionStream.update { transcription } },
             onEndOfSpeech = {
                 viewModelScope.launch {
@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
     fun stopTranscription() {
         _userSpeechTranscriptionStream.update { null }
-        transcriptionService.stopListening()
+        ITranscriptionService.stopListening()
         _uiState.update { it.copy(isListening = false) }
     }
 
