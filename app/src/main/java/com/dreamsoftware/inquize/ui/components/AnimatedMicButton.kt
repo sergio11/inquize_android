@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.inquize.R
-import com.dreamsoftware.inquize.ui.theme.PerceiveTheme
+import com.dreamsoftware.inquize.ui.theme.InquizeTheme
 import com.dreamsoftware.inquize.ui.theme.RoundedStarShape
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -84,7 +84,7 @@ fun AnimatedMicButton(
 @PreviewDynamicColors
 @Composable
 private fun AnimatedMicButtonPreview() {
-    PerceiveTheme {
+    InquizeTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,

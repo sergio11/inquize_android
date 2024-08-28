@@ -46,7 +46,7 @@ import com.dreamsoftware.inquize.domain.model.ChatMessageBO
 import com.dreamsoftware.inquize.ui.components.AnimatedMicButtonWithTranscript
 import com.dreamsoftware.inquize.ui.components.ChatMessageCard
 import com.dreamsoftware.inquize.ui.components.Role
-import com.dreamsoftware.inquize.ui.theme.PerceiveTheme
+import com.dreamsoftware.inquize.ui.theme.InquizeTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -246,7 +246,7 @@ private class ChatScreenHaptics(
 @PreviewDynamicColors
 @Composable
 private fun ChatScreenPreview() {
-    PerceiveTheme {
+    InquizeTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dreamsoftware.inquize.ui.InquizeApp
-import com.dreamsoftware.inquize.ui.theme.PerceiveTheme
+import com.dreamsoftware.inquize.ui.theme.InquizeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
-            PerceiveTheme(content = { MainActivityContent() })
+            InquizeTheme(content = { MainActivityContent() })
         }
     }
 
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
             .shouldDisplayWelcomeScreenStream
             .collectAsStateWithLifecycle()
         shouldShowWelcomeScreenState?.let { shouldShowWelcomeScreen ->
-            PerceiveTheme {
+            InquizeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,

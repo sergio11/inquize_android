@@ -2,6 +2,7 @@ package com.dreamsoftware.inquize.data.remote.languagemodel
 
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.dreamsoftware.inquize.BuildConfig
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
@@ -32,7 +33,7 @@ class GeminiLanguageModelClient @Inject constructor() : MultiModalLanguageModelC
     override suspend fun sendMessage(messageContents: List<MultiModalLanguageModelClient.MessageContent>): Result<String> {
         val currentChatSession =
             currentChatSession ?: throw IllegalStateException(CHAT_SESSION_INVALID_MESSAGE)
-
+        Log.d("ATV_CHANGES", "GeminiLanguageModelClient messageContents: ${messageContents.size} called!")
         return try {
             val imagesInContent: List<Bitmap> = messageContents.mapNotNull {
                 if (it !is MultiModalLanguageModelClient.MessageContent.Image) return@mapNotNull null
@@ -72,6 +73,7 @@ class GeminiLanguageModelClient @Inject constructor() : MultiModalLanguageModelC
             }
             Result.success(currentChatSession.sendMessage(prompt).text!!)
         } catch (exception: Exception) {
+            Log.d("ATV_CHANGES", "GeminiLanguageModelClient ex: ${exception} called!")
             if (exception is CancellationException) throw exception
             Result.failure(exception)
         }
@@ -83,7 +85,7 @@ class GeminiLanguageModelClient @Inject constructor() : MultiModalLanguageModelC
 
     private companion object {
         object GeminiModels {
-            const val GEMINI_PRO_VISION = "gemini-pro-vision"
+            const val GEMINI_PRO_VISION = "gemini-1.5-flash"
             const val GEMINI_PRO = "gemini-pro"
         }
 
