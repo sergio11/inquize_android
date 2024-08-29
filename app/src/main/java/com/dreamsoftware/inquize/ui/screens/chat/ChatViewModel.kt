@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.inquize.data.local.bitmapstore.BitmapStore
 import com.dreamsoftware.inquize.data.local.preferences.UserPreferencesManager
-import com.dreamsoftware.inquize.data.remote.languagemodel.MultiModalLanguageModelClient
+import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
+import com.dreamsoftware.inquize.data.remote.dto.QuestionWithImageDTO
 import com.dreamsoftware.inquize.domain.model.ChatMessageBO
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.domain.service.ITTSService
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val ITranscriptionService: ITranscriptionService,
     private val ITTSService: ITTSService,
-    private val languageModelClient: MultiModalLanguageModelClient,
+    private val languageModelClient: IMultiModalLanguageModelDataSource,
     private val bitmapStore: BitmapStore,
     private val preferencesManager: UserPreferencesManager,
     savedStateHandle: SavedStateHandle,
@@ -124,20 +125,14 @@ class ChatViewModel @Inject constructor(
         messageToModel: String,
         image: Bitmap? = null
     ) {
-        val messageContentList = mutableListOf<MultiModalLanguageModelClient.MessageContent>()
-        // add image
-        image?.let {
-            messageContentList.add(
-                MultiModalLanguageModelClient.MessageContent.Image(it)
-            )
-        }
-        // add text
-        messageContentList.add(
-            MultiModalLanguageModelClient.MessageContent.Text(text = messageToModel)
+
+        val data = QuestionWithImageDTO(
+            question = messageToModel,
+            image = image!!
         )
 
         _uiState.update { it.copy(isLoading = true) }
-        val modelResponse = languageModelClient.sendMessage(messageContentList)
+        val modelResponse = languageModelClient.sendMessage(data)
             .getOrNull()
             ?.let { ChatMessageBO(message = it, role = ChatMessageBO.Role.ASSISTANT) }
         if (modelResponse == null) {

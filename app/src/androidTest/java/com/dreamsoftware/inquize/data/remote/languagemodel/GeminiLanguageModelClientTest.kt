@@ -4,18 +4,18 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import kotlin.time.Duration.Companion.seconds
-import com.dreamsoftware.inquize.data.remote.languagemodel.MultiModalLanguageModelClient.MessageContent
-
+import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource.MessageContent
+import com.dreamsoftware.inquize.data.remote.datasource.impl.GeminiLanguageModelDataSourceImpl
 
 // Note: Android#Logger should be mocked to run the test. Hence a local jvm
 // test cannot be used to test the class.
 class GeminiLanguageModelClientTest {
 
-    private lateinit var geminiLanguageModelClient: GeminiLanguageModelClient
+    private lateinit var geminiLanguageModelClient: GeminiLanguageModelDataSourceImpl
 
     @Before
     fun setUp() {
-        geminiLanguageModelClient = GeminiLanguageModelClient()
+        geminiLanguageModelClient = GeminiLanguageModelDataSourceImpl()
     }
 
     @Test
