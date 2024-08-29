@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     kotlin("kapt")
     alias(libs.plugins.daggerHilt)
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -77,6 +79,12 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation(libs.bundles.compose)
     androidTestImplementation(libs.bundles.composeTest)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
 
     // Brownie UI
     implementation(libs.brownie.ui)

@@ -41,9 +41,20 @@ agp = "8.2.2"
 kotlin = "1.9.10"
 daggerHilt = "2.48"
 
+# Firebase
+firebase-auth-ktx = "23.0.0"
+firebase-firestore-ktx = "25.0.0"
+firebase-auth = "23.0.0"
+firebase-bom = "33.1.0"
+
 
 [libraries]
 core-library-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+# Firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth-ktx" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebase-auth" }
+firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebase-firestore-ktx" }
 # compose
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
