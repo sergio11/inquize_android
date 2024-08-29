@@ -27,7 +27,6 @@ import com.dreamsoftware.inquize.ui.screens.chat.ChatViewModel
 import com.dreamsoftware.inquize.ui.screens.home.HomeScreen
 import com.dreamsoftware.inquize.ui.screens.home.HomeViewModel
 import com.dreamsoftware.inquize.ui.navigation.PerceiveNavigationDestinations
-import com.dreamsoftware.inquize.ui.onboarding.WelcomeScreen
 import com.dreamsoftware.inquize.ui.permission.PermissionsDeniedScreen
 import com.dreamsoftware.inquize.utils.takePicture
 
@@ -59,19 +58,9 @@ fun InquizeApp(
     if (isRequiredPermissionsGranted == true) {
         NavHost(
             navController = navHostController,
-            startDestination = if (shouldShowWelcomeScreen) PerceiveNavigationDestinations.WelcomeScreen.route
+            startDestination = if (shouldShowWelcomeScreen) PerceiveNavigationDestinations.HomeScreen.route
             else PerceiveNavigationDestinations.HomeScreen.route
         ) {
-            composable(route = PerceiveNavigationDestinations.WelcomeScreen.route) {
-                // no need to use popUpTo because shouldShowWelcomeScreen boolean will take
-                // care of it.
-                WelcomeScreen(
-                    onNavigateToHomeScreenButtonClick = {
-                        navHostController.navigate(PerceiveNavigationDestinations.HomeScreen.route)
-                        onNavigateToHomeScreen()
-                    }
-                )
-            }
             homeScreen(
                 route = PerceiveNavigationDestinations.HomeScreen.route,
                 navController = navHostController
@@ -88,42 +77,9 @@ fun InquizeApp(
 
 private fun NavGraphBuilder.homeScreen(navController: NavController, route: String) {
     composable(route = route) {
-        val context = LocalContext.current
-        val homeViewModel = hiltViewModel<HomeViewModel>()
-        val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
-        val cameraController = remember { LifecycleCameraController(context) }
-        val transcription by homeViewModel.userSpeechTranscriptionStream.collectAsStateWithLifecycle()
-        val onEndOfSpeech = remember {
-            { transcription: String, associatedBitmapUri: Uri ->
-                navController.navigate(
-                    PerceiveNavigationDestinations
-                        .ChatScreen
-                        .buildRoute(transcription, associatedBitmapUri)
-                )
-            }
-        }
         HomeScreen(
-            cameraController = cameraController,
-            transcriptionText = transcription,
-            homeScreenUiState = uiState,
             onStartListening = {
-                // If the app is already listening and a request to start listening is made,
-                // it indicates that the current transcription needs to be stopped.
-                // Hence, stop the current transcription.
-                if (uiState.isListening) {
-                    homeViewModel.stopTranscription()
-                    return@HomeScreen
-                }
-                cameraController.takePicture(
-                    context = context,
-                    onSuccess = {
-                        homeViewModel.startTranscription(
-                            currentCameraImageProxy = it,
-                            onEndOfSpeech = onEndOfSpeech
-                        )
-                    },
-                    onError = { /*TODO*/ }
-                )
+
             }
         )
     }

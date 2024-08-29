@@ -24,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.R
 import com.dreamsoftware.inquize.ui.theme.InquizeTheme
 import com.dreamsoftware.inquize.ui.theme.RoundedStarShape
@@ -43,40 +44,50 @@ fun AnimatedMicButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "")
-    val animatedCurrentRotationDegrees by infiniteTransition.animateFloat(
-        label = "",
-        initialValue = 0f,
-        targetValue = if (isAnimationRunning) 360f else 0f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 5_000, easing = LinearEasing)
-        ),
-    )
-    val localHapticFeedback = LocalHapticFeedback.current
-    val scope = rememberCoroutineScope()
-    Button(
-        modifier = modifier,
-        onClick = {
-            scope.launch {
-                // custom haptic feedback
-                repeat(2) {
-                    localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                    delay(100)
-                }
-            }
-            onClick()
-        },
-        shape = RoundedStarShape(rotation = animatedCurrentRotationDegrees),
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-    ) {
-        Icon(
-            modifier = Modifier
-                .padding(32.dp)
-                .size(32.dp),
-            imageVector = ImageVector.vectorResource(id = R.drawable.outline_mic_24),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-            contentDescription = null,
+    with(MaterialTheme.colorScheme) {
+        val infiniteTransition = rememberInfiniteTransition(label = "")
+        val animatedCurrentRotationDegrees by infiniteTransition.animateFloat(
+            label = String.EMPTY,
+            initialValue = 0f,
+            targetValue = if (isAnimationRunning) 360f else 0f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 5_000, easing = LinearEasing)
+            ),
         )
+        val localHapticFeedback = LocalHapticFeedback.current
+        val scope = rememberCoroutineScope()
+        Button(
+            modifier = modifier,
+            onClick = {
+                scope.launch {
+                    // custom haptic feedback
+                    repeat(2) {
+                        localHapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                        delay(100)
+                    }
+                }
+                onClick()
+            },
+            shape = RoundedStarShape(rotation = animatedCurrentRotationDegrees),
+            colors = ButtonDefaults.buttonColors(containerColor = if(isAnimationRunning) {
+                secondaryContainer
+            } else {
+                primaryContainer
+            })
+        ) {
+            Icon(
+                modifier = Modifier
+                    .padding(32.dp)
+                    .size(32.dp),
+                imageVector = ImageVector.vectorResource(id = R.drawable.outline_mic_24),
+                tint = if(isAnimationRunning) {
+                    onSecondaryContainer
+                } else {
+                    onPrimaryContainer
+                },
+                contentDescription = null,
+            )
+        }
     }
 }
 

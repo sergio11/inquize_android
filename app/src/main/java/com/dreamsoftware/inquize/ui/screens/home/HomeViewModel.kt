@@ -1,24 +1,16 @@
 package com.dreamsoftware.inquize.ui.screens.home
 
-import android.graphics.Bitmap
-import android.graphics.Matrix
-import android.net.Uri
-import androidx.camera.core.ImageProxy
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.dreamsoftware.inquize.data.local.bitmapstore.BitmapStore
-import com.dreamsoftware.inquize.domain.service.ITranscriptionService
+import com.dreamsoftware.brownie.core.BrownieViewModel
+import com.dreamsoftware.brownie.core.SideEffect
+import com.dreamsoftware.brownie.core.UiState
+import com.dreamsoftware.brownie.utils.EMPTY
+import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
+import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@HiltViewModel
+/*@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val ITranscriptionService: ITranscriptionService,
     private val bitmapStore: BitmapStore
@@ -79,4 +71,71 @@ class HomeViewModel @Inject constructor(
         }
         return bitmapStore.saveBitmap(bitmap)
     }
+}*/
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
+    private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase
+) : BrownieViewModel<HomeUiState, HomeSideEffects>(),
+    HomeScreenActionListener {
+    override fun onGetDefaultState(): HomeUiState = HomeUiState()
+
+    fun onTranscribeUserQuestion() {
+        updateState { it.copy(isListening = true, userSpeechTranscription = String.EMPTY) }
+        executeUseCase(
+            useCase = transcribeUserQuestionUseCase,
+            onSuccess = ::onListenForTranscriptionCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    fun onCancelUserQuestion() {
+        onResetState()
+    }
+
+    override fun onStartListening() {
+        if(uiState.value.isListening) {
+            onStopTranscription()
+        } else {
+            launchSideEffect(HomeSideEffects.StartListening)
+        }
+    }
+
+    private fun onStopTranscription() {
+        executeUseCase(
+            useCase = endUserSpeechCaptureUseCase,
+            onSuccess = { onResetState() },
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: HomeUiState) =
+        uiState.copy(
+            isLoading = false,
+            isListening = false,
+            userSpeechTranscription = String.EMPTY
+        )
+
+    private fun onListenForTranscriptionCompleted(transcription: String) {
+        updateState { it.copy(isListening = false, userSpeechTranscription = transcription) }
+    }
+
+    private fun onResetState() {
+        updateState { it.copy(isListening = false, userSpeechTranscription = String.EMPTY) }
+    }
+}
+
+data class HomeUiState(
+    override val isLoading: Boolean = false,
+    override val errorMessage: String? = null,
+    val isListening: Boolean = false,
+    val userSpeechTranscription: String = String.EMPTY
+) : UiState<HomeUiState>(isLoading, errorMessage) {
+    override fun copyState(isLoading: Boolean, errorMessage: String?): HomeUiState =
+        copy(isLoading = isLoading, errorMessage = errorMessage)
+}
+
+sealed interface HomeSideEffects : SideEffect {
+    data object StartListening: HomeSideEffects
 }

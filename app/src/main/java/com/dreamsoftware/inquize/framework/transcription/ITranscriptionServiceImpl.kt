@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import androidx.compose.runtime.isTraceInProgress
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.utils.createRecognitionListener
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,7 +17,9 @@ class ITranscriptionServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ITranscriptionService {
 
-    private val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
+    private val speechRecognizer by lazy {
+        SpeechRecognizer.createSpeechRecognizer(context)
+    }
     private val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
@@ -35,7 +38,6 @@ class ITranscriptionServiceImpl @Inject constructor(
                     ?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     ?.first() ?: return@createRecognitionListener
                 transcription(transcript)
-
             },
             onResults = { resultsBundle ->
                 // See createRecognitionListener() docs to understand why this is
@@ -47,13 +49,17 @@ class ITranscriptionServiceImpl @Inject constructor(
                 onEndOfSpeech()
             }
         )
-        speechRecognizer.setRecognitionListener(listener)
-        speechRecognizer.startListening(speechRecognizerIntent)
+        stopListening()
+        with(speechRecognizer) {
+            setRecognitionListener(listener)
+            startListening(speechRecognizerIntent)
+        }
     }
 
     override fun stopListening() {
-        speechRecognizer.stopListening()
-        speechRecognizer.destroy()
+        with(speechRecognizer) {
+            stopListening()
+            destroy()
+        }
     }
-
 }

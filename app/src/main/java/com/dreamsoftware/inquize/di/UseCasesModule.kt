@@ -1,5 +1,8 @@
 package com.dreamsoftware.inquize.di
 
+import com.dreamsoftware.inquize.domain.service.ITranscriptionService
+import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
+import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import com.dreamsoftware.inquize.domain.usecase.VerifyUserSessionUseCase
 import dagger.Module
 import dagger.Provides
@@ -15,4 +18,18 @@ class UseCasesModule {
     @ViewModelScoped
     fun provideVerifyUserSessionUseCase(): VerifyUserSessionUseCase =
         VerifyUserSessionUseCase()
+
+    @Provides
+    @ViewModelScoped
+    fun provideTranscribeUserQuestionUseCase(
+        transcriptionService: ITranscriptionService
+    ): TranscribeUserQuestionUseCase =
+        TranscribeUserQuestionUseCase(transcriptionService)
+
+    @Provides
+    @ViewModelScoped
+    fun provideEndUserSpeechCaptureUseCase(
+        transcriptionService: ITranscriptionService
+    ): EndUserSpeechCaptureUseCase =
+        EndUserSpeechCaptureUseCase(transcriptionService)
 }
