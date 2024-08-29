@@ -29,3 +29,7 @@ annotation class GenerativeTextModel
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class GenerativeMultiModalModel
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SignInScreenErrorMapper

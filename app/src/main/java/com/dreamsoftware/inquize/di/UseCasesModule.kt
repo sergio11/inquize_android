@@ -24,8 +24,10 @@ class UseCasesModule {
 
     @Provides
     @ViewModelScoped
-    fun provideVerifyUserSessionUseCase(): VerifyUserSessionUseCase =
-        VerifyUserSessionUseCase()
+    fun provideVerifyUserSessionUseCase(
+        userRepository: IUserRepository
+    ): VerifyUserSessionUseCase =
+        VerifyUserSessionUseCase(userRepository)
 
     @Provides
     @ViewModelScoped
