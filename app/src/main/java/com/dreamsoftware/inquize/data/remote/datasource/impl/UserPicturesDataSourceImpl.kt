@@ -6,12 +6,13 @@ import com.dreamsoftware.inquize.data.remote.exception.DeleteAllPicturesRemoteDa
 import com.dreamsoftware.inquize.data.remote.exception.DeletePictureRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.SavePictureRemoteDataException
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 internal class UserPicturesDataSourceImpl(
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val dispatcher: CoroutineDispatcher
 ) : IUserPicturesDataSource {
 
     private companion object {
@@ -31,8 +32,8 @@ internal class UserPicturesDataSourceImpl(
      * Returns `null` if the image could not be saved.
      */
     @Throws(SavePictureRemoteDataException::class)
-    override suspend fun saveImage(imagePath: String, imageName: String): String {
-        return try {
+    override suspend fun saveImage(imagePath: String, imageName: String): String = withContext(dispatcher) {
+        try {
             val fileUri = Uri.parse(imagePath) // Convert the String path to Uri
             storageRef.child(imageName).run {
                 putFile(fileUri).await() // Upload the file to Firebase Storage
@@ -49,7 +50,7 @@ internal class UserPicturesDataSourceImpl(
      * Returns `true` if the image was deleted successfully, `false` otherwise.
      */
     @Throws(DeletePictureRemoteDataException::class)
-    override suspend fun deleteImage(imageName: String): Unit = withContext(Dispatchers.IO) {
+    override suspend fun deleteImage(imageName: String): Unit = withContext(dispatcher) {
         try {
             storageRef
                 .child(imageName)
@@ -66,7 +67,7 @@ internal class UserPicturesDataSourceImpl(
      * Returns `true` if all images were deleted successfully, `false` otherwise.
      */
     @Throws(DeleteAllPicturesRemoteDataException::class)
-    override suspend fun deleteAllSavedImages(): Unit = withContext(Dispatchers.IO) {
+    override suspend fun deleteAllSavedImages(): Unit = withContext(dispatcher) {
         try {
             // List all files in the 'user_images' folder and delete them
             val allFiles = storageRef.listAll().await()

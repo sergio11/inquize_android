@@ -89,9 +89,11 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideUserPicturesDataSource(
-        storage: FirebaseStorage
+        storage: FirebaseStorage,
+        @IoDispatcher dispatcher: CoroutineDispatcher
     ): IUserPicturesDataSource = UserPicturesDataSourceImpl(
-        storage
+        storage,
+        dispatcher
     )
 
     @Provides
