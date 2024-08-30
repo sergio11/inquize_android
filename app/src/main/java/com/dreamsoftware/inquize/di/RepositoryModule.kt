@@ -3,13 +3,22 @@ package com.dreamsoftware.inquize.di
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.local.preferences.datasource.IPreferencesDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.IAuthRemoteDataSource
-import com.dreamsoftware.inquize.data.remote.datasource.IUserPicturesDataSource
+import com.dreamsoftware.inquize.data.remote.datasource.IImageDataSource
+import com.dreamsoftware.inquize.data.remote.datasource.IInquizeDataSource
 import com.dreamsoftware.inquize.data.remote.dto.AuthUserDTO
+import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
+import com.dreamsoftware.inquize.data.remote.dto.SaveInquizeDTO
+import com.dreamsoftware.inquize.data.repository.impl.InquizeRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.PicturesRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.PreferenceRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.UserRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.mapper.AuthUserMapper
+import com.dreamsoftware.inquize.data.repository.mapper.InquizeMapper
+import com.dreamsoftware.inquize.data.repository.mapper.SaveInquizeMapper
 import com.dreamsoftware.inquize.domain.model.AuthUserBO
+import com.dreamsoftware.inquize.domain.model.InquizeBO
+import com.dreamsoftware.inquize.domain.model.SaveInquizeBO
+import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
 import com.dreamsoftware.inquize.domain.repository.IPicturesRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
@@ -27,6 +36,14 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideAuthUserMapper(): IBrownieOneSideMapper<AuthUserDTO, AuthUserBO> = AuthUserMapper()
+
+    @Provides
+    @Singleton
+    fun provideInquizeMapper(): IBrownieOneSideMapper<InquizeDTO, InquizeBO> = InquizeMapper()
+
+    @Provides
+    @Singleton
+    fun provideSaveInquizeMapper(): IBrownieOneSideMapper<SaveInquizeBO, SaveInquizeDTO> = SaveInquizeMapper()
 
     @Provides
     @Singleton
@@ -55,11 +72,29 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun providePicturesRepository(
-        userPicturesDataSource: IUserPicturesDataSource,
+        userPicturesDataSource: IImageDataSource,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IPicturesRepository =
         PicturesRepositoryImpl(
             userPicturesDataSource,
+            dispatcher
+        )
+
+
+    @Provides
+    @Singleton
+    fun provideInquizeRepository(
+        inquizeDataSource: IInquizeDataSource,
+        imageDataSource: IImageDataSource,
+        saveInquizeMapper: IBrownieOneSideMapper<SaveInquizeBO, SaveInquizeDTO>,
+        inquizeMapper: IBrownieOneSideMapper<InquizeDTO, InquizeBO>,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IInquizeRepository =
+        InquizeRepositoryImpl(
+            inquizeDataSource,
+            imageDataSource,
+            saveInquizeMapper,
+            inquizeMapper,
             dispatcher
         )
 }

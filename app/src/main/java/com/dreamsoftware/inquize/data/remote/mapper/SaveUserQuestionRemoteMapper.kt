@@ -1,11 +1,11 @@
 package com.dreamsoftware.inquize.data.remote.mapper
 
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
-import com.dreamsoftware.inquize.data.remote.dto.SaveUserQuestionDTO
+import com.dreamsoftware.inquize.data.remote.dto.SaveInquizeDTO
 import com.google.firebase.Timestamp
 import java.util.Date
 
-internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveUserQuestionDTO, Map<String, Any?>> {
+internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveInquizeDTO, Map<String, Any?>> {
 
     private companion object {
         const val UID_KEY = "uid"
@@ -16,7 +16,7 @@ internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveUserQuest
         const val MESSAGES_KEY = "messages"
     }
 
-    override fun mapInToOut(input: SaveUserQuestionDTO): Map<String, Any?> = with(input) {
+    override fun mapInToOut(input: SaveInquizeDTO): Map<String, Any?> = with(input) {
         hashMapOf(
             UID_KEY to uid,
             USER_ID_KEY to userId,
@@ -27,6 +27,6 @@ internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveUserQuest
         )
     }
 
-    override fun mapInListToOutList(input: Iterable<SaveUserQuestionDTO>): Iterable<Map<String, Any?>> =
+    override fun mapInListToOutList(input: Iterable<SaveInquizeDTO>): Iterable<Map<String, Any?>> =
         input.map(::mapInToOut)
 }

@@ -2,14 +2,14 @@ package com.dreamsoftware.inquize.di
 
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.datasource.IAuthRemoteDataSource
-import com.dreamsoftware.inquize.data.remote.datasource.IUserPicturesDataSource
-import com.dreamsoftware.inquize.data.remote.datasource.IUserQuestionsDataSource
+import com.dreamsoftware.inquize.data.remote.datasource.IImageDataSource
+import com.dreamsoftware.inquize.data.remote.datasource.IInquizeDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.impl.AuthRemoteDataSourceImpl
-import com.dreamsoftware.inquize.data.remote.datasource.impl.UserPicturesDataSourceImpl
-import com.dreamsoftware.inquize.data.remote.datasource.impl.UserQuestionsDataSourceImpl
+import com.dreamsoftware.inquize.data.remote.datasource.impl.ImageDataSourceImpl
+import com.dreamsoftware.inquize.data.remote.datasource.impl.InquizeDataSourceImpl
 import com.dreamsoftware.inquize.data.remote.dto.AuthUserDTO
-import com.dreamsoftware.inquize.data.remote.dto.SaveUserQuestionDTO
-import com.dreamsoftware.inquize.data.remote.dto.UserQuestionDTO
+import com.dreamsoftware.inquize.data.remote.dto.SaveInquizeDTO
+import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.data.remote.mapper.SaveUserQuestionRemoteMapper
 import com.dreamsoftware.inquize.data.remote.mapper.UserAuthenticatedMapper
 import com.dreamsoftware.inquize.data.remote.mapper.UserQuestionRemoteMapper
@@ -42,11 +42,11 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideUserQuestionRemoteMapper(): IBrownieOneSideMapper<Map<String, Any?>, UserQuestionDTO> = UserQuestionRemoteMapper()
+    fun provideUserQuestionRemoteMapper(): IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO> = UserQuestionRemoteMapper()
 
     @Provides
     @Singleton
-    fun provideSaveUserQuestionRemoteMapper(): IBrownieOneSideMapper<SaveUserQuestionDTO, Map<String, Any?>> = SaveUserQuestionRemoteMapper()
+    fun provideSaveUserQuestionRemoteMapper(): IBrownieOneSideMapper<SaveInquizeDTO, Map<String, Any?>> = SaveUserQuestionRemoteMapper()
 
     /**
      * Provides a singleton instance of FirebaseAuth.
@@ -91,19 +91,19 @@ class FirebaseModule {
     fun provideUserPicturesDataSource(
         storage: FirebaseStorage,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): IUserPicturesDataSource = UserPicturesDataSourceImpl(
+    ): IImageDataSource = ImageDataSourceImpl(
         storage,
         dispatcher
     )
 
     @Provides
     @Singleton
-    fun provideUserQuestionsDataSource(
+    fun provideInquizeDataSource(
         firestore: FirebaseFirestore,
-        saveUserQuestionMapper: IBrownieOneSideMapper<SaveUserQuestionDTO, Map<String, Any?>>,
-        userQuestionMapper: IBrownieOneSideMapper<Map<String, Any?>, UserQuestionDTO>,
+        saveUserQuestionMapper: IBrownieOneSideMapper<SaveInquizeDTO, Map<String, Any?>>,
+        userQuestionMapper: IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): IUserQuestionsDataSource = UserQuestionsDataSourceImpl(
+    ): IInquizeDataSource = InquizeDataSourceImpl(
         firestore,
         saveUserQuestionMapper,
         userQuestionMapper,

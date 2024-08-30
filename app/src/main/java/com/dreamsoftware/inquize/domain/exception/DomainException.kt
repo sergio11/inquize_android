@@ -17,3 +17,8 @@ class CloseSessionException(message: String? = null, cause: Throwable? = null): 
 class SavePictureException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class DeletePictureException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class DeleteAllPicturesException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+
+class SaveInquizeException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+class FetchInquizeByIdException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+class FetchAllInquizeException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+class DeleteInquizeByIdException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
