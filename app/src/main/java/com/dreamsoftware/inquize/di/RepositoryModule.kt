@@ -9,7 +9,6 @@ import com.dreamsoftware.inquize.data.remote.dto.AuthUserDTO
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.SaveInquizeDTO
 import com.dreamsoftware.inquize.data.repository.impl.InquizeRepositoryImpl
-import com.dreamsoftware.inquize.data.repository.impl.PicturesRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.PreferenceRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.UserRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.mapper.AuthUserMapper
@@ -19,7 +18,6 @@ import com.dreamsoftware.inquize.domain.model.AuthUserBO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.SaveInquizeBO
 import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
-import com.dreamsoftware.inquize.domain.repository.IPicturesRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
 import dagger.Module
@@ -68,19 +66,7 @@ class RepositoryModule {
             preferenceDataSource,
             dispatcher
         )
-
-    @Provides
-    @Singleton
-    fun providePicturesRepository(
-        userPicturesDataSource: IImageDataSource,
-        @IoDispatcher dispatcher: CoroutineDispatcher
-    ): IPicturesRepository =
-        PicturesRepositoryImpl(
-            userPicturesDataSource,
-            dispatcher
-        )
-
-
+    
     @Provides
     @Singleton
     fun provideInquizeRepository(
