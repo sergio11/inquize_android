@@ -2,6 +2,9 @@ package com.dreamsoftware.inquize.data.remote.datasource.impl
 
 import android.net.Uri
 import com.dreamsoftware.inquize.data.remote.datasource.IUserPicturesDataSource
+import com.dreamsoftware.inquize.data.remote.exception.DeleteAllPicturesRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.DeletePictureRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.SavePictureRemoteDataException
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
@@ -27,15 +30,17 @@ internal class UserPicturesDataSourceImpl(
      * The [imageName] is used as the name for the saved file.
      * Returns `null` if the image could not be saved.
      */
-    override suspend fun saveImage(imagePath: String, imageName: String): String? {
+    @Throws(SavePictureRemoteDataException::class)
+    override suspend fun saveImage(imagePath: String, imageName: String): String {
         return try {
             val fileUri = Uri.parse(imagePath) // Convert the String path to Uri
-            val imageRef = storageRef.child(imageName)
-            imageRef.putFile(fileUri).await() // Upload the file to Firebase Storage
-            imageRef.downloadUrl.await().toString() // Retrieve the download URL as a String
+            storageRef.child(imageName).run {
+                putFile(fileUri).await() // Upload the file to Firebase Storage
+                downloadUrl.await().toString() // Retrieve the download URL as a String
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+            throw SavePictureRemoteDataException("An error occurred when trying to upload picture saved at $imagePath")
         }
     }
 
@@ -43,16 +48,16 @@ internal class UserPicturesDataSourceImpl(
      * Deletes the image referenced by the given [imageName] from Firebase Storage.
      * Returns `true` if the image was deleted successfully, `false` otherwise.
      */
-    override suspend fun deleteImage(imageName: String): Boolean = withContext(Dispatchers.IO) {
+    @Throws(DeletePictureRemoteDataException::class)
+    override suspend fun deleteImage(imageName: String): Unit = withContext(Dispatchers.IO) {
         try {
             storageRef
                 .child(imageName)
                 .delete()
                 .await() // Delete the file from Firebase Storage
-            true
         } catch (e: Exception) {
             e.printStackTrace()
-            false
+            throw DeletePictureRemoteDataException("An error occurred when trying to delete picture named as $imageName")
         }
     }
 
@@ -60,15 +65,15 @@ internal class UserPicturesDataSourceImpl(
      * Deletes all saved images from Firebase Storage.
      * Returns `true` if all images were deleted successfully, `false` otherwise.
      */
-    override suspend fun deleteAllSavedImages(): Boolean = withContext(Dispatchers.IO) {
+    @Throws(DeleteAllPicturesRemoteDataException::class)
+    override suspend fun deleteAllSavedImages(): Unit = withContext(Dispatchers.IO) {
         try {
             // List all files in the 'user_images' folder and delete them
             val allFiles = storageRef.listAll().await()
             allFiles.items.forEach { it.delete().await() } // Deletes each file
-            true
         } catch (e: Exception) {
             e.printStackTrace()
-            false
+            throw DeleteAllPicturesRemoteDataException("An error occurred when trying to delete all the user pictures")
         }
     }
 }
