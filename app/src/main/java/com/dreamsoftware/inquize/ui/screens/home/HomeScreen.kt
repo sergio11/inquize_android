@@ -35,6 +35,7 @@ fun HomeScreen(
                     cameraController.takePicture(
                         context = context,
                         onSuccess = {
+
                             onTranscribeUserQuestion()
                         },
                         onError = {

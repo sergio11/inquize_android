@@ -2,13 +2,17 @@ package com.dreamsoftware.inquize.di
 
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.datasource.IAuthRemoteDataSource
+import com.dreamsoftware.inquize.data.remote.datasource.IUserPicturesDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.impl.AuthRemoteDataSourceImpl
+import com.dreamsoftware.inquize.data.remote.datasource.impl.UserPicturesDataSourceImpl
 import com.dreamsoftware.inquize.data.remote.dto.AuthUserDTO
 import com.dreamsoftware.inquize.data.remote.mapper.UserAuthenticatedMapper
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.Module
@@ -44,6 +48,13 @@ class FirebaseModule {
     fun provideFirebaseStore() = Firebase.firestore
 
     /**
+     * Provide Firebase Storage
+     */
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage() = Firebase.storage
+
+    /**
      * Provides a singleton instance of IAuthDataSource.
      * @param userAuthenticatedMapper the IBrownieOneSideMapper<FirebaseUser, AuthUserDTO> instance.
      * @param firebaseAuth the FirebaseAuth instance.
@@ -57,5 +68,13 @@ class FirebaseModule {
     ): IAuthRemoteDataSource = AuthRemoteDataSourceImpl(
         userAuthenticatedMapper,
         firebaseAuth
+    )
+
+    @Provides
+    @Singleton
+    fun provideUserPicturesDataSource(
+        storage: FirebaseStorage
+    ): IUserPicturesDataSource = UserPicturesDataSourceImpl(
+        storage
     )
 }
