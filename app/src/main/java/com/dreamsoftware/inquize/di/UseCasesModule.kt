@@ -3,6 +3,7 @@ package com.dreamsoftware.inquize.di
 import com.dreamsoftware.inquize.domain.model.AuthRequestBO
 import com.dreamsoftware.inquize.domain.model.SignUpBO
 import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
+import com.dreamsoftware.inquize.domain.repository.IMultiModalLanguageModelRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
@@ -88,11 +89,13 @@ class UseCasesModule {
     @ViewModelScoped
     fun provideCreateInquizeUseCase(
         userRepository: IUserRepository,
-        inquizeRepository: IInquizeRepository
+        inquizeRepository: IInquizeRepository,
+        multiModalLanguageModelRepository: IMultiModalLanguageModelRepository
     ): CreateInquizeUseCase =
         CreateInquizeUseCase(
             userRepository = userRepository,
-            inquizeRepository = inquizeRepository
+            inquizeRepository = inquizeRepository,
+            multiModalLanguageModelRepository = multiModalLanguageModelRepository
         )
 
     @Provides

@@ -13,7 +13,8 @@ internal class SaveInquizeMapper: IBrownieOneSideMapper<SaveInquizeBO, SaveInqui
             uid = uid,
             userId = userId,
             imageUrl = imageUrl,
-            question = question
+            question = question,
+            answer = answer
         )
     }
 }

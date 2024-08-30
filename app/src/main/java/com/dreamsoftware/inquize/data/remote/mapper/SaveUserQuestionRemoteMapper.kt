@@ -13,6 +13,8 @@ internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveInquizeDT
         const val IMAGE_URL_KEY = "imageUrl"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
+        const val USER_ROLE_KEY = "USER"
+        const val SYSTEM_ROLE_KEY = "SYSTEM"
     }
 
     override fun mapInToOut(input: SaveInquizeDTO): Map<String, Any?> = with(input) {
@@ -21,7 +23,10 @@ internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveInquizeDT
             USER_ID_KEY to userId,
             IMAGE_URL_KEY to imageUrl,
             CREATED_AT_KEY to Timestamp(Date()),
-            MESSAGES_KEY to listOf("USER" to question)
+            MESSAGES_KEY to listOf(
+                USER_ROLE_KEY to question,
+                SYSTEM_ROLE_KEY to answer
+            )
         )
     }
 
