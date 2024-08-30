@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.bundles.compose)
     androidTestImplementation(libs.bundles.composeTest)
 
+    // SplashScreen
+    implementation(libs.core.splashscreen)
+
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)

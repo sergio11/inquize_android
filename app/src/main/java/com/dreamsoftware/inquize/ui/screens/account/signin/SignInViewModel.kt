@@ -63,5 +63,4 @@ data class SignInUiState(
 
 sealed interface SignInSideEffects: SideEffect {
     data object UserAuthenticatedSuccessfullySideEffect: SignInSideEffects
-    data object RequireMasterKeySideEffect: SignInSideEffects
 }

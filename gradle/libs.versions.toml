@@ -5,6 +5,8 @@ minSdk = "24"
 androidComposeCompiler = "1.5.3"
 desugar-jdk-libs = "2.1.1"
 
+core-splashscreen = "1.0.1"
+
 # compose
 androidx-activity-compose = "1.9.1"
 androidx-lifecycle-viewmodel-compose = "2.8.4"
@@ -50,6 +52,8 @@ firebase-bom = "33.1.0"
 
 [libraries]
 core-library-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "core-splashscreen" }
+
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth-ktx" }
