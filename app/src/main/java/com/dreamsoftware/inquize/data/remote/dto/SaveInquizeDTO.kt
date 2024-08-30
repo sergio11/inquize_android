@@ -4,5 +4,5 @@ data class SaveInquizeDTO(
     val uid: String,
     val userId: String,
     val imageUrl: String,
-    val prompt: String
+    val question: String
 )

@@ -1,65 +1,67 @@
 package com.dreamsoftware.inquize.data.remote.datasource.impl
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
-import com.dreamsoftware.inquize.data.remote.dto.QuestionWithImageDTO
-import com.google.ai.client.generativeai.Chat
+import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.CancellationException
-import java.lang.IllegalStateException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.net.HttpURLConnection
+import java.net.URL
 
 internal class GeminiLanguageModelDataSourceImpl(
     private val generativeTextModel: GenerativeModel,
-    private val generativeMultiModalModel: GenerativeModel
+    private val generativeMultiModalModel: GenerativeModel,
+    private val dispatcher: CoroutineDispatcher
 ) : IMultiModalLanguageModelDataSource {
 
     private companion object {
         const val USER = "user"
         const val MODEL = "model"
-
-        const val CHAT_SESSION_INVALID_MESSAGE =
-            "A chat session is not in progress. Please use startNewChat() before attempting to send new messages."
     }
 
-    private var currentChatSession: Chat? = null
-
-    override fun startNewChatSession() {
-        currentChatSession = generativeTextModel.startChat()
-    }
-
-    override suspend fun sendMessage(data: QuestionWithImageDTO): Result<String> {
-        val currentChatSession =
-            currentChatSession ?: throw IllegalStateException(CHAT_SESSION_INVALID_MESSAGE)
+    override suspend fun resolveQuestion(data: ResolveQuestionDTO): String = withContext(dispatcher) {
+        val currentChatSession = generativeTextModel.startChat(data.history.map {
+            content(it.first) { text(it.second) }
+        })
         Log.d("ATV_CHANGES", "GeminiLanguageModelClient sendMessage called with question and image")
-        return try {
+        try {
             // Generate image description if image is provided
-            val imageDescription = generateImageDescription(data.image)
+            val imageDescription = generateImageDescription(data.imageUrl)
             // Generate prompt combining the image description and the user's question
             val prompt = generatePrompt(data.question, imageDescription)
             // Send the message and return the response
-            Result.success(currentChatSession.sendMessage(prompt).text!!)
+           currentChatSession.sendMessage(prompt).text!!
         } catch (exception: Exception) {
             Log.d("ATV_CHANGES", "GeminiLanguageModelClient exception: $exception")
             if (exception is CancellationException) throw exception
-            Result.failure(exception)
+            throw exception
         }
     }
 
-    override fun endChatSession() {
-        currentChatSession = null
-    }
-
-    private suspend fun generateImageDescription(image: Bitmap): String? = try {
-        generativeMultiModalModel.generateContent(content(USER) {
-            image(image)
-            text("Provide a detailed description of the contents of the image.")
-        }).text
-    } catch (exception: Exception) {
-        Log.d("ATV_CHANGES", "Error generating image description: $exception")
-        null // Return null if the description generation fails
+    /**
+     * Generates a detailed description of the image located at the given [imageUrl].
+     *
+     * @param imageUrl The URL of the image for which a description needs to be generated.
+     * @return A detailed description of the image, or `null` if an error occurs.
+     */
+    private suspend fun generateImageDescription(imageUrl: String): String? {
+        val bitmap = getBitmapFromUrl(imageUrl) ?: return null // Return null if bitmap couldn't be obtained
+        return try {
+            generativeMultiModalModel.generateContent(content(USER) {
+                image(bitmap)
+                text("Provide a detailed description of the contents of the image.")
+            }).text
+        } catch (exception: Exception) {
+            Log.d("ATV_CHANGES", "Error generating image description: $exception")
+            null // Return null if the description generation fails
+        }
     }
 
     private fun generatePrompt(question: String, imageDescription: String?): Content =
@@ -84,4 +86,33 @@ internal class GeminiLanguageModelDataSourceImpl(
             }
             text(question)
         }
+
+
+    /**
+     * Downloads a bitmap from the given [imageUrl].
+     *
+     * @param imageUrl The URL of the image to be downloaded.
+     * @return The bitmap of the downloaded image, or `null` if an error occurs.
+     */
+    private suspend fun getBitmapFromUrl(imageUrl: String): Bitmap? = withContext(dispatcher) {
+        try {
+            val url = URL(imageUrl)
+            (url.openConnection() as? HttpURLConnection)?.run {
+                requestMethod = "GET"
+                connect()
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    inputStream.use { BitmapFactory.decodeStream(it) }
+                } else {
+                    Log.e("IMAGE_LOADING", "Failed to load image from URL: $responseCode")
+                    null
+                }
+            } ?: run {
+                Log.e("IMAGE_LOADING", "Failed to open connection.")
+                null
+            }
+        } catch (e: IOException) {
+            Log.e("IMAGE_LOADING", "Error fetching image: $e")
+            null
+        }
+    }
 }

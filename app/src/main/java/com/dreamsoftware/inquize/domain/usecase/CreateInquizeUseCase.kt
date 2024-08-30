@@ -20,7 +20,7 @@ class CreateInquizeUseCase(
         uid = UUID.randomUUID().toString(),
         userId = userId,
         imageUrl = imageUrl,
-        prompt = prompt
+        question = prompt
     )
 
     data class Params(

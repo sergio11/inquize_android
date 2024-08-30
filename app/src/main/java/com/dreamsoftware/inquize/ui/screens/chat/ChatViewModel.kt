@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.inquize.data.local.bitmapstore.BitmapStore
 import com.dreamsoftware.inquize.data.local.preferences.UserPreferencesManager
 import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
-import com.dreamsoftware.inquize.data.remote.dto.QuestionWithImageDTO
+import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
 import com.dreamsoftware.inquize.domain.model.ChatMessageBO
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.domain.service.ITTSService
@@ -59,8 +59,6 @@ class ChatViewModel @Inject constructor(
                     it.copy(isAssistantMuted = perceiveAppPreferences.isAssistantMuted)
                 }
             }.launchIn(viewModelScope)
-
-        languageModelClient.startNewChatSession()
 
         // Generate response for initial prompt adding message to chat items list
         _uiState.update { it.copy(messages = listOf(initialUserChatMessageBO)) }
@@ -126,13 +124,13 @@ class ChatViewModel @Inject constructor(
         image: Bitmap? = null
     ) {
 
-        val data = QuestionWithImageDTO(
+        /*val data = ResolveQuestionDTO(
             question = messageToModel,
             image = image!!
         )
 
         _uiState.update { it.copy(isLoading = true) }
-        val modelResponse = languageModelClient.sendMessage(data)
+        val modelResponse = languageModelClient.resolveQuestion(data)
             .getOrNull()
             ?.let { ChatMessageBO(message = it, role = ChatMessageBO.Role.ASSISTANT) }
         if (modelResponse == null) {
@@ -143,7 +141,7 @@ class ChatViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = false) }
         // speak if not muted
         if (_uiState.value.isAssistantMuted) return
-        speakTextUpdatingUiState(text = modelResponse.message)
+        speakTextUpdatingUiState(text = modelResponse.message)*/
     }
 
     private suspend fun speakTextUpdatingUiState(text: String) {
@@ -165,7 +163,7 @@ class ChatViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        languageModelClient.endChatSession()
+        //languageModelClient.endChatSession()
         ITTSService.stop()
         ITTSService.releaseResources()
         super.onCleared()

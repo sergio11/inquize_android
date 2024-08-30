@@ -6,7 +6,6 @@ data class InquizeBO(
     val uid: String,
     val userId: String,
     val imageUrl: String,
-    val prompt: String,
     val createAt: Date,
-    val messages: List<String>
+    val messages: List<Pair<String, String>>
 )

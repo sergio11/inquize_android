@@ -14,7 +14,6 @@ internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
             uid = uid,
             userId = userId,
             imageUrl = imageUrl,
-            prompt = prompt,
             createAt = createAt.toDate(),
             messages = messages
         )

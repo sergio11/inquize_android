@@ -11,7 +11,6 @@ internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveInquizeDT
         const val UID_KEY = "uid"
         const val USER_ID_KEY = "userId"
         const val IMAGE_URL_KEY = "imageUrl"
-        const val PROMPT_KEY = "prompt"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
     }
@@ -21,9 +20,8 @@ internal class SaveUserQuestionRemoteMapper: IBrownieOneSideMapper<SaveInquizeDT
             UID_KEY to uid,
             USER_ID_KEY to userId,
             IMAGE_URL_KEY to imageUrl,
-            PROMPT_KEY to prompt,
             CREATED_AT_KEY to Timestamp(Date()),
-            MESSAGES_KEY to emptyList<String>()
+            MESSAGES_KEY to listOf("USER" to question)
         )
     }
 

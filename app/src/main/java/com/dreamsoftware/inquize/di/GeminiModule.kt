@@ -8,12 +8,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 // Dagger module for providing Firebase-related dependencies
 @Module
 @InstallIn(SingletonComponent::class)
-class MultiModalLanguageModelModule {
+class GeminiModule {
 
     private companion object {
         const val GEMINI_PRO_VISION = "gemini-1.5-flash"
@@ -40,9 +41,11 @@ class MultiModalLanguageModelModule {
     @Singleton
     fun provideMultiModalLanguageModelDataSource(
         @GenerativeTextModel generativeTextModel: GenerativeModel,
-        @GenerativeMultiModalModel generativeMultiModalModel: GenerativeModel
+        @GenerativeMultiModalModel generativeMultiModalModel: GenerativeModel,
+        @IoDispatcher dispatcher: CoroutineDispatcher
     ): IMultiModalLanguageModelDataSource = GeminiLanguageModelDataSourceImpl(
         generativeTextModel,
-        generativeMultiModalModel
+        generativeMultiModalModel,
+        dispatcher
     )
 }

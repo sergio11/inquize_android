@@ -10,7 +10,6 @@ internal class UserQuestionRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>
         const val UID_KEY = "uid"
         const val USER_ID_KEY = "userId"
         const val IMAGE_URL_KEY = "imageUrl"
-        const val PROMPT_KEY = "prompt"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
     }
@@ -20,9 +19,8 @@ internal class UserQuestionRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>
             uid = get(UID_KEY) as String,
             userId = get(USER_ID_KEY) as String,
             imageUrl = get(IMAGE_URL_KEY) as String,
-            prompt = get(PROMPT_KEY) as String,
             createAt = get(CREATED_AT_KEY) as Timestamp,
-            messages = get(MESSAGES_KEY) as List<String>
+            messages = get(MESSAGES_KEY) as List<Pair<String, String>>
         )
     }
 
