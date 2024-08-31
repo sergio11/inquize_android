@@ -10,18 +10,14 @@ import com.dreamsoftware.inquize.ui.utils.shareApp
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onBackPressed: () -> Unit = {},
-    onGoToSignIn: () -> Unit
 ) {
     val context = LocalContext.current
     BrownieScreen(
         viewModel = viewModel,
-        onBackPressed = onBackPressed,
         onInitialUiState = { SettingsUiState() },
         onSideEffect = {
             when (it) {
                 SettingsUiSideEffects.ShareApp -> context.shareApp(R.string.share_message)
-                SettingsUiSideEffects.SessionDeleted -> onGoToSignIn()
             }
         },
         onInit = {

@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.dreamsoftware.brownie.component.screen.BrownieScreen
+import com.dreamsoftware.inquize.ui.navigation.Screens
 
 @Composable
 fun MainScreen(
@@ -20,6 +21,8 @@ fun MainScreen(
         val hideBottomItems by remember {
             derivedStateOf {
                 when (navBackStackEntry?.destination?.route) {
+                    Screens.Main.Home.Info.route,
+                    Screens.Main.Home.Settings.route -> false
                     else -> true
                 }
             }

@@ -79,6 +79,7 @@ dependencies {
     androidTestImplementation(composeBom)
     implementation(libs.bundles.compose)
     androidTestImplementation(libs.bundles.composeTest)
+    implementation(libs.material.icons.extended)
 
     // SplashScreen
     implementation(libs.core.splashscreen)

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dreamsoftware.inquize.ui.navigation.Screens
+import com.dreamsoftware.inquize.ui.navigation.utils.navigateSingleTopTo
 import com.dreamsoftware.inquize.ui.screens.account.onboarding.OnboardingScreen
 import com.dreamsoftware.inquize.ui.screens.account.signin.SignInScreen
 import com.dreamsoftware.inquize.ui.screens.account.signup.SignUpScreen
@@ -27,7 +28,9 @@ fun RootNavigationGraph(
                     onGoToOnboarding = {
                         navigate(Screens.Onboarding.route)
                     },
-                    onGoToHome = {}
+                    onGoToHome = {
+                        navigateSingleTopTo(Screens.Main.route)
+                    }
                 )
             }
         }
@@ -53,7 +56,7 @@ fun RootNavigationGraph(
             with(navController) {
                 SignInScreen(
                     onAuthenticated = {
-
+                        navigateSingleTopTo(Screens.Main.route)
                     },
                     onBackPressed = {
                         popBackStack()
@@ -71,7 +74,7 @@ fun RootNavigationGraph(
                         navigate(Screens.SignIn.route)
                     },
                     onGoToHome = {
-
+                        navigateSingleTopTo(Screens.Main.route)
                     },
                     onBackPressed = {
                         popBackStack()

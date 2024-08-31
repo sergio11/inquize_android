@@ -48,7 +48,6 @@ class SettingsViewModel @Inject constructor(
     override fun onCloseSession() {
         onUpdateCloseSessionDialogVisibility(isVisible = false)
         executeUseCase(useCase = signOffUseCase)
-        launchSideEffect(SettingsUiSideEffects.SessionDeleted)
     }
 
     private fun buildItems() = buildList {
@@ -93,5 +92,4 @@ data object LogoutItem: SettingsItem(textRes = R.string.settings_screen_logout, 
 
 sealed interface SettingsUiSideEffects: SideEffect {
     data object ShareApp: SettingsUiSideEffects
-    data object SessionDeleted: SettingsUiSideEffects
 }

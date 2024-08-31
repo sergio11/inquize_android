@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.dreamsoftware.inquize.ui.navigation.Screens
 import com.dreamsoftware.inquize.ui.screens.home.HomeScreen
+import com.dreamsoftware.inquize.ui.screens.settings.SettingsScreen
 
 fun NavGraphBuilder.HomeNavigationGraph(
     navController: NavHostController
@@ -17,9 +18,13 @@ fun NavGraphBuilder.HomeNavigationGraph(
         composable(
             route = Screens.Main.Home.Info.route
         ) {
-            with(navController) {
-                HomeScreen()
-            }
+            HomeScreen()
+        }
+
+        composable(
+            route = Screens.Main.Home.Settings.route
+        ) {
+            SettingsScreen()
         }
     }
 }

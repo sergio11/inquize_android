@@ -36,11 +36,11 @@ fun SplashScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.main_logo),
+                painter = painterResource(id = R.drawable.main_logo_inverse),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
+                    .height(170.dp)
                     .padding(horizontal = 32.dp, vertical = 10.dp)
             )
             BrownieText(

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieText
@@ -55,11 +56,11 @@ fun AccountScreen(
         screenContent = {
             Spacer(modifier = Modifier.weight(1f))
             Image(
-                painter = painterResource(id = R.drawable.main_logo),
+                painter = painterResource(id = R.drawable.main_logo_inverse),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
+                    .height(160.dp)
                     .padding(horizontal = 32.dp, vertical = 10.dp)
             )
             BrownieText(
@@ -69,7 +70,8 @@ fun AccountScreen(
                 type = BrownieTextTypeEnum.HEADLINE_SMALL,
                 textColor = Color.White,
                 titleRes = mainTitleRes,
-                textBold = true
+                textBold = true,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.weight(1f, fill = true))
             BrownieSheetSurface(
