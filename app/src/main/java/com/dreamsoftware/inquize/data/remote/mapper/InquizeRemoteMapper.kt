@@ -2,6 +2,7 @@ package com.dreamsoftware.inquize.data.remote.mapper
 
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
+import com.dreamsoftware.inquize.data.remote.dto.InquizeMessageDTO
 import com.google.firebase.Timestamp
 
 internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO> {
@@ -12,6 +13,8 @@ internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, Inq
         const val IMAGE_URL_KEY = "imageUrl"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
+        const val ROLE_KEY = "role"
+        const val TEXT_KEY = "text"
     }
 
     override fun mapInToOut(input: Map<String, Any?>): InquizeDTO = with(input) {
@@ -20,7 +23,12 @@ internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, Inq
             userId = get(USER_ID_KEY) as String,
             imageUrl = get(IMAGE_URL_KEY) as String,
             createAt = get(CREATED_AT_KEY) as Timestamp,
-            messages = get(MESSAGES_KEY) as List<Map<String, String>>
+            messages = (get(MESSAGES_KEY) as? List<Map<String, String>>)?.map {
+                InquizeMessageDTO(
+                    role = it[ROLE_KEY].orEmpty(),
+                    text = it[TEXT_KEY].orEmpty()
+                )
+            }.orEmpty()
         )
     }
 

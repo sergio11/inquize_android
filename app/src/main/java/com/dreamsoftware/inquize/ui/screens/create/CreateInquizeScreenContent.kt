@@ -3,17 +3,14 @@ package com.dreamsoftware.inquize.ui.screens.create
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.dreamsoftware.brownie.component.BrownieAsyncImage
 import com.dreamsoftware.brownie.component.BrownieButton
 import com.dreamsoftware.brownie.component.BrownieButtonStyleTypeEnum
 import com.dreamsoftware.brownie.component.BrownieButtonTypeEnum
@@ -32,6 +28,7 @@ import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.R
 import com.dreamsoftware.inquize.ui.components.AnimatedMicButtonWithTranscript
 import com.dreamsoftware.inquize.ui.components.CameraPreview
+import com.dreamsoftware.inquize.ui.screens.core.CommonInquizeImage
 
 @Composable
 internal fun CreateInquizeScreenContent(
@@ -123,19 +120,7 @@ private fun ConfirmInquize(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    BrownieAsyncImage(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 10.dp)
-                            .width(250.dp)
-                            .aspectRatio(1f)
-                            .border(
-                                width = 4.dp,
-                                color = primary
-                            ),
-                        context = context,
-                        imageUrl = imageUrl,
-                        defaultImagePlaceholderRes = R.drawable.main_logo_inverse
-                    )
+                    CommonInquizeImage(imageUrl = imageUrl)
                     Spacer(modifier = Modifier.height(12.dp))
                     BrownieDefaultTextField(
                         modifier = Modifier

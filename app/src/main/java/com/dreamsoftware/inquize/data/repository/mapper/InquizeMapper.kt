@@ -16,10 +16,11 @@ internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
             userId = userId,
             imageUrl = imageUrl,
             createAt = createAt.toDate(),
-            messages = messages.map { it.entries }.map { it.first() }.map {
+            question = messages.first().text,
+            messages = messages.map {
                 InquizeMessageBO(
-                    role = it.key,
-                    text = it.value
+                    role = it.role,
+                    text = it.text
                 )
             }
         )

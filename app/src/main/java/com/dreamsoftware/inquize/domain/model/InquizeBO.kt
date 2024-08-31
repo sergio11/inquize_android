@@ -7,5 +7,6 @@ data class InquizeBO(
     val userId: String,
     val imageUrl: String,
     val createAt: Date,
+    val question: String,
     val messages: List<InquizeMessageBO>
 )
