@@ -93,7 +93,7 @@ fun HomeScreenContent(
                             modifier = Modifier
                                 .padding(
                                     start = 16.dp, end = 6.dp,
-                                    top = 16.dp, bottom = 8.dp
+                                    top = 6.dp, bottom = 8.dp
                                 )
                                 .fillMaxWidth(),
                             labelRes = R.string.home_search_text_input_label,

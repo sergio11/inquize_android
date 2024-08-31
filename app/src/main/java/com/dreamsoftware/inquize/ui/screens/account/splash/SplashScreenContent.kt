@@ -55,7 +55,7 @@ fun SplashScreenContent(
             )
             CircularProgressIndicator(
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(80.dp)
                     .padding(8.dp),
                 color = Color.White
             )

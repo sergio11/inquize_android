@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.R
 import com.dreamsoftware.inquize.ui.components.AnimatedMicButtonWithTranscript
 import com.dreamsoftware.inquize.ui.components.CameraPreview
@@ -35,14 +35,13 @@ internal fun CreateInquizeScreenContent(
             Box(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .statusBarsPadding()
                     .fillMaxWidth()
                     .height(120.dp)
                     .background(MaterialTheme.colorScheme.primary.copy(0.4f))
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.main_logo_inverse),
-                    contentDescription = "",
+                    contentDescription = String.EMPTY,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)

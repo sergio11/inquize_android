@@ -22,13 +22,15 @@ fun MainScreenContent(
                 BrownieSlideDownAnimatedVisibility(
                     visible = shouldShowBottomNav && hasSession,
                 ) {
-                    BrownieBottomBar(
-                        currentItemRouteSelected = currentDestination?.route,
-                        items = mainDestinationList,
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        iconColorSelected = MaterialTheme.colorScheme.primary
-                    ) {
-                        navHostController.navigate(it.route)
+                    with(MaterialTheme.colorScheme) {
+                        BrownieBottomBar(
+                            currentItemRouteSelected = currentDestination?.route,
+                            items = mainDestinationList,
+                            containerColor = primary,
+                            iconColorSelected = primary
+                        ) {
+                            navHostController.navigate(it.route)
+                        }
                     }
                 }
             }
