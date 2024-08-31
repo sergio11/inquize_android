@@ -5,7 +5,7 @@ import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.google.firebase.Timestamp
 import java.util.Date
 
-internal class CreateUserQuestionRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO, Map<String, Any?>> {
+internal class CreateInquizeRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO, Map<String, Any?>> {
 
     private companion object {
         const val UID_KEY = "uid"

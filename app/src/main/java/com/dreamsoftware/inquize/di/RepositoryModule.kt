@@ -11,6 +11,7 @@ import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
 import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.dreamsoftware.inquize.data.repository.impl.IMultiModalLanguageModelRepositoryImpl
+import com.dreamsoftware.inquize.data.repository.impl.ImageRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.InquizeRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.PreferenceRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.UserRepositoryImpl
@@ -22,6 +23,7 @@ import com.dreamsoftware.inquize.domain.model.AuthUserBO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.ResolveQuestionBO
 import com.dreamsoftware.inquize.domain.model.CreateInquizeBO
+import com.dreamsoftware.inquize.domain.repository.IImageRepository
 import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
 import com.dreamsoftware.inquize.domain.repository.IMultiModalLanguageModelRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
@@ -81,14 +83,12 @@ class RepositoryModule {
     @Singleton
     fun provideInquizeRepository(
         inquizeDataSource: IInquizeDataSource,
-        imageDataSource: IImageDataSource,
         saveInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, CreateInquizeDTO>,
         inquizeMapper: IBrownieOneSideMapper<InquizeDTO, InquizeBO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IInquizeRepository =
         InquizeRepositoryImpl(
             inquizeDataSource,
-            imageDataSource,
             saveInquizeMapper,
             inquizeMapper,
             dispatcher
@@ -104,6 +104,17 @@ class RepositoryModule {
         IMultiModalLanguageModelRepositoryImpl(
             multiModalLanguageModelDataSource,
             resolveQuestionMapper,
+            dispatcher
+        )
+
+    @Provides
+    @Singleton
+    fun provideImageRepository(
+        imageDataSource: IImageDataSource,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IImageRepository =
+        ImageRepositoryImpl(
+            imageDataSource,
             dispatcher
         )
 }

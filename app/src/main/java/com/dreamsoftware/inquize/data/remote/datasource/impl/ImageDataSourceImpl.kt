@@ -8,6 +8,8 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileNotFoundException
 
 internal class ImageDataSourceImpl(
     private val storage: FirebaseStorage,
@@ -15,7 +17,7 @@ internal class ImageDataSourceImpl(
 ) : IImageDataSource {
 
     private companion object {
-        const val STORAGE_BUCKET_NAME = "user_images"
+        const val STORAGE_BUCKET_NAME = "user_inquize"
     }
 
     private val storageRef by lazy {
@@ -33,7 +35,11 @@ internal class ImageDataSourceImpl(
     @Throws(SavePictureRemoteDataException::class)
     override suspend fun save(path: String, name: String): String = withContext(dispatcher) {
         try {
-            val fileUri = Uri.parse(path) // Convert the String path to Uri
+            val file = File(path)
+            if (!file.exists()) {
+                throw FileNotFoundException("File not found at path: $path")
+            }
+            val fileUri = Uri.fromFile(file) // Use fromFile to create a valid Uri from File
             storageRef.child(name).run {
                 putFile(fileUri).await() // Upload the file to Firebase Storage
                 downloadUrl.await().toString() // Retrieve the download URL as a String

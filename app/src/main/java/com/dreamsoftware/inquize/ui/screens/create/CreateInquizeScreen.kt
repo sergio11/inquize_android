@@ -1,6 +1,5 @@
 package com.dreamsoftware.inquize.ui.screens.create
 
-import android.net.Uri
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -16,16 +15,6 @@ fun CreateInquizeScreen(
 ) {
     val context = LocalContext.current
     val cameraController = remember { LifecycleCameraController(context) }
-    val onEndOfSpeech = remember {
-        { transcription: String, associatedBitmapUri: Uri ->
-            /*navController.navigate(
-                PerceiveNavigationDestinations
-                    .ChatScreen
-                    .buildRoute(transcription, associatedBitmapUri)
-            )*/
-        }
-    }
-
     BrownieScreen(
         viewModel = viewModel,
         onBackPressed = onBackPressed,
@@ -36,13 +25,14 @@ fun CreateInquizeScreen(
                     cameraController.takePicture(
                         context = context,
                         onSuccess = {
-                            onTranscribeUserQuestion()
+                            onTranscribeUserQuestion(imageUrl = it)
                         },
                         onError = {
                             onCancelUserQuestion()
                         }
                     )
                 }
+                is CreateInquizeSideEffects.InquizeCreated -> onBackPressed()
             }
         }
     ) { uiState ->

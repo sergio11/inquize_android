@@ -22,7 +22,7 @@ internal class InquizeDataSourceImpl(
 ): IInquizeDataSource {
 
     private companion object {
-        const val COLLECTION_NAME = "user_questions"
+        const val COLLECTION_NAME = "user_inquize"
         const val SUB_COLLECTION_NAME = "questions"
     }
 

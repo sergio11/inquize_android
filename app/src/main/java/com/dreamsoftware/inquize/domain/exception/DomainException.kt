@@ -18,3 +18,6 @@ class SaveInquizeException(message: String? = null, cause: Throwable? = null): R
 class FetchInquizeByIdException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class FetchAllInquizeException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class DeleteInquizeByIdException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+
+class SavePictureException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+class DeletePictureException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)

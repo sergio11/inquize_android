@@ -96,18 +96,15 @@ internal class GeminiLanguageModelDataSourceImpl(
      */
     private suspend fun getBitmapFromUrl(imageUrl: String): Bitmap? = withContext(dispatcher) {
         try {
-            val url = URL(imageUrl)
-            (url.openConnection() as? HttpURLConnection)?.run {
+            (URL(imageUrl).openConnection() as? HttpURLConnection)?.run {
                 requestMethod = "GET"
                 connect()
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     inputStream.use { BitmapFactory.decodeStream(it) }
                 } else {
-                    Log.e("IMAGE_LOADING", "Failed to load image from URL: $responseCode")
                     null
                 }
             } ?: run {
-                Log.e("IMAGE_LOADING", "Failed to open connection.")
                 null
             }
         } catch (e: IOException) {

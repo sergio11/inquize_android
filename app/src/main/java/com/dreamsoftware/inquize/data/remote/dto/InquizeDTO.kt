@@ -7,5 +7,5 @@ data class InquizeDTO(
     val userId: String,
     val imageUrl: String,
     val createAt: Timestamp,
-    val messages: List<Pair<String, String>>
+    val messages: List<Map<String, String>>
 )

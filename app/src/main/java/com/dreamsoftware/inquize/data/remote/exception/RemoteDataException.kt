@@ -7,7 +7,7 @@ class AuthRemoteDataException(message: String? = null, cause: Throwable? = null)
 class SignInRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class SignUpRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 
-// User Pictures Data Source
+// Images Data Source
 class SavePictureRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class DeletePictureRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 

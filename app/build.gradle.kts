@@ -81,6 +81,9 @@ dependencies {
     androidTestImplementation(libs.bundles.composeTest)
     implementation(libs.material.icons.extended)
 
+    // Coil
+    implementation(libs.coil.compose)
+
     // SplashScreen
     implementation(libs.core.splashscreen)
 

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.LifecycleCameraController
-import android.net.Uri
 import androidx.core.content.ContextCompat
 import java.io.File
 
@@ -17,7 +16,7 @@ import java.io.File
  */
 fun LifecycleCameraController.takePicture(
     context: Context,
-    onSuccess: (Uri) -> Unit,
+    onSuccess: (String) -> Unit,
     onError: (ImageCaptureException) -> Unit
 ) {
     // Create a file to store the captured image
@@ -36,9 +35,7 @@ fun LifecycleCameraController.takePicture(
 
             // Called when the image is successfully saved
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                // Convert the saved file to a Uri and pass it to the onSuccess callback
-                val savedUri = Uri.fromFile(imageFile)
-                onSuccess(savedUri)
+                onSuccess(imageFile.absolutePath)
             }
         }
     )

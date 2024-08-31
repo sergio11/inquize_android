@@ -71,4 +71,10 @@
     <string name="home_search_text_input_label">Find Inquize</string>
     <string name="home_search_text_input_placeholder">Search your questions…</string>
 
+    <!-- Create Inquize -->
+    <string name="create_inquize_save_button_text">Save My Inquiry</string>
+    <string name="create_inquize_cancel_button_text">Forget It</string>
+    <string name="create_inquize_question_text_field_label">Ask Away!</string>
+    <string name="create_inquize_question_text_field_placeholder">Type your question here… 🚀</string>
+
 </resources>

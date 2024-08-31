@@ -2,6 +2,7 @@ package com.dreamsoftware.inquize.di
 
 import com.dreamsoftware.inquize.domain.model.AuthRequestBO
 import com.dreamsoftware.inquize.domain.model.SignUpBO
+import com.dreamsoftware.inquize.domain.repository.IImageRepository
 import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
 import com.dreamsoftware.inquize.domain.repository.IMultiModalLanguageModelRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
@@ -90,11 +91,13 @@ class UseCasesModule {
     @ViewModelScoped
     fun provideCreateInquizeUseCase(
         userRepository: IUserRepository,
+        imageRepository: IImageRepository,
         inquizeRepository: IInquizeRepository,
         multiModalLanguageModelRepository: IMultiModalLanguageModelRepository
     ): CreateInquizeUseCase =
         CreateInquizeUseCase(
             userRepository = userRepository,
+            imageRepository = imageRepository,
             inquizeRepository = inquizeRepository,
             multiModalLanguageModelRepository = multiModalLanguageModelRepository
         )
@@ -103,10 +106,12 @@ class UseCasesModule {
     @ViewModelScoped
     fun provideDeleteInquizeByIdUseCase(
         userRepository: IUserRepository,
+        imageRepository: IImageRepository,
         inquizeRepository: IInquizeRepository
     ): DeleteInquizeByIdUseCase =
         DeleteInquizeByIdUseCase(
             userRepository = userRepository,
+            imageRepository = imageRepository,
             inquizeRepository = inquizeRepository
         )
 

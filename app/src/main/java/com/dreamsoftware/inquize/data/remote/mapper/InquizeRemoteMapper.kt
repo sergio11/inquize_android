@@ -4,7 +4,7 @@ import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.google.firebase.Timestamp
 
-internal class UserQuestionRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO> {
+internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO> {
 
     private companion object {
         const val UID_KEY = "uid"
@@ -20,7 +20,7 @@ internal class UserQuestionRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>
             userId = get(USER_ID_KEY) as String,
             imageUrl = get(IMAGE_URL_KEY) as String,
             createAt = get(CREATED_AT_KEY) as Timestamp,
-            messages = get(MESSAGES_KEY) as List<Pair<String, String>>
+            messages = get(MESSAGES_KEY) as List<Map<String, String>>
         )
     }
 
