@@ -1,17 +1,14 @@
 package com.dreamsoftware.inquize.ui
 
 import android.Manifest
-import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.view.LifecycleCameraController
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -24,11 +21,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dreamsoftware.inquize.ui.screens.ChatScreen
 import com.dreamsoftware.inquize.ui.screens.chat.ChatViewModel
-import com.dreamsoftware.inquize.ui.screens.home.HomeScreen
-import com.dreamsoftware.inquize.ui.screens.home.HomeViewModel
+import com.dreamsoftware.inquize.ui.screens.create.CreateInquizeScreen
 import com.dreamsoftware.inquize.ui.navigation.PerceiveNavigationDestinations
 import com.dreamsoftware.inquize.ui.permission.PermissionsDeniedScreen
-import com.dreamsoftware.inquize.utils.takePicture
 
 @Composable
 fun InquizeApp(
@@ -77,7 +72,9 @@ fun InquizeApp(
 
 private fun NavGraphBuilder.homeScreen(navController: NavController, route: String) {
     composable(route = route) {
-        HomeScreen()
+        CreateInquizeScreen {
+
+        }
     }
 }
 

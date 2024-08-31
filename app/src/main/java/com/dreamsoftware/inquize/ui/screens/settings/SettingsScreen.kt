@@ -10,10 +10,12 @@ import com.dreamsoftware.inquize.ui.utils.shareApp
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit
 ) {
     val context = LocalContext.current
     BrownieScreen(
         viewModel = viewModel,
+        onBackPressed = onBackPressed,
         onInitialUiState = { SettingsUiState() },
         onSideEffect = {
             when (it) {

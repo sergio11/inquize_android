@@ -25,6 +25,7 @@ sealed class Screens(val route: String, arguments: List<NamedNavArgument> = empt
                 val startDestination = Info.route
             }
             data object Info : Screens("info")
+            data object CreateInquize : Screens("CreateInquize")
             data object Settings: Screens("settings")
         }
     }

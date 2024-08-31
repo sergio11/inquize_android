@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.dreamsoftware.inquize.ui.navigation.Screens
+import com.dreamsoftware.inquize.ui.screens.create.CreateInquizeScreen
 import com.dreamsoftware.inquize.ui.screens.home.HomeScreen
 import com.dreamsoftware.inquize.ui.screens.settings.SettingsScreen
 
@@ -22,9 +23,27 @@ fun NavGraphBuilder.HomeNavigationGraph(
         }
 
         composable(
+            route = Screens.Main.Home.CreateInquize.route
+        ) {
+            with(navController) {
+                CreateInquizeScreen(
+                    onBackPressed = {
+                        popBackStack()
+                    }
+                )
+            }
+        }
+
+        composable(
             route = Screens.Main.Home.Settings.route
         ) {
-            SettingsScreen()
+            with(navController) {
+                SettingsScreen(
+                    onBackPressed = {
+                        popBackStack()
+                    }
+                )
+            }
         }
     }
 }
