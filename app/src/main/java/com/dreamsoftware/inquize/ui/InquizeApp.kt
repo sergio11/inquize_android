@@ -77,11 +77,7 @@ fun InquizeApp(
 
 private fun NavGraphBuilder.homeScreen(navController: NavController, route: String) {
     composable(route = route) {
-        HomeScreen(
-            onStartListening = {
-
-            }
-        )
+        HomeScreen()
     }
 }
 

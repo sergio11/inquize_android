@@ -4,6 +4,7 @@ import com.dreamsoftware.brownie.core.BrownieViewModel
 import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
 import com.dreamsoftware.brownie.utils.EMPTY
+import com.dreamsoftware.inquize.domain.usecase.CreateInquizeUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
 import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 
@@ -76,7 +77,8 @@ class HomeViewModel @Inject constructor(
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
-    private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase
+    private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase,
+    private val createInquizeUseCase: CreateInquizeUseCase
 ) : BrownieViewModel<HomeUiState, HomeSideEffects>(),
     HomeScreenActionListener {
     override fun onGetDefaultState(): HomeUiState = HomeUiState()

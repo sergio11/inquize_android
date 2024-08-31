@@ -9,6 +9,7 @@ import com.dreamsoftware.inquize.ui.screens.account.onboarding.OnboardingScreen
 import com.dreamsoftware.inquize.ui.screens.account.signin.SignInScreen
 import com.dreamsoftware.inquize.ui.screens.account.signup.SignUpScreen
 import com.dreamsoftware.inquize.ui.screens.account.splash.SplashScreen
+import com.dreamsoftware.inquize.ui.screens.main.MainScreen
 
 @Composable
 fun RootNavigationGraph(
@@ -77,6 +78,12 @@ fun RootNavigationGraph(
                     }
                 )
             }
+        }
+
+        composable(
+            route = Screens.Main.route
+        ) {
+            MainScreen()
         }
     }
 }

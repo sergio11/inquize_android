@@ -12,7 +12,6 @@ import com.dreamsoftware.inquize.utils.takePicture
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onStartListening: () -> Unit,
 ) {
     val context = LocalContext.current
     val cameraController = remember { LifecycleCameraController(context) }

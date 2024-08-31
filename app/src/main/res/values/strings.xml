@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Inquize</string>
 
+    <string name="home">Home</string>
+
     <!-- Loading Dialog -->
     <string name="loading_dialog_title_text">Hang Tight!</string>
     <string name="loading_dialog_description_text">We\'re working on it. This won\'t take long…</string>
