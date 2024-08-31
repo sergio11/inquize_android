@@ -7,19 +7,31 @@ import com.dreamsoftware.brownie.core.UiState
 import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.di.HomeErrorMapper
 import com.dreamsoftware.inquize.domain.model.InquizeBO
+import com.dreamsoftware.inquize.domain.usecase.GetAllInquizeByUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getAllInquizeByUserUseCase: GetAllInquizeByUserUseCase,
     @HomeErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<HomeUiState, HomeSideEffects>(), HomeScreenActionListener {
 
     fun loadData() {
-
+        executeUseCase(
+            useCase = getAllInquizeByUserUseCase,
+            onSuccess = ::onLoadInquizeCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
     }
 
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
+
+    private fun onLoadInquizeCompleted(data: List<InquizeBO>) {
+        updateState {
+            it.copy(inquizeList = data)
+        }
+    }
 
     private fun onMapExceptionToState(ex: Exception, uiState: HomeUiState) =
         uiState.copy(

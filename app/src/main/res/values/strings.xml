@@ -58,17 +58,17 @@
     <string name="settings_screen_logout">Logout</string>
 
     <!-- Logout Dialog -->
-    <string name="close_session_dialog_title">Logout from VaultKeeper?</string>
-    <string name="close_session_dialog_description">Logging out will delete all your saved data including cards and passwords. Are you sure you want to proceed?</string>
-    <string name="close_session_dialog_cancel">Cancel</string>
-    <string name="close_session_dialog_accept">Accept</string>
+    <string name="close_session_dialog_title">Are you sure you want to log out?</string>
+    <string name="close_session_dialog_description">Logging out will end your current session, but don\'t worry, we\'ll be here when you\'re ready to return.</string>
+    <string name="close_session_dialog_cancel">Stay Logged In</string>
+    <string name="close_session_dialog_accept">Yes, Log Me Out</string>
 
     <!-- About Info -->
-    <string name="about_info"></string>
-    <string name="share_message"></string>
+    <string name="about_info">Inquize is your intelligent companion, helping you explore the world through questions and images. Let\'s make curiosity limitless together!</string>
+    <string name="share_message">Discover Inquize! Your personal AI guide for asking questions and getting insightful answers. Join me on this journey!</string>
 
     <!-- Home -->
-    <string name="home_search_text_input_label">Search in Vault</string>
-    <string name="home_search_text_input_placeholder">Search in Vault</string>
+    <string name="home_search_text_input_label">Find Inquize</string>
+    <string name="home_search_text_input_placeholder">Search your questions…</string>
 
 </resources>
