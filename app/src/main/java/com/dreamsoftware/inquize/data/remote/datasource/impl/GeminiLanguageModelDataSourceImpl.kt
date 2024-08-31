@@ -28,7 +28,7 @@ internal class GeminiLanguageModelDataSourceImpl(
 
     override suspend fun resolveQuestion(data: ResolveQuestionDTO): String = withContext(dispatcher) {
         val currentChatSession = generativeTextModel.startChat(data.history.map {
-            content(it.first) { text(it.second) }
+            content(it.role) { text(it.text) }
         })
         Log.d("ATV_CHANGES", "GeminiLanguageModelClient sendMessage called with question and image")
         try {

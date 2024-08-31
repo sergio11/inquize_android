@@ -3,6 +3,7 @@ package com.dreamsoftware.inquize.data.repository.mapper
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
+import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
 
 internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
 
@@ -15,7 +16,12 @@ internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
             userId = userId,
             imageUrl = imageUrl,
             createAt = createAt.toDate(),
-            messages = messages
+            messages = messages.map {
+                InquizeMessageBO(
+                    role = it.first,
+                    text = it.second
+                )
+            }
         )
     }
 }

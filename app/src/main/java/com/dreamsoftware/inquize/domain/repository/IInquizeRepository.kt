@@ -5,12 +5,12 @@ import com.dreamsoftware.inquize.domain.exception.FetchAllInquizeException
 import com.dreamsoftware.inquize.domain.exception.FetchInquizeByIdException
 import com.dreamsoftware.inquize.domain.exception.SaveInquizeException
 import com.dreamsoftware.inquize.domain.model.InquizeBO
-import com.dreamsoftware.inquize.domain.model.SaveInquizeBO
+import com.dreamsoftware.inquize.domain.model.CreateInquizeBO
 
 interface IInquizeRepository {
 
     @Throws(SaveInquizeException::class)
-    suspend fun save(data: SaveInquizeBO): InquizeBO
+    suspend fun create(data: CreateInquizeBO): InquizeBO
 
     @Throws(DeleteInquizeByIdException::class)
     suspend fun deleteById(userId: String, id: String)

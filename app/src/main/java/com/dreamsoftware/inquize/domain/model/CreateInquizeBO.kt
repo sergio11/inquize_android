@@ -1,6 +1,6 @@
-package com.dreamsoftware.inquize.data.remote.dto
+package com.dreamsoftware.inquize.domain.model
 
-data class SaveInquizeDTO(
+data class CreateInquizeBO(
     val uid: String,
     val userId: String,
     val imageUrl: String,

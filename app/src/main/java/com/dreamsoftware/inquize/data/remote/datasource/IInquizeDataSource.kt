@@ -1,16 +1,16 @@
 package com.dreamsoftware.inquize.data.remote.datasource
 
-import com.dreamsoftware.inquize.data.remote.dto.SaveInquizeDTO
+import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.data.remote.exception.DeleteInquizeByIdRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchAllInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchInquizeByIdRemoteDataException
-import com.dreamsoftware.inquize.data.remote.exception.SaveInquizeRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.CreateInquizeRemoteDataException
 
 interface IInquizeDataSource {
 
-    @Throws(SaveInquizeRemoteDataException::class)
-    suspend fun save(data: SaveInquizeDTO)
+    @Throws(CreateInquizeRemoteDataException::class)
+    suspend fun create(data: CreateInquizeDTO)
 
     @Throws(FetchInquizeByIdRemoteDataException::class)
     suspend fun fetchById(userId: String, id: String): InquizeDTO

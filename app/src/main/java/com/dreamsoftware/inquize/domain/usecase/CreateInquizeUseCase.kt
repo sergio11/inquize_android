@@ -3,7 +3,7 @@ package com.dreamsoftware.inquize.domain.usecase
 import com.dreamsoftware.brownie.core.BrownieUseCaseWithParams
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.ResolveQuestionBO
-import com.dreamsoftware.inquize.domain.model.SaveInquizeBO
+import com.dreamsoftware.inquize.domain.model.CreateInquizeBO
 import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
 import com.dreamsoftware.inquize.domain.repository.IMultiModalLanguageModelRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
@@ -18,7 +18,7 @@ class CreateInquizeUseCase(
     override suspend fun onExecuted(params: Params): InquizeBO = with(params) {
         val answer = multiModalLanguageModelRepository.resolveQuestion(toResolveQuestionBO())
         val userId = userRepository.getUserAuthenticatedUid()
-        inquizeRepository.save(toSaveInquizeBO(userId = userId, answer = answer))
+        inquizeRepository.create(toSaveInquizeBO(userId = userId, answer = answer))
     }
 
     private fun Params.toResolveQuestionBO() = ResolveQuestionBO(
@@ -26,7 +26,7 @@ class CreateInquizeUseCase(
         question = question
     )
 
-    private fun Params.toSaveInquizeBO(userId: String, answer: String) = SaveInquizeBO(
+    private fun Params.toSaveInquizeBO(userId: String, answer: String) = CreateInquizeBO(
         uid = UUID.randomUUID().toString(),
         userId = userId,
         imageUrl = imageUrl,

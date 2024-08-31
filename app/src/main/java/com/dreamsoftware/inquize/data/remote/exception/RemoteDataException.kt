@@ -12,7 +12,7 @@ class SavePictureRemoteDataException(message: String? = null, cause: Throwable? 
 class DeletePictureRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 
 // Inquize Data Source
-class SaveInquizeRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+class CreateInquizeRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class FetchInquizeByIdRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class FetchAllInquizeRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class DeleteInquizeByIdRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)

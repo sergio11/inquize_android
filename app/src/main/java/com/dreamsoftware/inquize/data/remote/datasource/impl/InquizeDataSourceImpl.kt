@@ -2,12 +2,12 @@ package com.dreamsoftware.inquize.data.remote.datasource.impl
 
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.datasource.IInquizeDataSource
-import com.dreamsoftware.inquize.data.remote.dto.SaveInquizeDTO
+import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.data.remote.exception.DeleteInquizeByIdRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchAllInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchInquizeByIdRemoteDataException
-import com.dreamsoftware.inquize.data.remote.exception.SaveInquizeRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.CreateInquizeRemoteDataException
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 
 internal class InquizeDataSourceImpl(
     private val firestore: FirebaseFirestore,
-    private val saveInquizeMapper: IBrownieOneSideMapper<SaveInquizeDTO, Map<String, Any?>>,
+    private val saveInquizeMapper: IBrownieOneSideMapper<CreateInquizeDTO, Map<String, Any?>>,
     private val inquizeMapper: IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO>,
     private val dispatcher: CoroutineDispatcher
 ): IInquizeDataSource {
@@ -30,8 +30,8 @@ internal class InquizeDataSourceImpl(
         firestore.collection(COLLECTION_NAME)
     }
 
-    @Throws(SaveInquizeRemoteDataException::class)
-    override suspend fun save(data: SaveInquizeDTO): Unit = withContext(dispatcher) {
+    @Throws(CreateInquizeRemoteDataException::class)
+    override suspend fun create(data: CreateInquizeDTO): Unit = withContext(dispatcher) {
         try {
             userQuestionsCollection
                 .document(data.userId)
@@ -40,7 +40,7 @@ internal class InquizeDataSourceImpl(
                 .set(saveInquizeMapper.mapInToOut(data))
                 .await()
         } catch (e: Exception) {
-            throw SaveInquizeRemoteDataException("Failed to save user question", e)
+            throw CreateInquizeRemoteDataException("Failed to save user question", e)
         }
     }
 
