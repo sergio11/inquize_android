@@ -47,4 +47,21 @@
     <string name="invalid_email_message">Invalid email format.</string>
     <string name="short_password_message">Password must be at least %1$d characters long.</string>
     <string name="passwords_do_not_match_message">Passwords do not match.</string>
+
+    <!-- Settings -->
+    <string name="settings_screen_title">Settings</string>
+    <string name="settings_screen_share">Share</string>
+    <string name="settings_screen_about">About</string>
+    <string name="settings_screen_logout">Logout</string>
+
+    <!-- Logout Dialog -->
+    <string name="close_session_dialog_title">Logout from VaultKeeper?</string>
+    <string name="close_session_dialog_description">Logging out will delete all your saved data including cards and passwords. Are you sure you want to proceed?</string>
+    <string name="close_session_dialog_cancel">Cancel</string>
+    <string name="close_session_dialog_accept">Accept</string>
+
+    <!-- About Info -->
+    <string name="about_info"></string>
+    <string name="share_message"></string>
+
 </resources>
