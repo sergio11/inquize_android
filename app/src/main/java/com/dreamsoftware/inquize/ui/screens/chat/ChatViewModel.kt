@@ -6,7 +6,6 @@ import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
 import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.di.ChatErrorMapper
-import com.dreamsoftware.inquize.domain.model.ChatMessageBO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
