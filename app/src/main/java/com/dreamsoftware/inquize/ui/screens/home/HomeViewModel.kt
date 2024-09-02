@@ -39,6 +39,10 @@ class HomeViewModel @Inject constructor(
             errorMessage = errorMapper.mapToMessage(ex)
         )
 
+    override fun onInquizeClicked(inquizeBO: InquizeBO) {
+        launchSideEffect(HomeSideEffects.OpenInquizeDetail(inquizeBO.uid))
+    }
+
     override fun onInfoMessageCleared() {
         updateState { it.copy(infoMessage = null) }
     }
@@ -56,4 +60,6 @@ data class HomeUiState(
 }
 
 
-sealed interface HomeSideEffects: SideEffect
+sealed interface HomeSideEffects: SideEffect {
+    data class OpenInquizeDetail(val id: String): HomeSideEffects
+}

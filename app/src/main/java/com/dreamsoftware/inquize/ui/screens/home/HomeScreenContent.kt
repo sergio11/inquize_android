@@ -1,6 +1,7 @@
 package com.dreamsoftware.inquize.ui.screens.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -146,7 +147,11 @@ private fun InquizeList(
         ) {
             items(inquizeList.size) { idx ->
                 val inquize = inquizeList[idx]
-                BrownieElevatedCardColumn {
+                BrownieElevatedCardColumn(
+                    modifier = Modifier.clickable {
+                        actionListener.onInquizeClicked(inquize)
+                    }
+                ) {
                     CommonInquizeImage(imageUrl = inquize.imageUrl)
                     BrownieText(
                         modifier = Modifier

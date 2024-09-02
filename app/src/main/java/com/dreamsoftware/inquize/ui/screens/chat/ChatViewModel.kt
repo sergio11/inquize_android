@@ -191,7 +191,7 @@ class ChatViewModel @Inject constructor(
     }
 
     override fun onBackButtonClicked() {
-
+        launchSideEffect(ChatSideEffects.CloseChat)
     }
 
     private fun onGetInquizeCompletedSuccessfully(inquizeBO: InquizeBO) {
@@ -209,6 +209,7 @@ class ChatViewModel @Inject constructor(
 data class ChatUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val infoMessage: String = String.EMPTY,
     val isAssistantResponseLoading: Boolean = false,
     val isAssistantMuted: Boolean = false,
     val isAssistantSpeaking: Boolean = false,
@@ -221,5 +222,7 @@ data class ChatUiState(
 }
 
 
-sealed interface ChatSideEffects: SideEffect
+sealed interface ChatSideEffects: SideEffect {
+    data object CloseChat: ChatSideEffects
+}
 

@@ -19,7 +19,12 @@ fun ChatScreen(
         onBackPressed = onBackPressed,
         onPause = { onAssistantSpeechStopped() },
         onInitialUiState = { ChatUiState() },
-        onInit = { load(args.id) }
+        onInit = { load(args.id) },
+        onSideEffect = {
+            when(it) {
+                ChatSideEffects.CloseChat -> onBackPressed()
+            }
+        }
     ) { uiState ->
         ChatScreenContent(
             uiState = uiState,

@@ -12,7 +12,12 @@ fun HomeScreen(
     BrownieScreen(
         viewModel = viewModel,
         onInitialUiState = { HomeUiState() },
-        onInit = { loadData() }
+        onInit = { loadData() },
+        onSideEffect = {
+            when(it) {
+                is HomeSideEffects.OpenInquizeDetail -> onGoToChat(it.id)
+            }
+        }
     ) { uiState ->
         HomeScreenContent(
             uiState = uiState,
