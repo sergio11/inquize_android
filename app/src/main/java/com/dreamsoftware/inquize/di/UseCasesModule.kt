@@ -14,6 +14,7 @@ import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
 import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAllInquizeByUserUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAuthenticateUserDetailUseCase
+import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignInUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignOffUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignUpUseCase
@@ -133,5 +134,16 @@ class UseCasesModule {
     ): GetAuthenticateUserDetailUseCase =
         GetAuthenticateUserDetailUseCase(
             userRepository = userRepository,
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetInquizeByIdUseCase(
+        userRepository: IUserRepository,
+        inquizeRepository: IInquizeRepository
+    ): GetInquizeByIdUseCase =
+        GetInquizeByIdUseCase(
+            userRepository = userRepository,
+            inquizeRepository = inquizeRepository
         )
 }

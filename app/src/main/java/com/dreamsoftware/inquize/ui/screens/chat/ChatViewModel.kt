@@ -1,34 +1,23 @@
 package com.dreamsoftware.inquize.ui.screens.chat
 
-import android.graphics.Bitmap
-import android.net.Uri
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.dreamsoftware.inquize.data.local.bitmapstore.BitmapStore
-import com.dreamsoftware.inquize.data.local.preferences.UserPreferencesManager
-import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
-import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
+import com.dreamsoftware.brownie.core.BrownieViewModel
+import com.dreamsoftware.brownie.core.IBrownieErrorMapper
+import com.dreamsoftware.brownie.core.SideEffect
+import com.dreamsoftware.brownie.core.UiState
+import com.dreamsoftware.brownie.utils.EMPTY
+import com.dreamsoftware.inquize.di.ChatErrorMapper
 import com.dreamsoftware.inquize.domain.model.ChatMessageBO
-import com.dreamsoftware.inquize.domain.service.ITranscriptionService
-import com.dreamsoftware.inquize.domain.service.ITTSService
-import com.dreamsoftware.inquize.ui.navigation.PerceiveNavigationDestinations
+import com.dreamsoftware.inquize.domain.model.InquizeBO
+import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
+import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
+import com.dreamsoftware.inquize.ui.screens.home.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import java.util.Base64
 import javax.inject.Inject
 
-@HiltViewModel
+/*@HiltViewModel
 class ChatViewModel @Inject constructor(
     private val ITranscriptionService: ITranscriptionService,
     private val ITTSService: ITTSService,
-    private val languageModelClient: IMultiModalLanguageModelDataSource,
     private val bitmapStore: BitmapStore,
     private val preferencesManager: UserPreferencesManager,
     savedStateHandle: SavedStateHandle,
@@ -168,5 +157,70 @@ class ChatViewModel @Inject constructor(
         ITTSService.releaseResources()
         super.onCleared()
     }
+}*/
+
+@HiltViewModel
+class ChatViewModel @Inject constructor(
+    private val getInquizeByIdUseCase: GetInquizeByIdUseCase,
+    @ChatErrorMapper private val errorMapper: IBrownieErrorMapper
+) : BrownieViewModel<ChatUiState, ChatSideEffects>(), ChatScreenActionListener {
+
+    fun load(id: String) {
+        executeUseCaseWithParams(
+            useCase = getInquizeByIdUseCase,
+            params = GetInquizeByIdUseCase.Params(id = id),
+            onSuccess = ::onGetInquizeCompletedSuccessfully,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    override fun onGetDefaultState(): ChatUiState = ChatUiState()
+
+    override fun onAssistantMutedChange(isMuted: Boolean) {
+        updateState { it.copy(isAssistantMuted = isMuted) }
+        //viewModelScope.launch { preferencesManager.setAssistantMutedStatus(isMuted) }
+        //if (isMuted) ITTSService.stop()
+    }
+
+    override fun onAssistantSpeechStopped() {
+        /*if (!_uiState.value.isAssistantSpeaking) return
+        ITTSService.stop()*/
+    }
+
+    override fun onStartListening() {
+
+    }
+
+    override fun onBackButtonClicked() {
+
+    }
+
+    private fun onGetInquizeCompletedSuccessfully(inquizeBO: InquizeBO) {
+        updateState { it.copy(messageList = inquizeBO.messages) }
+    }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: ChatUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
+
+
+data class ChatUiState(
+    override val isLoading: Boolean = false,
+    override val errorMessage: String? = null,
+    val isAssistantResponseLoading: Boolean = false,
+    val isAssistantMuted: Boolean = false,
+    val isAssistantSpeaking: Boolean = false,
+    val isListening: Boolean = false,
+    val lastQuestion: String = String.EMPTY,
+    val messageList: List<InquizeMessageBO> = emptyList()
+): UiState<ChatUiState>(isLoading, errorMessage) {
+    override fun copyState(isLoading: Boolean, errorMessage: String?): ChatUiState =
+        copy(isLoading = isLoading, errorMessage = errorMessage)
+}
+
+
+sealed interface ChatSideEffects: SideEffect
 

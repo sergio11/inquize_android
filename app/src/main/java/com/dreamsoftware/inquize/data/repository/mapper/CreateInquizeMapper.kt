@@ -3,6 +3,7 @@ package com.dreamsoftware.inquize.data.repository.mapper
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.dreamsoftware.inquize.domain.model.CreateInquizeBO
+import com.dreamsoftware.inquize.domain.model.InquizeMessageRoleEnum
 
 internal class CreateInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, CreateInquizeDTO> {
     override fun mapInListToOutList(input: Iterable<CreateInquizeBO>): Iterable<CreateInquizeDTO> =
@@ -14,7 +15,9 @@ internal class CreateInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, Creat
             userId = userId,
             imageUrl = imageUrl,
             question = question,
-            answer = answer
+            questionRole = InquizeMessageRoleEnum.USER.name,
+            answer = answer,
+            answerRole = InquizeMessageRoleEnum.ASSISTANT.name
         )
     }
 }

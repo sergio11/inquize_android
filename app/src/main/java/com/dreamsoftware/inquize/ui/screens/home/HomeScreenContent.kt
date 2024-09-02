@@ -1,19 +1,12 @@
 package com.dreamsoftware.inquize.ui.screens.home
 
-import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +22,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.dreamsoftware.brownie.component.BrownieAsyncImage
 import com.dreamsoftware.brownie.component.BrownieColumnPlaceHolder
 import com.dreamsoftware.brownie.component.BrownieColumnProgressIndicator
 import com.dreamsoftware.brownie.component.BrownieDefaultTextField
@@ -37,8 +29,6 @@ import com.dreamsoftware.brownie.component.BrownieElevatedCardColumn
 import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieText
 import com.dreamsoftware.brownie.component.BrownieTextTypeEnum
-import com.dreamsoftware.brownie.component.fab.BrownieFabButtonSub
-import com.dreamsoftware.brownie.component.fab.BrownieMultiFloatingActionButton
 import com.dreamsoftware.brownie.component.screen.BrownieScreenContent
 import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.R

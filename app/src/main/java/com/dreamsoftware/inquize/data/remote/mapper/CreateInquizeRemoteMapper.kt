@@ -4,6 +4,7 @@ import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.google.firebase.Timestamp
 import java.util.Date
+import java.util.UUID
 
 internal class CreateInquizeRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO, Map<String, Any?>> {
 
@@ -13,8 +14,7 @@ internal class CreateInquizeRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO
         const val IMAGE_URL_KEY = "imageUrl"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
-        const val USER_ROLE_KEY = "USER"
-        const val SYSTEM_ROLE_KEY = "SYSTEM"
+        const val MESSAGE_ID_KEY = "uid"
         const val ROLE_KEY = "role"
         const val TEXT_KEY = "text"
     }
@@ -27,11 +27,13 @@ internal class CreateInquizeRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO
             CREATED_AT_KEY to Timestamp(Date()),
             MESSAGES_KEY to listOf(
                 hashMapOf(
-                    ROLE_KEY to USER_ROLE_KEY,
+                    MESSAGE_ID_KEY to UUID.randomUUID().toString(),
+                    ROLE_KEY to questionRole,
                     TEXT_KEY to question
                 ),
                 hashMapOf(
-                    ROLE_KEY to SYSTEM_ROLE_KEY,
+                    MESSAGE_ID_KEY to UUID.randomUUID().toString(),
+                    ROLE_KEY to answerRole,
                     TEXT_KEY to answer
                 )
             )

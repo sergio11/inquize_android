@@ -5,5 +5,7 @@ data class CreateInquizeDTO(
     val userId: String,
     val imageUrl: String,
     val question: String,
-    val answer: String
+    val questionRole: String,
+    val answer: String,
+    val answerRole: String
 )

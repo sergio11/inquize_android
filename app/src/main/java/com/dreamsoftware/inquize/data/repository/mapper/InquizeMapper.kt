@@ -4,6 +4,8 @@ import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
+import com.dreamsoftware.inquize.domain.model.InquizeMessageRoleEnum
+import com.dreamsoftware.inquize.utils.enumNameOfOrDefault
 
 internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
 
@@ -19,7 +21,8 @@ internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
             question = messages.first().text,
             messages = messages.map {
                 InquizeMessageBO(
-                    role = it.role,
+                    uid = it.uid,
+                    role = enumNameOfOrDefault(it.role, InquizeMessageRoleEnum.ASSISTANT),
                     text = it.text
                 )
             }

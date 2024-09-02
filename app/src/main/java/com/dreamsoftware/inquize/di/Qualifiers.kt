@@ -41,3 +41,7 @@ annotation class SignUpScreenErrorMapper
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class HomeErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ChatErrorMapper

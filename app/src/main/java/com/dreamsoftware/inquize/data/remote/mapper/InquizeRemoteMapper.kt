@@ -13,6 +13,7 @@ internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, Inq
         const val IMAGE_URL_KEY = "imageUrl"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
+        const val MESSAGE_ID_KEY = "uid"
         const val ROLE_KEY = "role"
         const val TEXT_KEY = "text"
     }
@@ -25,6 +26,7 @@ internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, Inq
             createAt = get(CREATED_AT_KEY) as Timestamp,
             messages = (get(MESSAGES_KEY) as? List<Map<String, String>>)?.map {
                 InquizeMessageDTO(
+                    uid = it[MESSAGE_ID_KEY].orEmpty(),
                     role = it[ROLE_KEY].orEmpty(),
                     text = it[TEXT_KEY].orEmpty()
                 )
