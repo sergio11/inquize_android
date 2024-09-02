@@ -43,6 +43,10 @@ class HomeViewModel @Inject constructor(
         launchSideEffect(HomeSideEffects.OpenInquizeDetail(inquizeBO.uid))
     }
 
+    override fun onSearchQueryUpdated(newSearchQuery: String) {
+        updateState { it.copy(searchQuery = newSearchQuery) }
+    }
+
     override fun onInfoMessageCleared() {
         updateState { it.copy(infoMessage = null) }
     }

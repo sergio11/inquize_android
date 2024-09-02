@@ -1,6 +1,8 @@
 package com.dreamsoftware.inquize.ui.screens.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -23,10 +25,10 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.dreamsoftware.brownie.component.BrownieCard
 import com.dreamsoftware.brownie.component.BrownieColumnPlaceHolder
 import com.dreamsoftware.brownie.component.BrownieColumnProgressIndicator
 import com.dreamsoftware.brownie.component.BrownieDefaultTextField
-import com.dreamsoftware.brownie.component.BrownieElevatedCardColumn
 import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieText
 import com.dreamsoftware.brownie.component.BrownieTextTypeEnum
@@ -100,7 +102,7 @@ fun HomeScreenContent(
                             value = searchQuery,
                             onValueChanged = {
                                 if (it.length <= 25) {
-                                    //actionListener.onSearchQueryUpdated(newSearchQuery = it)
+                                    actionListener.onSearchQueryUpdated(newSearchQuery = it)
                                 }
                             },
                             leadingIconRes = R.drawable.icon_search,
@@ -128,39 +130,52 @@ fun HomeScreenContent(
 }
 
 
+
 @Composable
 private fun InquizeList(
     uiState: HomeUiState,
     actionListener: HomeScreenActionListener,
     nestedScrollConnection: NestedScrollConnection
 ) {
-
-    with(uiState) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 4.dp, end = 4.dp,
-                    top = 8.dp, bottom = 0.dp
-                )
-                .nestedScroll(nestedScrollConnection),
-        ) {
-            items(inquizeList.size) { idx ->
-                val inquize = inquizeList[idx]
-                BrownieElevatedCardColumn(
-                    modifier = Modifier.clickable {
-                        actionListener.onInquizeClicked(inquize)
-                    }
-                ) {
-                    CommonInquizeImage(imageUrl = inquize.imageUrl)
-                    BrownieText(
-                        modifier = Modifier
-                            .padding(horizontal = 10.dp, vertical = 8.dp),
-                        type = BrownieTextTypeEnum.LABEL_MEDIUM,
-                        titleText = inquize.question,
-                        maxLines = 2,
-                        textBold = true
+    with(MaterialTheme.colorScheme) {
+        with(uiState) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = 4.dp, end = 4.dp,
+                        top = 8.dp, bottom = 0.dp
                     )
+                    .nestedScroll(nestedScrollConnection),
+            ) {
+                items(inquizeList.size) { idx ->
+                    val inquize = inquizeList[idx]
+                    BrownieCard(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp)
+                            .height(250.dp)
+                            .clickable {
+                                actionListener.onInquizeClicked(inquize)
+                            },
+                        border = BorderStroke(5.dp, secondary)
+                    ) {
+                        CommonInquizeImage(
+                            modifier = Modifier.fillMaxSize(),
+                            imageUrl = inquize.imageUrl
+                        )
+                        BrownieText(
+                            modifier = Modifier
+                                .background(secondary)
+                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                                .align(Alignment.BottomStart),
+                            type = BrownieTextTypeEnum.LABEL_MEDIUM,
+                            titleText = inquize.question,
+                            maxLines = 2,
+                            textBold = true,
+                            textColor = onSecondary
+                        )
+                    }
                 }
             }
         }

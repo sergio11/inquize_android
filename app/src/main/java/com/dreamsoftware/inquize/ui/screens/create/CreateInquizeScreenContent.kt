@@ -3,6 +3,7 @@ package com.dreamsoftware.inquize.ui.screens.create
 import androidx.camera.view.LifecycleCameraController
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -120,7 +122,17 @@ private fun ConfirmInquize(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CommonInquizeImage(imageUrl = imageUrl)
+                    CommonInquizeImage(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 10.dp)
+                            .width(250.dp)
+                            .border(
+                                width = 4.dp,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        ,
+                        imageUrl = imageUrl
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
                     BrownieDefaultTextField(
                         modifier = Modifier
