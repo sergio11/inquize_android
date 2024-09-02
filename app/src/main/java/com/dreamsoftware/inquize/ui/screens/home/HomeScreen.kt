@@ -6,7 +6,8 @@ import com.dreamsoftware.brownie.component.screen.BrownieScreen
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onGoToChat: (String) -> Unit
 ) {
     BrownieScreen(
         viewModel = viewModel,

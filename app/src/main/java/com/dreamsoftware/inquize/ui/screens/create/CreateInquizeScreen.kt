@@ -11,6 +11,7 @@ import com.dreamsoftware.inquize.utils.takePicture
 @Composable
 fun CreateInquizeScreen(
     viewModel: CreateInquizeViewModel = hiltViewModel(),
+    onGoToChat: (String) -> Unit,
     onBackPressed: () -> Unit
 ) {
     val context = LocalContext.current
@@ -32,7 +33,7 @@ fun CreateInquizeScreen(
                         }
                     )
                 }
-                is CreateInquizeSideEffects.InquizeCreated -> onBackPressed()
+                is CreateInquizeSideEffects.InquizeCreated -> onGoToChat(it.id)
             }
         }
     ) { uiState ->

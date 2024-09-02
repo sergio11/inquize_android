@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.dreamsoftware.inquize.ui.screens.chat.ChatScreenArgs
 
 sealed class Screens(val route: String, arguments: List<NamedNavArgument> = emptyList()) {
 
@@ -27,6 +28,23 @@ sealed class Screens(val route: String, arguments: List<NamedNavArgument> = empt
             data object Info : Screens("info")
             data object CreateInquize : Screens("CreateInquize")
             data object Settings: Screens("settings")
+            data object Chat : Screens("chat/{inquize_id}", arguments = listOf(
+                navArgument("inquize_id") {
+                    type = NavType.StringType
+                }
+            )) {
+                fun buildRoute(inquizeId: String): String =
+                    route.replace(
+                        oldValue = "{inquize_id}",
+                        newValue = inquizeId
+                    )
+
+                fun parseArgs(args: Bundle): ChatScreenArgs? = with(args) {
+                    getString("inquize_id")?.let {
+                        ChatScreenArgs(id = it)
+                    }
+                }
+            }
         }
     }
 }

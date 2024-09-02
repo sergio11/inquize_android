@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.dreamsoftware.inquize.ui.navigation.Screens
+import com.dreamsoftware.inquize.ui.screens.chat.ChatScreen
 import com.dreamsoftware.inquize.ui.screens.create.CreateInquizeScreen
 import com.dreamsoftware.inquize.ui.screens.home.HomeScreen
 import com.dreamsoftware.inquize.ui.screens.settings.SettingsScreen
@@ -19,7 +20,11 @@ fun NavGraphBuilder.HomeNavigationGraph(
         composable(
             route = Screens.Main.Home.Info.route
         ) {
-            HomeScreen()
+            with(navController) {
+                HomeScreen(onGoToChat = {
+                    navigate(Screens.Main.Home.Chat.buildRoute(it))
+                })
+            }
         }
 
         composable(
@@ -27,10 +32,30 @@ fun NavGraphBuilder.HomeNavigationGraph(
         ) {
             with(navController) {
                 CreateInquizeScreen(
+                    onGoToChat = {
+                        navigate(Screens.Main.Home.Chat.buildRoute(it))
+                    },
                     onBackPressed = {
                         popBackStack()
                     }
                 )
+            }
+        }
+
+        composable(
+            route = Screens.Main.Home.Chat.route
+        ) { navBackStackEntry ->
+            navBackStackEntry.arguments?.let { args ->
+                Screens.Main.Home.Chat.parseArgs(args)?.let {
+                    with(navController) {
+                        ChatScreen(
+                            args = it,
+                            onBackPressed = {
+                                popBackStack()
+                            }
+                        )
+                    }
+                }
             }
         }
 
