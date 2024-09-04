@@ -44,7 +44,7 @@ class AddInquizeMessageUseCase(
 
         // Resolve the answer to the new question using the multi-modal language model
         val answer = multiModalLanguageModelRepository.resolveQuestion(ResolveQuestionBO(
-            imageUrl = inquize.imageUrl,
+            context = inquize.imageDescription,
             question = question,
             history = inquize.messages.map { it.role.name to it.text }
         ))

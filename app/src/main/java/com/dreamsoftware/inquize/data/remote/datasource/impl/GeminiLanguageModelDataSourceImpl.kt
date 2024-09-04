@@ -1,13 +1,13 @@
 package com.dreamsoftware.inquize.data.remote.datasource.impl
 
-import android.util.Log
 import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
 import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
+import com.dreamsoftware.inquize.data.remote.exception.GenerateImageDescriptionRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.ResolveQuestionFromContextRemoteDataException
 import com.dreamsoftware.inquize.utils.urlToBitmap
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.content
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -21,20 +21,18 @@ internal class GeminiLanguageModelDataSourceImpl(
         const val USER = "user"
     }
 
-    override suspend fun resolveQuestion(data: ResolveQuestionDTO): String = withContext(dispatcher) {
+    @Throws(ResolveQuestionFromContextRemoteDataException::class)
+    override suspend fun resolveQuestionFromContext(data: ResolveQuestionDTO): String = withContext(dispatcher) {
         try {
             val currentChatSession = generativeTextModel.startChat(data.history.map {
                 content(it.role) { text(it.text) }
             })
-            // Generate image description if image is provided
-            val imageDescription = generateImageDescription(data.imageUrl)
-            // Generate prompt combining the image description and the user's question
-            val prompt = generatePrompt(data.question, imageDescription)
+            // Generate prompt combining the context and the user's question
+            val prompt = generatePrompt(data.question, data.context)
             // Send the message and return the response
-           currentChatSession.sendMessage(prompt).text!!
-        } catch (exception: Exception) {
-            if (exception is CancellationException) throw exception
-            throw exception
+           currentChatSession.sendMessage(prompt).text ?: throw IllegalStateException("Answer couldn't be obtained")
+        } catch (ex: Exception) {
+            throw ResolveQuestionFromContextRemoteDataException("An error occurred when trying to resolver user question", ex)
         }
     }
 
@@ -44,16 +42,16 @@ internal class GeminiLanguageModelDataSourceImpl(
      * @param imageUrl The URL of the image for which a description needs to be generated.
      * @return A detailed description of the image, or `null` if an error occurs.
      */
-    private suspend fun generateImageDescription(imageUrl: String): String? {
-        val bitmap = imageUrl.urlToBitmap(dispatcher) ?: return null // Return null if bitmap couldn't be obtained
-        return try {
+    @Throws(GenerateImageDescriptionRemoteDataException::class)
+    override suspend fun generateImageDescription(imageUrl: String): String = withContext(dispatcher) {
+        try {
+            val bitmap = imageUrl.urlToBitmap(dispatcher) ?: throw IllegalStateException("bitmap couldn't be obtained")
             generativeMultiModalModel.generateContent(content(USER) {
                 image(bitmap)
                 text("Provide a detailed description of the contents of the image.")
-            }).text
-        } catch (exception: Exception) {
-            Log.d("ATV_CHANGES", "Error generating image description: $exception")
-            null // Return null if the description generation fails
+            }).text  ?: throw IllegalStateException("Description couldn't be obtained")
+        } catch (ex: Exception) {
+            throw GenerateImageDescriptionRemoteDataException("An error occurred when trying to generate the image description", ex)
         }
     }
 

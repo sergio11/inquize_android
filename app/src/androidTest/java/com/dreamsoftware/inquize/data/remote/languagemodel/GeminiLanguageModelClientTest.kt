@@ -23,7 +23,7 @@ class GeminiLanguageModelClientTest {
         runTest(timeout = 15.seconds) {
             val messageContents = listOf(MessageContent.Text(text = "Hi there, how are you doing?"))
             val response = geminiLanguageModelClient.apply { startNewChatSession() }
-                .resolveQuestion(messageContents).getOrThrow()
+                .resolveQuestionFromContext(messageContents).getOrThrow()
             assert(response.isNotBlank())
         }
     }
@@ -31,7 +31,7 @@ class GeminiLanguageModelClientTest {
     @Test(expected = IllegalStateException::class)
     fun sendMessageTest_attemptToSendMessageWithoutStartingNewSession_mustThrowException() =
         runTest {
-            geminiLanguageModelClient.resolveQuestion(
+            geminiLanguageModelClient.resolveQuestionFromContext(
                 listOf(MessageContent.Text(text = "Hi there, how are you doing?"))
             ).getOrThrow()
         }
@@ -45,7 +45,7 @@ class GeminiLanguageModelClientTest {
             geminiLanguageModelClient.startNewChatSession()
 
             // send message
-            val response = geminiLanguageModelClient.resolveQuestion(messageContents).getOrThrow()
+            val response = geminiLanguageModelClient.resolveQuestionFromContext(messageContents).getOrThrow()
             assert(response.isNotBlank())
 
             // end chat session
@@ -55,7 +55,7 @@ class GeminiLanguageModelClientTest {
             geminiLanguageModelClient.startNewChatSession()
 
             // send message
-            val response2 = geminiLanguageModelClient.resolveQuestion(messageContents).getOrThrow()
+            val response2 = geminiLanguageModelClient.resolveQuestionFromContext(messageContents).getOrThrow()
             assert(response2.isNotBlank())
         }
 }

@@ -6,6 +6,7 @@ data class InquizeDTO(
     val uid: String,
     val userId: String,
     val imageUrl: String,
+    val imageDescription: String,
     val createAt: Timestamp,
     val messages: List<InquizeMessageDTO>
 )

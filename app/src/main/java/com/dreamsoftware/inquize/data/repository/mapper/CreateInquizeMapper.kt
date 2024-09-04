@@ -14,6 +14,7 @@ internal class CreateInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, Creat
             uid = uid,
             userId = userId,
             imageUrl = imageUrl,
+            imageDescription = imageDescription,
             question = question,
             questionRole = InquizeMessageRoleEnum.USER.name,
             answer = answer,

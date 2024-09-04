@@ -17,3 +17,7 @@ class AddInquizeMessageRemoteDataException(message: String? = null, cause: Throw
 class FetchInquizeByIdRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class FetchAllInquizeRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class DeleteInquizeByIdRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+
+// Multimodal LLM Data Source
+class ResolveQuestionFromContextRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
+class GenerateImageDescriptionRemoteDataException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)

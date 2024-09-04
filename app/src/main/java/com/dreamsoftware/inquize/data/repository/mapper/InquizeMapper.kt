@@ -17,6 +17,7 @@ internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
             uid = uid,
             userId = userId,
             imageUrl = imageUrl,
+            imageDescription = imageDescription,
             createAt = createAt.toDate(),
             question = messages.first().text,
             messages = messages.map {

@@ -34,32 +34,38 @@ class CreateInquizeUseCase(
      * @return The newly created Inquize business object (InquizeBO).
      */
     override suspend fun onExecuted(params: Params): InquizeBO = with(params) {
-        // Generate a unique ID for the new Inquize
+        // Generate a unique ID for the Inquize entry
         val inquizeId = UUID.randomUUID().toString()
 
-        // Save the image using the image repository and get the new URL
+        // Save the image and get the new image URL
         val newImageUrl = imageRepository.save(path = imageUrl, name = inquizeId)
 
-        // Create a ResolveQuestionBO object with the new image URL and the user's question
+        // Generate a description for the image
+        val imageDescription = multiModalLanguageModelRepository.generateImageDescription(newImageUrl)
+
+        // Prepare the question for resolution
         val resolveQuestion = ResolveQuestionBO(
-            imageUrl = newImageUrl,
+            context = imageDescription,
             question = question
         )
 
-        // Get the answer from the multi-modal language model repository
+        // Resolve the question
         val answer = multiModalLanguageModelRepository.resolveQuestion(resolveQuestion)
 
-        // Retrieve the authenticated user's ID
+        // Get the authenticated user's ID
         val userId = userRepository.getUserAuthenticatedUid()
 
-        // Create the InquizeBO object with the new data and save it using the inquize repository
+        // Create the Inquize entry
         val inquizeBO = CreateInquizeBO(
             uid = inquizeId,
             userId = userId,
             imageUrl = newImageUrl,
+            imageDescription = imageDescription,
             question = question,
             answer = answer
         )
+
+        // Save the Inquize entry
         inquizeRepository.create(inquizeBO)
     }
 

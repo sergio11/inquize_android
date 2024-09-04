@@ -12,6 +12,7 @@ internal class CreateInquizeRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO
         const val UID_KEY = "uid"
         const val USER_ID_KEY = "userId"
         const val IMAGE_URL_KEY = "imageUrl"
+        const val IMAGE_DESCRIPTION_KEY = "imageDescription"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
         const val MESSAGE_ID_KEY = "uid"
@@ -24,6 +25,7 @@ internal class CreateInquizeRemoteMapper: IBrownieOneSideMapper<CreateInquizeDTO
             UID_KEY to uid,
             USER_ID_KEY to userId,
             IMAGE_URL_KEY to imageUrl,
+            IMAGE_DESCRIPTION_KEY to imageDescription,
             CREATED_AT_KEY to Timestamp(Date()),
             MESSAGES_KEY to listOf(
                 hashMapOf(

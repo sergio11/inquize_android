@@ -12,7 +12,7 @@ internal class ResolveQuestionMapper : IBrownieOneSideMapper<ResolveQuestionBO, 
     override fun mapInToOut(input: ResolveQuestionBO): ResolveQuestionDTO = with(input) {
         ResolveQuestionDTO(
             question = question,
-            imageUrl = imageUrl,
+            context = context,
             history = history.map {
                 QuestionHistoryMessageDTO(
                     role = it.first,
