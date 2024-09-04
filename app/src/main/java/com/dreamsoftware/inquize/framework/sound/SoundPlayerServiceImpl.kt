@@ -6,13 +6,12 @@ import com.dreamsoftware.inquize.domain.service.ISoundPlayerService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-
 /**
  * A concrete impl of [ISoundPlayerService] that uses the Android [MediaPlayer] to play UI sounds.
  *
  * @property context The context in which the sound should be played.
  */
-class ISoundPlayerServiceImpl @Inject constructor(
+class SoundPlayerServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ISoundPlayerService {
 

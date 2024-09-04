@@ -17,7 +17,7 @@ import kotlin.coroutines.resumeWithException
  * A [ITTSService] implementation that uses the Android [TextToSpeech] under the hood
  * to speak text.
  */
-class ITTSServiceImpl @Inject constructor(
+class TTSServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ITTSService {
 

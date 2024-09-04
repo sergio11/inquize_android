@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import androidx.compose.runtime.isTraceInProgress
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.utils.createRecognitionListener
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -13,7 +12,7 @@ import javax.inject.Inject
 /**
  * A concrete impl of [ITranscriptionService] that uses [SpeechRecognizer].
  */
-class ITranscriptionServiceImpl @Inject constructor(
+class TranscriptionServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ITranscriptionService {
 
