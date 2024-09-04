@@ -19,6 +19,7 @@ class CreateInquizeViewModel @Inject constructor(
     private val createInquizeUseCase: CreateInquizeUseCase
 ) : BrownieViewModel<CreateInquizeUiState, CreateInquizeSideEffects>(),
     CreateInquizeScreenActionListener {
+
     override fun onGetDefaultState(): CreateInquizeUiState = CreateInquizeUiState()
 
     fun onTranscribeUserQuestion(imageUrl: String) {
@@ -26,7 +27,8 @@ class CreateInquizeViewModel @Inject constructor(
         executeUseCase(
             useCase = transcribeUserQuestionUseCase,
             onSuccess = ::onListenForTranscriptionCompleted,
-            onMapExceptionToState = ::onMapExceptionToState
+            onMapExceptionToState = ::onMapExceptionToState,
+            showLoadingState = false
         )
     }
 
@@ -65,7 +67,8 @@ class CreateInquizeViewModel @Inject constructor(
         executeUseCase(
             useCase = endUserSpeechCaptureUseCase,
             onSuccess = { onResetState() },
-            onMapExceptionToState = ::onMapExceptionToState
+            onMapExceptionToState = ::onMapExceptionToState,
+            showLoadingState = false
         )
     }
 
@@ -79,6 +82,7 @@ class CreateInquizeViewModel @Inject constructor(
 
     private fun onInquizeCreatedSuccessfully(data: InquizeBO) {
         Log.d("ATV_INQUIZE_CREATED", "onInquizeCreatedSuccessfully $data")
+        onResetState()
         launchSideEffect(CreateInquizeSideEffects.InquizeCreated(data.uid))
     }
 

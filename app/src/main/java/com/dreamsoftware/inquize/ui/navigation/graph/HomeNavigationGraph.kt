@@ -33,6 +33,7 @@ fun NavGraphBuilder.HomeNavigationGraph(
             with(navController) {
                 CreateInquizeScreen(
                     onGoToChat = {
+                        popBackStack()
                         navigate(Screens.Main.Home.Chat.buildRoute(it))
                     },
                     onBackPressed = {
