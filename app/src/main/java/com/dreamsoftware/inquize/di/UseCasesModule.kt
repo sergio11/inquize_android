@@ -7,6 +7,7 @@ import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
 import com.dreamsoftware.inquize.domain.repository.IMultiModalLanguageModelRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
+import com.dreamsoftware.inquize.domain.service.ITTSService
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.domain.usecase.CreateInquizeUseCase
 import com.dreamsoftware.inquize.domain.usecase.DeleteInquizeByIdUseCase
@@ -18,6 +19,7 @@ import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignInUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignOffUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignUpUseCase
+import com.dreamsoftware.inquize.domain.usecase.TextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.VerifyUserSessionUseCase
 import com.dreamsoftware.inquize.domain.validation.IBusinessEntityValidator
 import dagger.Module
@@ -145,5 +147,14 @@ class UseCasesModule {
         GetInquizeByIdUseCase(
             userRepository = userRepository,
             inquizeRepository = inquizeRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideTextToSpeechUseCase(
+        ttsService: ITTSService
+    ): TextToSpeechUseCase =
+        TextToSpeechUseCase(
+            ttsService = ttsService
         )
 }

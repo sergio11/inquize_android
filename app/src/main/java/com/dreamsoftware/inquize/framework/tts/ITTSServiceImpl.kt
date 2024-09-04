@@ -27,28 +27,24 @@ class ITTSServiceImpl @Inject constructor(
         if (text.length > TextToSpeech.getMaxSpeechInputLength()) {
             throw IllegalArgumentException("The text length is larger than the max supported speech input length")
         }
-
         initializeTextToSpeech()
-        textToSpeech?.language = Locale.US
-        textToSpeech?.speak(text, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID)
-
-        suspendCancellableCoroutine { continuation ->
-            textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                override fun onStart(utteranceId: String?) {}
-
-                override fun onError(utteranceId: String?) {
-                    continuation.resumeWithException(Exception("An internal error occurred while attempting to speak"))
-                }
-
-                override fun onDone(utteranceId: String?) {
-                    continuation.resume(Unit)
-                }
-
-                override fun onStop(utteranceId: String?, interrupted: Boolean) {
-                    continuation.resume(Unit)
-                }
-
-            })
+        textToSpeech?.run {
+            language = Locale.US
+            speak(text, TextToSpeech.QUEUE_FLUSH, null, UTTERANCE_ID)
+            suspendCancellableCoroutine { continuation ->
+                textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                    override fun onStart(utteranceId: String?) {}
+                    override fun onError(utteranceId: String?) {
+                        continuation.resumeWithException(Exception("An internal error occurred while attempting to speak"))
+                    }
+                    override fun onDone(utteranceId: String?) {
+                        continuation.resume(Unit)
+                    }
+                    override fun onStop(utteranceId: String?, interrupted: Boolean) {
+                        continuation.resume(Unit)
+                    }
+                })
+            }
         }
     }
 
@@ -73,6 +69,6 @@ class ITTSServiceImpl @Inject constructor(
 
     private companion object {
         // utterance id is required for the UtteranceProgressListener callback to work
-        private const val UTTERANCE_ID = "perceive.tttService"
+        private const val UTTERANCE_ID = "inquize.tttService"
     }
 }

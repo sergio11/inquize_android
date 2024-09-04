@@ -8,7 +8,11 @@ import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.di.ChatErrorMapper
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
+import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
+import com.dreamsoftware.inquize.domain.usecase.TextToSpeechUseCase
+import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
+import com.dreamsoftware.inquize.ui.screens.create.CreateInquizeSideEffects
 import com.dreamsoftware.inquize.ui.screens.home.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -161,6 +165,9 @@ class ChatViewModel @Inject constructor(
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val getInquizeByIdUseCase: GetInquizeByIdUseCase,
+    private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
+    private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase,
+    private val textToSpeechUseCase: TextToSpeechUseCase,
     @ChatErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<ChatUiState, ChatSideEffects>(), ChatScreenActionListener {
 
@@ -187,15 +194,43 @@ class ChatViewModel @Inject constructor(
     }
 
     override fun onStartListening() {
-
+        if(uiState.value.isListening) {
+            onStopTranscription()
+        } else {
+            onTranscribeUserQuestion()
+        }
     }
 
     override fun onBackButtonClicked() {
         launchSideEffect(ChatSideEffects.CloseChat)
     }
 
+    private fun onTranscribeUserQuestion() {
+        updateState { it.copy(isListening = true) }
+        executeUseCase(
+            useCase = transcribeUserQuestionUseCase,
+            onSuccess = ::onListenForTranscriptionCompleted,
+            onMapExceptionToState = ::onMapExceptionToState,
+            showLoadingState = false
+        )
+    }
+
+    private fun onStopTranscription() {
+        executeUseCase(
+            useCase = endUserSpeechCaptureUseCase,
+            onSuccess = { updateState { it.copy(isListening = false) } },
+            onMapExceptionToState = ::onMapExceptionToState,
+            showLoadingState = false
+        )
+    }
+
+    private fun onListenForTranscriptionCompleted(transcription: String) {
+        updateState { it.copy(isListening = false) }
+    }
+
     private fun onGetInquizeCompletedSuccessfully(inquizeBO: InquizeBO) {
         updateState { it.copy(messageList = inquizeBO.messages) }
+        speakMessage(text = inquizeBO.messages.last().text)
     }
 
     private fun onMapExceptionToState(ex: Exception, uiState: ChatUiState) =
@@ -203,6 +238,15 @@ class ChatViewModel @Inject constructor(
             isLoading = false,
             errorMessage = errorMapper.mapToMessage(ex)
         )
+
+    private fun speakMessage(text: String) {
+        executeUseCaseWithParams(
+            useCase = textToSpeechUseCase,
+            params = TextToSpeechUseCase.Params(text),
+            onMapExceptionToState = ::onMapExceptionToState,
+            showLoadingState = false
+        )
+    }
 }
 
 
