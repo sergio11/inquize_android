@@ -11,6 +11,7 @@ import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
 import com.dreamsoftware.inquize.domain.usecase.AddInquizeMessageUseCase
 import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
+import com.dreamsoftware.inquize.domain.usecase.StopTextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.TextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -167,6 +168,7 @@ class ChatViewModel @Inject constructor(
     private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
     private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase,
     private val textToSpeechUseCase: TextToSpeechUseCase,
+    private val stopTextToSpeechUseCase: StopTextToSpeechUseCase,
     private val addInquizeMessageUseCase: AddInquizeMessageUseCase,
     @ChatErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<ChatUiState, ChatSideEffects>(), ChatScreenActionListener {
@@ -185,12 +187,15 @@ class ChatViewModel @Inject constructor(
     override fun onAssistantMutedChange(isMuted: Boolean) {
         updateState { it.copy(isAssistantMuted = isMuted) }
         //viewModelScope.launch { preferencesManager.setAssistantMutedStatus(isMuted) }
-        //if (isMuted) ITTSService.stop()
+        if (isMuted) {
+            stopSpeaking()
+        }
     }
 
     override fun onAssistantSpeechStopped() {
-        /*if (!_uiState.value.isAssistantSpeaking) return
-        ITTSService.stop()*/
+        if (uiState.value.isAssistantSpeaking) {
+            stopSpeaking()
+        }
     }
 
     override fun onStartListening() {
@@ -249,12 +254,21 @@ class ChatViewModel @Inject constructor(
         )
 
     private fun speakMessage(text: String) {
+        updateState { it.copy(isAssistantSpeaking = true) }
         executeUseCaseWithParams(
             useCase = textToSpeechUseCase,
             params = TextToSpeechUseCase.Params(text),
             onMapExceptionToState = ::onMapExceptionToState,
+            onSuccess = {
+                updateState { it.copy(isAssistantSpeaking = false) }
+            },
             showLoadingState = false
         )
+    }
+
+    private fun stopSpeaking() {
+        executeUseCase(useCase = stopTextToSpeechUseCase)
+        updateState { it.copy(isAssistantSpeaking = false) }
     }
 }
 

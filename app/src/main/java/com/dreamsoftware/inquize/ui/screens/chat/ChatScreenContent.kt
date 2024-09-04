@@ -51,6 +51,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewDynamicColors
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.dreamsoftware.brownie.component.BrownieDivider
 import com.dreamsoftware.brownie.component.BrownieIconButton
 import com.dreamsoftware.brownie.component.BrownieImageIcon
 import com.dreamsoftware.brownie.component.BrownieImageSize
@@ -138,7 +139,7 @@ fun ChatScreenContent(
                             ),
                         messageList = messageList
                     )
-                    Divider()
+                    BrownieDivider()
                     AnimatedContent(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         targetState = isAssistantResponseLoading,
@@ -151,21 +152,15 @@ fun ChatScreenContent(
                                     .size(64.dp)
                             )
                         } else if (isAssistantSpeaking) {
-                            IconButton(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .size(80.dp),
-                                onClick = {
-                                    chatScreenHaptics.provideStopAssistantSpeechHapticFeedback()
-                                    actionListener.onAssistantSpeechStopped()
-                                }
+                            BrownieIconButton(
+                                containerSize = 115.dp,
+                                iconSize = 90.dp,
+                                containerColor = onSecondary,
+                                iconRes = R.drawable.baseline_stop_circle_24,
+                                iconTintColor = secondary
                             ) {
-                                Icon(
-                                    modifier = Modifier.size(80.dp),
-                                    imageVector = ImageVector.vectorResource(R.drawable.baseline_stop_circle_24),
-                                    contentDescription = null,
-                                    tint = onPrimaryContainer
-                                )
+                                chatScreenHaptics.provideStopAssistantSpeechHapticFeedback()
+                                actionListener.onAssistantSpeechStopped()
                             }
                         } else {
                             AnimatedMicButtonWithTranscript(
@@ -231,24 +226,28 @@ private fun SoundToggleButton(
     modifier: Modifier = Modifier
 ) {
     val chatScreenHaptics = rememberChatScreenHaptics()
-    Row(
-        modifier = modifier.animateContentSize(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        BrownieIconButton(
-            containerSize = 40.dp,
-            iconRes = if(isAssistantMuted) {
-                R.drawable.baseline_volume_off_24
-            } else {
-                R.drawable.baseline_volume_up_24
-            }
+    with(MaterialTheme.colorScheme) {
+        Row(
+            modifier = modifier.animateContentSize(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            onAssistantMutedChange(!isAssistantMuted)
-            with(chatScreenHaptics) {
-                if(isAssistantMuted) {
-                    provideUnMutedHapticFeedback()
+            BrownieIconButton(
+                containerSize = 40.dp,
+                containerColor = onPrimary,
+                iconTintColor = primary,
+                iconRes = if(isAssistantMuted) {
+                    R.drawable.baseline_volume_off_24
                 } else {
-                    provideMutedHapticFeedback()
+                    R.drawable.baseline_volume_up_24
+                }
+            ) {
+                onAssistantMutedChange(!isAssistantMuted)
+                with(chatScreenHaptics) {
+                    if(isAssistantMuted) {
+                        provideUnMutedHapticFeedback()
+                    } else {
+                        provideMutedHapticFeedback()
+                    }
                 }
             }
         }

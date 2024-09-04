@@ -20,6 +20,7 @@ import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignInUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignOffUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignUpUseCase
+import com.dreamsoftware.inquize.domain.usecase.StopTextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.TextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.VerifyUserSessionUseCase
 import com.dreamsoftware.inquize.domain.validation.IBusinessEntityValidator
@@ -172,4 +173,13 @@ class UseCasesModule {
             multiModalLanguageModelRepository = multiModalLanguageModelRepository
         )
 
+
+    @Provides
+    @ViewModelScoped
+    fun provideStopTextToSpeechUseCase(
+        ttsService: ITTSService
+    ): StopTextToSpeechUseCase =
+        StopTextToSpeechUseCase(
+            ttsService = ttsService
+        )
 }
