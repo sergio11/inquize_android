@@ -6,6 +6,7 @@ import com.dreamsoftware.inquize.data.remote.datasource.IAuthRemoteDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.IImageDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.IInquizeDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
+import com.dreamsoftware.inquize.data.remote.dto.AddInquizeMessageDTO
 import com.dreamsoftware.inquize.data.remote.dto.AuthUserDTO
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
@@ -15,10 +16,12 @@ import com.dreamsoftware.inquize.data.repository.impl.ImageRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.InquizeRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.PreferenceRepositoryImpl
 import com.dreamsoftware.inquize.data.repository.impl.UserRepositoryImpl
+import com.dreamsoftware.inquize.data.repository.mapper.AddInquizeMessageMapper
 import com.dreamsoftware.inquize.data.repository.mapper.AuthUserMapper
 import com.dreamsoftware.inquize.data.repository.mapper.InquizeMapper
 import com.dreamsoftware.inquize.data.repository.mapper.ResolveQuestionMapper
 import com.dreamsoftware.inquize.data.repository.mapper.CreateInquizeMapper
+import com.dreamsoftware.inquize.domain.model.AddInquizeMessageBO
 import com.dreamsoftware.inquize.domain.model.AuthUserBO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.ResolveQuestionBO
@@ -57,6 +60,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideAddInquizeMessageMapper(): IBrownieOneSideMapper<AddInquizeMessageBO, AddInquizeMessageDTO> = AddInquizeMessageMapper()
+
+    @Provides
+    @Singleton
     fun provideUserRepository(
         authDataSource: IAuthRemoteDataSource,
         authUserMapper: IBrownieOneSideMapper<AuthUserDTO, AuthUserBO>,
@@ -84,12 +91,14 @@ class RepositoryModule {
     fun provideInquizeRepository(
         inquizeDataSource: IInquizeDataSource,
         saveInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, CreateInquizeDTO>,
+        addInquizeMapper: IBrownieOneSideMapper<AddInquizeMessageBO, AddInquizeMessageDTO>,
         inquizeMapper: IBrownieOneSideMapper<InquizeDTO, InquizeBO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IInquizeRepository =
         InquizeRepositoryImpl(
             inquizeDataSource,
             saveInquizeMapper,
+            addInquizeMapper,
             inquizeMapper,
             dispatcher
         )

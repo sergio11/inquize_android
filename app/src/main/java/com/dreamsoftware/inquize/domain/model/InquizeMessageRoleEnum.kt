@@ -9,5 +9,5 @@ enum class InquizeMessageRoleEnum {
     /**
      * Represents a message sent by the assistant.
      */
-    ASSISTANT
+    MODEL
 }

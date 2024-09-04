@@ -7,9 +7,11 @@ import com.dreamsoftware.inquize.data.remote.datasource.IInquizeDataSource
 import com.dreamsoftware.inquize.data.remote.datasource.impl.AuthRemoteDataSourceImpl
 import com.dreamsoftware.inquize.data.remote.datasource.impl.ImageDataSourceImpl
 import com.dreamsoftware.inquize.data.remote.datasource.impl.InquizeDataSourceImpl
+import com.dreamsoftware.inquize.data.remote.dto.AddInquizeMessageDTO
 import com.dreamsoftware.inquize.data.remote.dto.AuthUserDTO
 import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
+import com.dreamsoftware.inquize.data.remote.mapper.AddInquizeMessageRemoteMapper
 import com.dreamsoftware.inquize.data.remote.mapper.CreateInquizeRemoteMapper
 import com.dreamsoftware.inquize.data.remote.mapper.UserAuthenticatedMapper
 import com.dreamsoftware.inquize.data.remote.mapper.InquizeRemoteMapper
@@ -47,6 +49,10 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideSaveUserQuestionRemoteMapper(): IBrownieOneSideMapper<CreateInquizeDTO, Map<String, Any?>> = CreateInquizeRemoteMapper()
+
+    @Provides
+    @Singleton
+    fun provideAddInquizeMessageRemoteMapper(): IBrownieOneSideMapper<AddInquizeMessageDTO, List<Map<String, String>>> = AddInquizeMessageRemoteMapper()
 
     /**
      * Provides a singleton instance of FirebaseAuth.
@@ -101,11 +107,13 @@ class FirebaseModule {
     fun provideInquizeDataSource(
         firestore: FirebaseFirestore,
         saveUserQuestionMapper: IBrownieOneSideMapper<CreateInquizeDTO, Map<String, Any?>>,
+        addInquizeMessageMapper: IBrownieOneSideMapper<AddInquizeMessageDTO, List<Map<String, String>>>,
         userQuestionMapper: IBrownieOneSideMapper<Map<String, Any?>, InquizeDTO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IInquizeDataSource = InquizeDataSourceImpl(
         firestore,
         saveUserQuestionMapper,
+        addInquizeMessageMapper,
         userQuestionMapper,
         dispatcher
     )

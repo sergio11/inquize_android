@@ -9,6 +9,7 @@ import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
 import com.dreamsoftware.inquize.domain.service.ITTSService
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
+import com.dreamsoftware.inquize.domain.usecase.AddInquizeMessageUseCase
 import com.dreamsoftware.inquize.domain.usecase.CreateInquizeUseCase
 import com.dreamsoftware.inquize.domain.usecase.DeleteInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
@@ -157,4 +158,18 @@ class UseCasesModule {
         TextToSpeechUseCase(
             ttsService = ttsService
         )
+
+    @Provides
+    @ViewModelScoped
+    fun provideAddInquizeQuestionUseCase(
+        userRepository: IUserRepository,
+        inquizeRepository: IInquizeRepository,
+        multiModalLanguageModelRepository: IMultiModalLanguageModelRepository
+    ): AddInquizeMessageUseCase =
+        AddInquizeMessageUseCase(
+            userRepository = userRepository,
+            inquizeRepository = inquizeRepository,
+            multiModalLanguageModelRepository = multiModalLanguageModelRepository
+        )
+
 }

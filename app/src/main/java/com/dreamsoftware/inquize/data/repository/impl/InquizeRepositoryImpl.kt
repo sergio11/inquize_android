@@ -2,17 +2,21 @@ package com.dreamsoftware.inquize.data.repository.impl
 
 import com.dreamsoftware.brownie.utils.IBrownieOneSideMapper
 import com.dreamsoftware.inquize.data.remote.datasource.IInquizeDataSource
+import com.dreamsoftware.inquize.data.remote.dto.AddInquizeMessageDTO
 import com.dreamsoftware.inquize.data.remote.dto.CreateInquizeDTO
 import com.dreamsoftware.inquize.data.remote.dto.InquizeDTO
+import com.dreamsoftware.inquize.data.remote.exception.AddInquizeMessageRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.CreateInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.DeleteInquizeByIdRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchAllInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchInquizeByIdRemoteDataException
 import com.dreamsoftware.inquize.data.repository.impl.core.SupportRepositoryImpl
+import com.dreamsoftware.inquize.domain.exception.AddInquizeMessageException
 import com.dreamsoftware.inquize.domain.exception.DeleteInquizeByIdException
 import com.dreamsoftware.inquize.domain.exception.FetchAllInquizeException
 import com.dreamsoftware.inquize.domain.exception.FetchInquizeByIdException
 import com.dreamsoftware.inquize.domain.exception.SaveInquizeException
+import com.dreamsoftware.inquize.domain.model.AddInquizeMessageBO
 import com.dreamsoftware.inquize.domain.model.CreateInquizeBO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
@@ -21,6 +25,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 internal class InquizeRepositoryImpl(
     private val inquizeDataSource: IInquizeDataSource,
     private val saveInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, CreateInquizeDTO>,
+    private val addInquizeMapper: IBrownieOneSideMapper<AddInquizeMessageBO, AddInquizeMessageDTO>,
     private val inquizeMapper: IBrownieOneSideMapper<InquizeDTO, InquizeBO>,
     dispatcher: CoroutineDispatcher
 ): SupportRepositoryImpl(dispatcher), IInquizeRepository {
@@ -35,6 +40,19 @@ internal class InquizeRepositoryImpl(
         } catch (ex: CreateInquizeRemoteDataException) {
             ex.printStackTrace()
             throw SaveInquizeException("An error occurred when trying to save inquize", ex)
+        }
+    }
+
+    @Throws(AddInquizeMessageException::class)
+    override suspend fun addMessage(data: AddInquizeMessageBO): InquizeBO = safeExecute {
+        try {
+            with(inquizeDataSource) {
+                addMessage(addInquizeMapper.mapInToOut(data))
+                inquizeMapper.mapInToOut(fetchById(userId = data.userId, id = data.uid))
+            }
+        } catch (ex: AddInquizeMessageRemoteDataException) {
+            ex.printStackTrace()
+            throw AddInquizeMessageException("An error occurred when trying to save new message", ex)
         }
     }
 

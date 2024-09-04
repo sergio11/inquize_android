@@ -14,6 +14,7 @@ class SignInException(message: String? = null, cause: Throwable? = null): UserDa
 class SignUpException(message: String? = null, cause: Throwable? = null): UserDataException(message, cause)
 class CloseSessionException(message: String? = null, cause: Throwable? = null): UserDataException(message, cause)
 
+class AddInquizeMessageException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class SaveInquizeException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class FetchInquizeByIdException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)
 class FetchAllInquizeException(message: String? = null, cause: Throwable? = null): RemoteDataException(message, cause)

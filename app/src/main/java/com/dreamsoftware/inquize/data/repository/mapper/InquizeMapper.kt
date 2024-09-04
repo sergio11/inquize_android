@@ -22,7 +22,7 @@ internal class InquizeMapper : IBrownieOneSideMapper<InquizeDTO, InquizeBO> {
             messages = messages.map {
                 InquizeMessageBO(
                     uid = it.uid,
-                    role = enumNameOfOrDefault(it.role, InquizeMessageRoleEnum.ASSISTANT),
+                    role = enumNameOfOrDefault(it.role, InquizeMessageRoleEnum.MODEL),
                     text = it.text
                 )
             }

@@ -17,7 +17,7 @@ internal class CreateInquizeMapper: IBrownieOneSideMapper<CreateInquizeBO, Creat
             question = question,
             questionRole = InquizeMessageRoleEnum.USER.name,
             answer = answer,
-            answerRole = InquizeMessageRoleEnum.ASSISTANT.name
+            answerRole = InquizeMessageRoleEnum.MODEL.name
         )
     }
 }

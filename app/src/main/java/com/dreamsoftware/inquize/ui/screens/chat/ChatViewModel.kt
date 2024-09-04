@@ -8,12 +8,11 @@ import com.dreamsoftware.brownie.utils.EMPTY
 import com.dreamsoftware.inquize.di.ChatErrorMapper
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
+import com.dreamsoftware.inquize.domain.usecase.AddInquizeMessageUseCase
 import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.TextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
-import com.dreamsoftware.inquize.ui.screens.create.CreateInquizeSideEffects
-import com.dreamsoftware.inquize.ui.screens.home.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -168,6 +167,7 @@ class ChatViewModel @Inject constructor(
     private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
     private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase,
     private val textToSpeechUseCase: TextToSpeechUseCase,
+    private val addInquizeMessageUseCase: AddInquizeMessageUseCase,
     @ChatErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<ChatUiState, ChatSideEffects>(), ChatScreenActionListener {
 
@@ -226,10 +226,19 @@ class ChatViewModel @Inject constructor(
 
     private fun onListenForTranscriptionCompleted(transcription: String) {
         updateState { it.copy(isListening = false) }
+        executeUseCaseWithParams(
+            useCase = addInquizeMessageUseCase,
+            params = AddInquizeMessageUseCase.Params(
+                inquizeId = uiState.value.inquizeId,
+                question = transcription
+            ),
+            onSuccess = ::onGetInquizeCompletedSuccessfully,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
     }
 
     private fun onGetInquizeCompletedSuccessfully(inquizeBO: InquizeBO) {
-        updateState { it.copy(messageList = inquizeBO.messages) }
+        updateState { it.copy(inquizeId = inquizeBO.uid, messageList = inquizeBO.messages) }
         speakMessage(text = inquizeBO.messages.last().text)
     }
 
@@ -253,6 +262,7 @@ class ChatViewModel @Inject constructor(
 data class ChatUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val inquizeId: String = String.EMPTY,
     val infoMessage: String = String.EMPTY,
     val isAssistantResponseLoading: Boolean = false,
     val isAssistantMuted: Boolean = false,
