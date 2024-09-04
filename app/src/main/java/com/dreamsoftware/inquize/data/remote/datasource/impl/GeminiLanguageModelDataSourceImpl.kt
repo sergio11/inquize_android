@@ -1,19 +1,15 @@
 package com.dreamsoftware.inquize.data.remote.datasource.impl
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import com.dreamsoftware.inquize.data.remote.datasource.IMultiModalLanguageModelDataSource
 import com.dreamsoftware.inquize.data.remote.dto.ResolveQuestionDTO
+import com.dreamsoftware.inquize.utils.urlToBitmap
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 
 internal class GeminiLanguageModelDataSourceImpl(
     private val generativeTextModel: GenerativeModel,
@@ -23,15 +19,13 @@ internal class GeminiLanguageModelDataSourceImpl(
 
     private companion object {
         const val USER = "user"
-        const val MODEL = "model"
     }
 
     override suspend fun resolveQuestion(data: ResolveQuestionDTO): String = withContext(dispatcher) {
-        val currentChatSession = generativeTextModel.startChat(data.history.map {
-            content(it.role) { text(it.text) }
-        })
-        Log.d("ATV_CHANGES", "GeminiLanguageModelClient sendMessage called with question and image")
         try {
+            val currentChatSession = generativeTextModel.startChat(data.history.map {
+                content(it.role) { text(it.text) }
+            })
             // Generate image description if image is provided
             val imageDescription = generateImageDescription(data.imageUrl)
             // Generate prompt combining the image description and the user's question
@@ -39,7 +33,6 @@ internal class GeminiLanguageModelDataSourceImpl(
             // Send the message and return the response
            currentChatSession.sendMessage(prompt).text!!
         } catch (exception: Exception) {
-            Log.d("ATV_CHANGES", "GeminiLanguageModelClient exception: $exception")
             if (exception is CancellationException) throw exception
             throw exception
         }
@@ -52,7 +45,7 @@ internal class GeminiLanguageModelDataSourceImpl(
      * @return A detailed description of the image, or `null` if an error occurs.
      */
     private suspend fun generateImageDescription(imageUrl: String): String? {
-        val bitmap = getBitmapFromUrl(imageUrl) ?: return null // Return null if bitmap couldn't be obtained
+        val bitmap = imageUrl.urlToBitmap(dispatcher) ?: return null // Return null if bitmap couldn't be obtained
         return try {
             generativeMultiModalModel.generateContent(content(USER) {
                 image(bitmap)
@@ -69,17 +62,17 @@ internal class GeminiLanguageModelDataSourceImpl(
             imageDescription?.let {
                 text(
                     """
-                        |You are a highly knowledgeable and perceptive assistant. A user is showing you something 
-                        |and asking questions about it. Based on the detailed description provided below, 
-                        |generate a response as if you are physically present, observing the object alongside the user.
+                        |You are a highly knowledgeable and perceptive assistant. A user is presenting you with something 
+                        |and asking for your insights. Based on the detailed description provided below, 
+                        |generate a response as if you are physically present, observing the object together with the user.
                         |
-                        |Your answers should be conversational, engaging, and insightful. Focus on providing 
-                        |accurate and relevant information that enhances the user's understanding. Make sure 
-                        |your responses are clear and feel natural, as if you are guiding the user through 
-                        |their observations with empathy and curiosity. 
+                        |Your answers should be precise, informative, and focused. Avoid engaging in dialogue or unnecessary 
+                        |conversation. Instead, prioritize delivering accurate and relevant information that directly 
+                        |addresses the user's query.
                         |
-                        |Avoid directly referencing that you are generating responses based on a description. 
-                        |Instead, convey your expertise as if you are directly interacting with the object in real-time.
+                        |Ensure your responses are clear and feel natural, while maintaining a professional tone. 
+                        |Avoid referencing that your answers are based on a description, and respond as if you are directly 
+                        |interacting with the object in real-time, providing valuable insights.
                     """.trimMargin()
                 )
                 text(it)
@@ -87,29 +80,4 @@ internal class GeminiLanguageModelDataSourceImpl(
             text(question)
         }
 
-
-    /**
-     * Downloads a bitmap from the given [imageUrl].
-     *
-     * @param imageUrl The URL of the image to be downloaded.
-     * @return The bitmap of the downloaded image, or `null` if an error occurs.
-     */
-    private suspend fun getBitmapFromUrl(imageUrl: String): Bitmap? = withContext(dispatcher) {
-        try {
-            (URL(imageUrl).openConnection() as? HttpURLConnection)?.run {
-                requestMethod = "GET"
-                connect()
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    inputStream.use { BitmapFactory.decodeStream(it) }
-                } else {
-                    null
-                }
-            } ?: run {
-                null
-            }
-        } catch (e: IOException) {
-            Log.e("IMAGE_LOADING", "Error fetching image: $e")
-            null
-        }
-    }
 }
