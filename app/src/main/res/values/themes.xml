@@ -6,7 +6,6 @@
     <style name="Theme.App.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_icon</item>
         <item name="windowSplashScreenBackground">@color/color_primary</item>
-        <item name="windowSplashScreenAnimationDuration">800</item>
         <item name="postSplashScreenTheme">@style/Theme.Inquize</item>
         <!-- Status bar and Nav bar configs -->
         <item name="android:statusBarColor">@color/color_primary</item>
