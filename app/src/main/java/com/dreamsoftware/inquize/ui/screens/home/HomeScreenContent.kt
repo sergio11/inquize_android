@@ -32,6 +32,7 @@ import com.dreamsoftware.brownie.component.BrownieCard
 import com.dreamsoftware.brownie.component.BrownieColumnPlaceHolder
 import com.dreamsoftware.brownie.component.BrownieColumnProgressIndicator
 import com.dreamsoftware.brownie.component.BrownieDefaultTextField
+import com.dreamsoftware.brownie.component.BrownieDialog
 import com.dreamsoftware.brownie.component.BrownieIconButton
 import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieText
@@ -69,6 +70,16 @@ fun HomeScreenContent(
                     }
                 }
             }
+            BrownieDialog(
+                isVisible = confirmDeleteInquize != null,
+                mainLogoRes = R.drawable.main_logo,
+                titleRes = R.string.delete_inquize_dialog_title,
+                descriptionRes = R.string.delete_inquize_dialog_description,
+                cancelRes = R.string.delete_inquize_dialog_cancel,
+                acceptRes = R.string.delete_inquize_dialog_accept,
+                onCancelClicked = actionListener::onDeleteInquizeCancelled,
+                onAcceptClicked = actionListener::onDeleteInquizeConfirmed,
+            )
             BrownieScreenContent(
                 hasTopBar = false,
                 infoMessage = infoMessage,
@@ -190,7 +201,7 @@ private fun InquizeList(
                                 iconTintColor = primary,
                                 iconRes = R.drawable.ic_delete_inquize
                             ) {
-
+                                actionListener.onInquizeDeleted(inquize)
                             }
                         }
                         BrownieText(
