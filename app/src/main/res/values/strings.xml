@@ -82,4 +82,8 @@
     <string name="delete_inquize_dialog_description">Are you sure you want to delete this Inquize? This action cannot be undone.</string>
     <string name="delete_inquize_dialog_cancel">Cancel</string>
     <string name="delete_inquize_dialog_accept">Delete</string>
+
+    <!-- Inquize Detail -->
+    <string name="inquize_detail_open_chat_text">Open Chat</string>
+    <string name="inquize_detail_delete_button_text">Delete Inquize</string>
 </resources>

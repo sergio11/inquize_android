@@ -11,7 +11,7 @@ internal class InquizeRemoteMapper: IBrownieOneSideMapper<Map<String, Any?>, Inq
         const val UID_KEY = "uid"
         const val USER_ID_KEY = "userId"
         const val IMAGE_URL_KEY = "imageUrl"
-        const val IMAGE_DESCRIPTION_KEY = "imageUrl"
+        const val IMAGE_DESCRIPTION_KEY = "imageDescription"
         const val CREATED_AT_KEY = "createdAt"
         const val MESSAGES_KEY = "messages"
         const val MESSAGE_ID_KEY = "uid"

@@ -45,7 +45,7 @@ fun AnimatedMicButton(
     modifier: Modifier = Modifier
 ) {
     with(MaterialTheme.colorScheme) {
-        val infiniteTransition = rememberInfiniteTransition(label = "")
+        val infiniteTransition = rememberInfiniteTransition(label = String.EMPTY)
         val animatedCurrentRotationDegrees by infiniteTransition.animateFloat(
             label = String.EMPTY,
             initialValue = 0f,
