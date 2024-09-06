@@ -7,6 +7,7 @@ import com.dreamsoftware.brownie.component.screen.BrownieScreen
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
+    onGoToDetail: (String) -> Unit,
     onGoToChat: (String) -> Unit
 ) {
     BrownieScreen(
@@ -15,7 +16,8 @@ fun HomeScreen(
         onInit = { loadData() },
         onSideEffect = {
             when(it) {
-                is HomeSideEffects.OpenInquizeDetail -> onGoToChat(it.id)
+                is HomeSideEffects.OpenInquizeChat -> onGoToChat(it.id)
+                is HomeSideEffects.OpenInquizeDetail -> onGoToDetail(it.id)
             }
         }
     ) { uiState ->

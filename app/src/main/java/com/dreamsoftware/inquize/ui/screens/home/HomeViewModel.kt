@@ -30,6 +30,10 @@ class HomeViewModel @Inject constructor(
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
 
     override fun onInquizeClicked(inquizeBO: InquizeBO) {
+        launchSideEffect(HomeSideEffects.OpenInquizeChat(inquizeBO.uid))
+    }
+
+    override fun onInquizeDetailClicked(inquizeBO: InquizeBO) {
         launchSideEffect(HomeSideEffects.OpenInquizeDetail(inquizeBO.uid))
     }
 
@@ -97,4 +101,5 @@ data class HomeUiState(
 
 sealed interface HomeSideEffects: SideEffect {
     data class OpenInquizeDetail(val id: String): HomeSideEffects
+    data class OpenInquizeChat(val id: String): HomeSideEffects
 }

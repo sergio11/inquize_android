@@ -1,0 +1,5 @@
+package com.dreamsoftware.inquize.ui.screens.detail
+
+import com.dreamsoftware.brownie.core.IBrownieScreenActionListener
+
+interface InquizeDetailScreenActionListener: IBrownieScreenActionListener

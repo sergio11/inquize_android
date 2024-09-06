@@ -192,7 +192,7 @@ private fun InquizeList(
                                 iconTintColor = primary,
                                 iconRes = R.drawable.ic_detail
                             ) {
-
+                                actionListener.onInquizeDetailClicked(inquize)
                             }
                             Spacer(modifier = Modifier.width(8.dp))
                             BrownieIconButton(
