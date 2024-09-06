@@ -184,7 +184,7 @@ private fun InquizeList(
                                 .background(secondary.copy(0.3f))
                                 .fillMaxWidth()
                                 .padding(horizontal = 15.dp, vertical = 10.dp),
-                            horizontalArrangement = Arrangement.End
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             BrownieIconButton(
                                 containerSize = 40.dp,
@@ -194,7 +194,6 @@ private fun InquizeList(
                             ) {
                                 actionListener.onInquizeDetailClicked(inquize)
                             }
-                            Spacer(modifier = Modifier.width(8.dp))
                             BrownieIconButton(
                                 containerSize = 40.dp,
                                 containerColor = onPrimary,

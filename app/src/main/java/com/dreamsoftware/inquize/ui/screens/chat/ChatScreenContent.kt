@@ -3,6 +3,7 @@ package com.dreamsoftware.inquize.ui.screens.chat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
@@ -77,7 +78,7 @@ fun ChatScreenContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
+                        .padding(horizontal = 14.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -86,9 +87,9 @@ fun ChatScreenContent(
                             actionListener.onBackButtonClicked()
                         },
                         type = BrownieType.ICON,
-                        size = BrownieImageSize.LARGE,
-                        iconRes = R.drawable.icon_arrow_left,
-                        tintColor = Color.White
+                        size = BrownieImageSize.NORMAL,
+                        iconRes = R.drawable.ic_back,
+                        tintColor = onPrimary
                     )
                     Image(
                         painter = painterResource(id = R.drawable.main_logo_inverse),
@@ -121,15 +122,17 @@ fun ChatScreenContent(
                             ),
                         messageList = messageList
                     )
-                    BrownieDivider()
+                    BrownieDivider(color = primary)
                     AnimatedContent(
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally),
                         targetState = isAssistantResponseLoading,
                         label = String.EMPTY
                     ) { isResponseLoading ->
                         if (isResponseLoading) {
                             CircularProgressIndicator(
                                 modifier = Modifier
+                                    .background(secondary)
                                     .padding(16.dp)
                                     .size(64.dp)
                             )
@@ -204,32 +207,26 @@ private fun ChatMessagesList(
 @Composable
 private fun SoundToggleButton(
     isAssistantMuted: Boolean,
-    onAssistantMutedChange: (isMuted: Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    onAssistantMutedChange: (isMuted: Boolean) -> Unit
 ) {
     val chatScreenHaptics = rememberChatScreenHaptics()
     with(MaterialTheme.colorScheme) {
-        Row(
-            modifier = modifier.animateContentSize(),
-            verticalAlignment = Alignment.CenterVertically
+        BrownieIconButton(
+            containerSize = 40.dp,
+            containerColor = onPrimary,
+            iconTintColor = primary,
+            iconRes = if(isAssistantMuted) {
+                R.drawable.baseline_volume_off_24
+            } else {
+                R.drawable.baseline_volume_up_24
+            }
         ) {
-            BrownieIconButton(
-                containerSize = 40.dp,
-                containerColor = onPrimary,
-                iconTintColor = primary,
-                iconRes = if(isAssistantMuted) {
-                    R.drawable.baseline_volume_off_24
+            onAssistantMutedChange(!isAssistantMuted)
+            with(chatScreenHaptics) {
+                if(isAssistantMuted) {
+                    provideUnMutedHapticFeedback()
                 } else {
-                    R.drawable.baseline_volume_up_24
-                }
-            ) {
-                onAssistantMutedChange(!isAssistantMuted)
-                with(chatScreenHaptics) {
-                    if(isAssistantMuted) {
-                        provideUnMutedHapticFeedback()
-                    } else {
-                        provideMutedHapticFeedback()
-                    }
+                    provideMutedHapticFeedback()
                 }
             }
         }
