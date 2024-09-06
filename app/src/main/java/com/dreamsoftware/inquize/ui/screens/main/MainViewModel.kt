@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(): BrownieViewModel<MainUiState, MainSid
         ),
         BottomNavBarItem(
             route = Screens.Main.Home.CreateInquize.route,
-            icon = R.drawable.icon_add,
+            icon = R.drawable.ic_add_inquize,
             titleRes = R.string.create_inquize
         ),
         BottomNavBarItem(

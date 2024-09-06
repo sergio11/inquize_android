@@ -6,10 +6,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -24,11 +26,13 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.brownie.component.BrownieCard
 import com.dreamsoftware.brownie.component.BrownieColumnPlaceHolder
 import com.dreamsoftware.brownie.component.BrownieColumnProgressIndicator
 import com.dreamsoftware.brownie.component.BrownieDefaultTextField
+import com.dreamsoftware.brownie.component.BrownieIconButton
 import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieText
 import com.dreamsoftware.brownie.component.BrownieTextTypeEnum
@@ -114,7 +118,7 @@ fun HomeScreenContent(
                     } else if (inquizeList.isEmpty()) {
                         BrownieColumnPlaceHolder(
                             titleRes = R.string.nothing_found,
-                            iconRes = R.drawable.img_empty_box
+                            iconRes = R.drawable.ic_placeholder
                         )
                     } else {
                         InquizeList(
@@ -164,13 +168,40 @@ private fun InquizeList(
                             modifier = Modifier.fillMaxSize(),
                             imageUrl = inquize.imageUrl
                         )
+                        Row(
+                            modifier = Modifier
+                                .background(secondary.copy(0.3f))
+                                .fillMaxWidth()
+                                .padding(horizontal = 15.dp, vertical = 10.dp),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            BrownieIconButton(
+                                containerSize = 40.dp,
+                                containerColor = onPrimary,
+                                iconTintColor = primary,
+                                iconRes = R.drawable.ic_detail
+                            ) {
+
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            BrownieIconButton(
+                                containerSize = 40.dp,
+                                containerColor = onPrimary,
+                                iconTintColor = primary,
+                                iconRes = R.drawable.ic_delete_inquize
+                            ) {
+
+                            }
+                        }
                         BrownieText(
                             modifier = Modifier
                                 .background(secondary)
-                                .padding(horizontal = 10.dp, vertical = 8.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 15.dp, vertical = 20.dp)
                                 .align(Alignment.BottomStart),
                             type = BrownieTextTypeEnum.LABEL_MEDIUM,
                             titleText = inquize.question,
+                            textAlign = TextAlign.Center,
                             maxLines = 2,
                             textBold = true,
                             textColor = onSecondary

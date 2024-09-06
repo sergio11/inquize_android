@@ -18,6 +18,6 @@ fun CommonInquizeImage(
             .aspectRatio(1f),
         context = context,
         imageUrl = imageUrl,
-        defaultImagePlaceholderRes = R.drawable.main_logo_inverse
+        defaultImagePlaceholderRes = R.drawable.ic_placeholder
     )
 }
