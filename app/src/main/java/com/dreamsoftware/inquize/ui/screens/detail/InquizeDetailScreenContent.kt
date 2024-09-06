@@ -13,11 +13,12 @@ import androidx.compose.ui.unit.dp
 import com.dreamsoftware.brownie.component.BrownieButton
 import com.dreamsoftware.brownie.component.BrownieButtonStyleTypeEnum
 import com.dreamsoftware.brownie.component.BrownieButtonTypeEnum
+import com.dreamsoftware.brownie.component.BrownieDetailScreen
 import com.dreamsoftware.brownie.component.BrownieDialog
 import com.dreamsoftware.brownie.component.BrownieText
 import com.dreamsoftware.brownie.component.BrownieTextTypeEnum
 import com.dreamsoftware.inquize.R
-import com.dreamsoftware.inquize.ui.components.CommonDetailScreen
+import com.dreamsoftware.inquize.ui.components.LoadingDialog
 
 @Composable
 internal fun InquizeDetailScreenContent(
@@ -28,6 +29,7 @@ internal fun InquizeDetailScreenContent(
     actionListener: InquizeDetailScreenActionListener
 ) {
     with(uiState) {
+        LoadingDialog(isShowingDialog = isLoading)
         BrownieDialog(
             isVisible = showDeleteInquizeDialog,
             mainLogoRes = R.drawable.main_logo,
@@ -38,7 +40,7 @@ internal fun InquizeDetailScreenContent(
             onCancelClicked = actionListener::onDeleteInquizeCancelled,
             onAcceptClicked = actionListener::onDeleteInquizeConfirmed,
         )
-        CommonDetailScreen(
+        BrownieDetailScreen(
             context = context,
             errorMessage = errorMessage,
             infoMessage = infoMessage,
@@ -48,6 +50,7 @@ internal fun InquizeDetailScreenContent(
             title = title,
             scrollState = scrollState,
             defaultImagePlaceholderRes = R.drawable.ic_placeholder,
+            backIconRes = R.drawable.ic_back,
             onBackClicked = actionListener::onBackPressed
         ) {
             BrownieText(

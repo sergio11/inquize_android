@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
@@ -44,7 +45,6 @@ import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieType
 import com.dreamsoftware.brownie.component.screen.BrownieScreenContent
 import com.dreamsoftware.brownie.utils.EMPTY
-import com.dreamsoftware.brownie.utils.clickWithRipple
 import com.dreamsoftware.inquize.R
 import com.dreamsoftware.inquize.domain.model.InquizeMessageBO
 import com.dreamsoftware.inquize.domain.model.InquizeMessageRoleEnum
@@ -83,7 +83,7 @@ fun ChatScreenContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     BrownieImageIcon(
-                        modifier = Modifier.clickWithRipple {
+                        modifier = Modifier.clickable {
                             actionListener.onBackButtonClicked()
                         },
                         type = BrownieType.ICON,
