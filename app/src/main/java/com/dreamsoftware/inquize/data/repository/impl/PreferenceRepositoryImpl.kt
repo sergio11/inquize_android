@@ -34,6 +34,24 @@ internal class PreferenceRepositoryImpl(
     }
 
     @Throws(PreferenceDataException::class)
+    override suspend fun setAssistantMutedStatus(isMuted: Boolean): Unit = safeExecute {
+        try {
+            preferenceDataSource.setAssistantMutedStatus(isMuted)
+        } catch (ex: Exception) {
+            throw PreferenceDataException("An error occurred when trying to set assistant muted status", ex)
+        }
+    }
+
+    @Throws(PreferenceDataException::class)
+    override suspend fun isAssistantMuted(): Boolean = safeExecute {
+        try {
+            preferenceDataSource.isAssistantMuted()
+        } catch (ex: Exception) {
+            throw PreferenceDataException("An error occurred when trying to get assistant muted status", ex)
+        }
+    }
+
+    @Throws(PreferenceDataException::class)
     override suspend fun clearData() = safeExecute {
         try {
             preferenceDataSource.clearData()

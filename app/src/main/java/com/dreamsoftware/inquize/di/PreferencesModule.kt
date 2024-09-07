@@ -11,6 +11,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -34,11 +35,13 @@ class PreferencesModule {
     /**
      * Provide Preference DataSource
      * @param dataStore
+     * @param dispatcher
      */
     @Singleton
     @Provides
     fun providePreferenceDataSource(
-        dataStore: DataStore<Preferences>
+        dataStore: DataStore<Preferences>,
+        @IoDispatcher dispatcher: CoroutineDispatcher
     ): IPreferencesDataSource =
-        PreferencesDataSourceImpl(dataStore)
+        PreferencesDataSourceImpl(dataStore, dispatcher)
 }

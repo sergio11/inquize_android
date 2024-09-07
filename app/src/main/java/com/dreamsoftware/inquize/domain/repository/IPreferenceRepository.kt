@@ -11,5 +11,11 @@ interface IPreferenceRepository {
     suspend fun getAuthUserUid(): String
 
     @Throws(PreferenceDataException::class)
+    suspend fun setAssistantMutedStatus(isMuted: Boolean)
+
+    @Throws(PreferenceDataException::class)
+    suspend fun isAssistantMuted(): Boolean
+
+    @Throws(PreferenceDataException::class)
     suspend fun clearData()
 }

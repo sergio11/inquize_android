@@ -7,6 +7,7 @@ import com.dreamsoftware.inquize.domain.repository.IInquizeRepository
 import com.dreamsoftware.inquize.domain.repository.IMultiModalLanguageModelRepository
 import com.dreamsoftware.inquize.domain.repository.IPreferenceRepository
 import com.dreamsoftware.inquize.domain.repository.IUserRepository
+import com.dreamsoftware.inquize.domain.service.ISoundPlayerService
 import com.dreamsoftware.inquize.domain.service.ITTSService
 import com.dreamsoftware.inquize.domain.service.ITranscriptionService
 import com.dreamsoftware.inquize.domain.usecase.AddInquizeMessageUseCase
@@ -15,6 +16,7 @@ import com.dreamsoftware.inquize.domain.usecase.DeleteInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
 import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAllInquizeByUserUseCase
+import com.dreamsoftware.inquize.domain.usecase.GetAssistantMutedStatusUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAuthenticateUserDetailUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignInUseCase
@@ -22,6 +24,7 @@ import com.dreamsoftware.inquize.domain.usecase.SignOffUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignUpUseCase
 import com.dreamsoftware.inquize.domain.usecase.StopTextToSpeechUseCase
 import com.dreamsoftware.inquize.domain.usecase.TextToSpeechUseCase
+import com.dreamsoftware.inquize.domain.usecase.UpdateAssistantMutedStatusUseCase
 import com.dreamsoftware.inquize.domain.usecase.VerifyUserSessionUseCase
 import com.dreamsoftware.inquize.domain.validation.IBusinessEntityValidator
 import dagger.Module
@@ -181,5 +184,27 @@ class UseCasesModule {
     ): StopTextToSpeechUseCase =
         StopTextToSpeechUseCase(
             ttsService = ttsService
+        )
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideUpdateAssistantMutedStatusUseCase(
+        preferencesRepository: IPreferenceRepository,
+        soundPlayerService: ISoundPlayerService
+    ): UpdateAssistantMutedStatusUseCase =
+        UpdateAssistantMutedStatusUseCase(
+            preferencesRepository = preferencesRepository,
+            soundPlayerService = soundPlayerService
+        )
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetAssistantMutedStatusUseCase(
+        preferencesRepository: IPreferenceRepository
+    ): GetAssistantMutedStatusUseCase =
+        GetAssistantMutedStatusUseCase(
+            preferencesRepository = preferencesRepository
         )
 }
