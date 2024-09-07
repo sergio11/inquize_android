@@ -34,7 +34,7 @@ fun SettingsScreenContent(
         with(MaterialTheme.colorScheme) {
             BrownieDialog(
                 isVisible = showCloseSessionDialog,
-                mainLogoRes = R.drawable.main_logo_inverse,
+                mainLogoRes = R.drawable.main_logo,
                 titleRes = R.string.close_session_dialog_title,
                 descriptionRes = R.string.close_session_dialog_description,
                 cancelRes = R.string.close_session_dialog_cancel,
@@ -42,9 +42,7 @@ fun SettingsScreenContent(
                 onCancelClicked = {
                     actionListener.onUpdateCloseSessionDialogVisibility(isVisible = false)
                 },
-                onAcceptClicked = {
-                    actionListener.onCloseSession()
-                }
+                onAcceptClicked = actionListener::onCloseSession
             )
 
             BrownieScreenContent(

@@ -5,6 +5,8 @@ import androidx.annotation.StringRes
 import com.dreamsoftware.brownie.core.BrownieViewModel
 import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
+import com.dreamsoftware.brownie.utils.BrownieEventBus
+import com.dreamsoftware.inquize.AppEvent
 import com.dreamsoftware.inquize.R
 import com.dreamsoftware.inquize.domain.model.AuthUserBO
 import com.dreamsoftware.inquize.domain.usecase.GetAuthenticateUserDetailUseCase
@@ -16,6 +18,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val signOffUseCase: SignOffUseCase,
     private val getAuthenticateUserDetailUseCase: GetAuthenticateUserDetailUseCase,
+    private val brownieEventBus: BrownieEventBus
 ) : BrownieViewModel<SettingsUiState, SettingsUiSideEffects>(), SettingsScreenActionListener {
 
     override fun onGetDefaultState(): SettingsUiState = SettingsUiState(
@@ -48,6 +51,7 @@ class SettingsViewModel @Inject constructor(
     override fun onCloseSession() {
         onUpdateCloseSessionDialogVisibility(isVisible = false)
         executeUseCase(useCase = signOffUseCase)
+        brownieEventBus.send(AppEvent.SignOff)
     }
 
     private fun buildItems() = buildList {

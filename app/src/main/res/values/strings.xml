@@ -86,4 +86,9 @@
     <!-- Inquize Detail -->
     <string name="inquize_detail_open_chat_text">Open Chat</string>
     <string name="inquize_detail_delete_button_text">Delete Inquize</string>
+
+    <!-- Network Connection Lost Dialog -->
+    <string name="generic_lost_network_connectivity_dialog_title">Network Connection Lost</string>
+    <string name="generic_lost_network_connectivity_dialog_description">It seems that your device has lost network connectivity. Please check your connection settings.</string>
+    <string name="generic_lost_network_connectivity_dialog_open_settings_button_text">Open Settings</string>
 </resources>
