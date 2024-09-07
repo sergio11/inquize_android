@@ -86,10 +86,12 @@ class FirebaseModule {
     @Singleton
     fun provideAuthRemoteDataSource(
         userAuthenticatedMapper: IBrownieOneSideMapper<FirebaseUser, AuthUserDTO>,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
+        @IoDispatcher dispatcher: CoroutineDispatcher
     ): IAuthRemoteDataSource = AuthRemoteDataSourceImpl(
         userAuthenticatedMapper,
-        firebaseAuth
+        firebaseAuth,
+        dispatcher
     )
 
     @Provides

@@ -13,9 +13,11 @@ abstract class SupportRepositoryImpl(
             block()
         }
         catch (ex: DomainRepositoryException) {
+            ex.printStackTrace()
             throw ex
         }
         catch (ex: Exception) {
+            ex.printStackTrace()
             throw RepositoryOperationException("Failed to execute operation", ex)
         }
     }

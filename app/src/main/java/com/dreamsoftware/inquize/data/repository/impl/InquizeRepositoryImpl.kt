@@ -10,12 +10,14 @@ import com.dreamsoftware.inquize.data.remote.exception.CreateInquizeRemoteDataEx
 import com.dreamsoftware.inquize.data.remote.exception.DeleteInquizeByIdRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchAllInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchInquizeByIdRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.SearchInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.repository.impl.core.SupportRepositoryImpl
 import com.dreamsoftware.inquize.domain.exception.AddInquizeMessageException
 import com.dreamsoftware.inquize.domain.exception.DeleteInquizeByIdException
 import com.dreamsoftware.inquize.domain.exception.FetchAllInquizeException
 import com.dreamsoftware.inquize.domain.exception.FetchInquizeByIdException
 import com.dreamsoftware.inquize.domain.exception.SaveInquizeException
+import com.dreamsoftware.inquize.domain.exception.SearchInquizeException
 import com.dreamsoftware.inquize.domain.model.AddInquizeMessageBO
 import com.dreamsoftware.inquize.domain.model.CreateInquizeBO
 import com.dreamsoftware.inquize.domain.model.InquizeBO
@@ -29,6 +31,18 @@ internal class InquizeRepositoryImpl(
     private val inquizeMapper: IBrownieOneSideMapper<InquizeDTO, InquizeBO>,
     dispatcher: CoroutineDispatcher
 ): SupportRepositoryImpl(dispatcher), IInquizeRepository {
+
+    @Throws(SearchInquizeException::class)
+    override suspend fun search(userId: String, term: String): List<InquizeBO> = safeExecute {
+        try {
+            inquizeDataSource.search(userId, term)
+                .let(inquizeMapper::mapInListToOutList)
+                .toList()
+        } catch (ex: SearchInquizeRemoteDataException) {
+            ex.printStackTrace()
+            throw SearchInquizeException("An error occurred when searching content", ex)
+        }
+    }
 
     @Throws(SaveInquizeException::class)
     override suspend fun create(data: CreateInquizeBO): InquizeBO = safeExecute {

@@ -8,8 +8,12 @@ import com.dreamsoftware.inquize.data.remote.exception.DeleteInquizeByIdRemoteDa
 import com.dreamsoftware.inquize.data.remote.exception.FetchAllInquizeRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.FetchInquizeByIdRemoteDataException
 import com.dreamsoftware.inquize.data.remote.exception.CreateInquizeRemoteDataException
+import com.dreamsoftware.inquize.data.remote.exception.SearchInquizeRemoteDataException
 
 interface IInquizeDataSource {
+
+    @Throws(SearchInquizeRemoteDataException::class)
+    suspend fun search(userId: String, term: String): List<InquizeDTO>
 
     @Throws(CreateInquizeRemoteDataException::class)
     suspend fun create(data: CreateInquizeDTO)
