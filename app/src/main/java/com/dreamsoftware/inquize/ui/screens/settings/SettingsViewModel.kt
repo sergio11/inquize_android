@@ -1,7 +1,6 @@
 package com.dreamsoftware.inquize.ui.screens.settings
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import com.dreamsoftware.brownie.component.BrownieSettingsItemVO
 import com.dreamsoftware.brownie.core.BrownieViewModel
 import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
@@ -40,7 +39,7 @@ class SettingsViewModel @Inject constructor(
         updateState { it.copy(showCloseSessionDialog = isVisible) }
     }
 
-    override fun onSettingItemClicked(item: SettingsItem) {
+    override fun onSettingItemClicked(item: BrownieSettingsItemVO) {
         when(item) {
             AboutItem -> onUpdateSheetVisibility(isVisible = true)
             LogoutItem -> onUpdateCloseSessionDialogVisibility(isVisible = true)
@@ -70,29 +69,16 @@ data class SettingsUiState(
     override val errorMessage: String? = null,
     val showSheet: Boolean = false,
     val showCloseSessionDialog: Boolean = false,
-    val items: List<SettingsItem> = emptyList(),
+    val items: List<BrownieSettingsItemVO> = emptyList(),
     val authUserBO: AuthUserBO? = null
 ): UiState<SettingsUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): SettingsUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
 }
 
-abstract class SettingsItem(
-    @StringRes open val textRes: Int,
-    @DrawableRes open val icon: Int,
-    open val isDanger: Boolean = false
-)
-
-abstract class SettingsItemSwitch(
-    val isEnabled: Boolean,
-    override val textRes: Int,
-    override val icon: Int,
-    override val isDanger: Boolean
-): SettingsItem(textRes, icon, isDanger)
-
-data object ShareItem: SettingsItem(textRes = R.string.settings_screen_share, icon = R.drawable.icon_share)
-data object AboutItem: SettingsItem(textRes = R.string.settings_screen_about, icon = R.drawable.icon_info)
-data object LogoutItem: SettingsItem(textRes = R.string.settings_screen_logout, icon = R.drawable.icon_logout, isDanger = true)
+data object ShareItem: BrownieSettingsItemVO(textRes = R.string.settings_screen_share, icon = R.drawable.icon_share)
+data object AboutItem: BrownieSettingsItemVO(textRes = R.string.settings_screen_about, icon = R.drawable.icon_info)
+data object LogoutItem: BrownieSettingsItemVO(textRes = R.string.settings_screen_logout, icon = R.drawable.icon_logout, isDanger = true)
 
 sealed interface SettingsUiSideEffects: SideEffect {
     data object ShareApp: SettingsUiSideEffects

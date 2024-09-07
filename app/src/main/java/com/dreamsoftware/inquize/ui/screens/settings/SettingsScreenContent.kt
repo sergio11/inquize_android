@@ -17,12 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.brownie.component.BrownieBottomSheet
 import com.dreamsoftware.brownie.component.BrownieDialog
+import com.dreamsoftware.brownie.component.BrownieSettingsItemRow
 import com.dreamsoftware.brownie.component.BrownieSheetSurface
 import com.dreamsoftware.brownie.component.BrownieText
 import com.dreamsoftware.brownie.component.BrownieTextTypeEnum
 import com.dreamsoftware.brownie.component.screen.BrownieScreenContent
 import com.dreamsoftware.inquize.R
-import com.dreamsoftware.inquize.ui.screens.settings.components.SettingsItemRow
 import com.dreamsoftware.inquize.ui.screens.settings.components.UserProfileRow
 
 @Composable
@@ -74,7 +74,7 @@ fun SettingsScreenContent(
                             )
                     )
                     items.forEach {
-                        SettingsItemRow(
+                        BrownieSettingsItemRow(
                             item = it,
                             onClicked = actionListener::onSettingItemClicked
                         )
