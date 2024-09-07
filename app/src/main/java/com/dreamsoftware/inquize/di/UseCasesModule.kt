@@ -19,6 +19,7 @@ import com.dreamsoftware.inquize.domain.usecase.GetAllInquizeByUserUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAssistantMutedStatusUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAuthenticateUserDetailUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
+import com.dreamsoftware.inquize.domain.usecase.SearchInquizeUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignInUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignOffUseCase
 import com.dreamsoftware.inquize.domain.usecase.SignUpUseCase
@@ -198,7 +199,6 @@ class UseCasesModule {
             soundPlayerService = soundPlayerService
         )
 
-
     @Provides
     @ViewModelScoped
     fun provideGetAssistantMutedStatusUseCase(
@@ -207,4 +207,18 @@ class UseCasesModule {
         GetAssistantMutedStatusUseCase(
             preferencesRepository = preferencesRepository
         )
+
+    @Provides
+    @ViewModelScoped
+    fun provideSearchInquizeUseCase(
+        userRepository: IUserRepository,
+        inquizeRepository: IInquizeRepository,
+    ): SearchInquizeUseCase =
+        SearchInquizeUseCase(
+            userRepository = userRepository,
+            inquizeRepository = inquizeRepository
+        )
+
+
+
 }

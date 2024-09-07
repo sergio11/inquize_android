@@ -129,7 +129,7 @@ fun HomeScreenContent(
                     } else if (inquizeList.isEmpty()) {
                         BrownieColumnPlaceHolder(
                             titleRes = R.string.nothing_found,
-                            iconRes = R.drawable.ic_placeholder
+                            iconRes = R.drawable.ic_no_data_found
                         )
                     } else {
                         InquizeList(

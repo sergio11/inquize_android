@@ -68,8 +68,8 @@
     <string name="share_message">Discover Inquize! Your personal AI guide for asking questions and getting insightful answers. Join me on this journey!</string>
 
     <!-- Home -->
-    <string name="home_search_text_input_label">Find Inquize</string>
-    <string name="home_search_text_input_placeholder">Search your questions…</string>
+    <string name="home_search_text_input_label">Find an Inquize</string>
+    <string name="home_search_text_input_placeholder">Search your Inquize…</string>
 
     <!-- Create Inquize -->
     <string name="create_inquize_save_button_text">Save My Inquiry</string>

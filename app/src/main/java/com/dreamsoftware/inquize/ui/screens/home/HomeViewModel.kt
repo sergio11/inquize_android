@@ -9,6 +9,7 @@ import com.dreamsoftware.inquize.di.HomeErrorMapper
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.usecase.DeleteInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetAllInquizeByUserUseCase
+import com.dreamsoftware.inquize.domain.usecase.SearchInquizeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,15 +17,12 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getAllInquizeByUserUseCase: GetAllInquizeByUserUseCase,
     private val deleteInquizeByIdUseCase: DeleteInquizeByIdUseCase,
+    private val searchInquizeUseCase: SearchInquizeUseCase,
     @HomeErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<HomeUiState, HomeSideEffects>(), HomeScreenActionListener {
 
     fun loadData() {
-        executeUseCase(
-            useCase = getAllInquizeByUserUseCase,
-            onSuccess = ::onLoadInquizeCompleted,
-            onMapExceptionToState = ::onMapExceptionToState
-        )
+        onLoadData()
     }
 
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
@@ -39,6 +37,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onSearchQueryUpdated(newSearchQuery: String) {
         updateState { it.copy(searchQuery = newSearchQuery) }
+        onLoadData()
     }
 
     override fun onInquizeDeleted(inquizeBO: InquizeBO) {
@@ -46,19 +45,21 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onDeleteInquizeConfirmed() {
-        uiState.value.confirmDeleteInquize?.let { inquize ->
-            executeUseCaseWithParams(
-                useCase = deleteInquizeByIdUseCase,
-                params = DeleteInquizeByIdUseCase.Params(
-                    id = inquize.uid
-                ),
-                onSuccess = {
-                    onDeleteInquizeCompleted(inquize)
-                },
-                onMapExceptionToState = ::onMapExceptionToState
-            )
+        doOnUiState {
+            confirmDeleteInquize?.let { inquize ->
+                executeUseCaseWithParams(
+                    useCase = deleteInquizeByIdUseCase,
+                    params = DeleteInquizeByIdUseCase.Params(
+                        id = inquize.uid
+                    ),
+                    onSuccess = {
+                        onDeleteInquizeCompleted(inquize)
+                    },
+                    onMapExceptionToState = ::onMapExceptionToState
+                )
+            }
+            updateState { it.copy(confirmDeleteInquize = null) }
         }
-        updateState { it.copy(confirmDeleteInquize = null) }
     }
 
     override fun onDeleteInquizeCancelled() {
@@ -76,6 +77,25 @@ class HomeViewModel @Inject constructor(
     private fun onLoadInquizeCompleted(data: List<InquizeBO>) {
         updateState {
             it.copy(inquizeList = data)
+        }
+    }
+
+    private fun onLoadData() {
+        doOnUiState {
+            if(searchQuery.isEmpty()) {
+                executeUseCase(
+                    useCase = getAllInquizeByUserUseCase,
+                    onSuccess = ::onLoadInquizeCompleted,
+                    onMapExceptionToState = ::onMapExceptionToState
+                )
+            } else {
+                executeUseCaseWithParams(
+                    useCase = searchInquizeUseCase,
+                    params = SearchInquizeUseCase.Params(term = searchQuery),
+                    onSuccess = ::onLoadInquizeCompleted,
+                    onMapExceptionToState = ::onMapExceptionToState
+                )
+            }
         }
     }
 
