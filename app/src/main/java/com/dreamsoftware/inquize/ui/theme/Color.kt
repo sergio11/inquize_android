@@ -6,11 +6,11 @@ import androidx.compose.ui.graphics.Color
 val md_theme_light_primary = Color(0xFF673AB7) // Deep Purple
 val md_theme_light_onPrimary = Color(0xFFFFFFFF) // White for contrast on primary text
 val md_theme_light_primaryContainer = Color(0xFFD1C4E9) // Light Purple for primary containers
-val md_theme_light_onPrimaryContainer = Color(0xFF311B92) // Darker Purple for readability in containers
+val md_theme_light_onPrimaryContainer = Color(0xFFFFFFFF)
 val md_theme_light_secondary = Color(0xFF8E24AA) // Amethyst for secondary elements
 val md_theme_light_onSecondary = Color(0xFFFFFFFF) // White for text on secondary elements
 val md_theme_light_secondaryContainer = Color(0xFFE1BEE7) // Light Amethyst for secondary containers
-val md_theme_light_onSecondaryContainer = Color(0xFF4A0072) // Dark Amethyst for text in secondary containers
+val md_theme_light_onSecondaryContainer = Color(0xFFFFFFFF) // Dark Amethyst for text in secondary containers
 val md_theme_light_tertiary = Color(0xFFFF7043) // Coral for tertiary elements
 val md_theme_light_onTertiary = Color(0xFFFFFFFF) // White for contrast on tertiary text
 val md_theme_light_tertiaryContainer = Color(0xFFFFE0B2) // Light Coral for tertiary containers

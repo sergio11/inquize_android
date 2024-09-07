@@ -50,7 +50,7 @@ internal fun CreateInquizeScreenContent(
             onInfoMessageCleared = actionListener::onInfoMessageCleared,
             onErrorMessageCleared = actionListener::onErrorMessageCleared,
         ) {
-            if (imageUrl.isNotBlank() && question.isNotBlank()) {
+            if (showConfirm) {
                 ConfirmInquize(
                     uiState = uiState,
                     actionListener = actionListener,

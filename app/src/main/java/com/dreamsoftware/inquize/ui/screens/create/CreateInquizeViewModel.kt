@@ -1,6 +1,6 @@
 package com.dreamsoftware.inquize.ui.screens.create
 
-import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.brownie.core.BrownieViewModel
 import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
@@ -10,6 +10,8 @@ import com.dreamsoftware.inquize.domain.usecase.CreateInquizeUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
 import com.dreamsoftware.inquize.domain.usecase.EndUserSpeechCaptureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,8 +19,11 @@ class CreateInquizeViewModel @Inject constructor(
     private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
     private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase,
     private val createInquizeUseCase: CreateInquizeUseCase
-) : BrownieViewModel<CreateInquizeUiState, CreateInquizeSideEffects>(),
-    CreateInquizeScreenActionListener {
+) : BrownieViewModel<CreateInquizeUiState, CreateInquizeSideEffects>(), CreateInquizeScreenActionListener {
+
+    companion object {
+        private const val SHOW_CONFIRM_SCREEN_DELAY = 2000L
+    }
 
     override fun onGetDefaultState(): CreateInquizeUiState = CreateInquizeUiState()
 
@@ -73,15 +78,25 @@ class CreateInquizeViewModel @Inject constructor(
     }
 
     private fun onListenForTranscriptionCompleted(transcription: String) {
-        updateState { it.copy(isListening = false, question = transcription) }
+        viewModelScope.launch {
+            updateState { it.copy(isListening = false, question = transcription) }
+            delay(SHOW_CONFIRM_SCREEN_DELAY)
+            updateState { it.copy(showConfirm = true) }
+        }
     }
 
     private fun onResetState() {
-        updateState { it.copy(isListening = false, question = String.EMPTY, imageUrl = String.EMPTY) }
+        updateState {
+            it.copy(
+                isListening = false,
+                question = String.EMPTY,
+                imageUrl = String.EMPTY,
+                showConfirm = false
+            )
+        }
     }
 
     private fun onInquizeCreatedSuccessfully(data: InquizeBO) {
-        Log.d("ATV_INQUIZE_CREATED", "onInquizeCreatedSuccessfully $data")
         onResetState()
         launchSideEffect(CreateInquizeSideEffects.InquizeCreated(data.uid))
     }
@@ -89,15 +104,14 @@ class CreateInquizeViewModel @Inject constructor(
     private fun onMapExceptionToState(ex: Exception, uiState: CreateInquizeUiState) =
         uiState.copy(
             isLoading = false,
-            isListening = false,
-            imageUrl = String.EMPTY,
-            question = String.EMPTY
+            isListening = false
         )
 }
 
 data class CreateInquizeUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val showConfirm: Boolean = false,
     val infoMessage: String = String.EMPTY,
     val isListening: Boolean = false,
     val imageUrl: String = String.EMPTY,

@@ -1,6 +1,8 @@
 package com.dreamsoftware.inquize.ui.screens.account.signin
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,7 +36,7 @@ fun SignInScreenContent(
                     .padding(top = 16.dp, bottom = 6.dp)
                     .fillMaxWidth(),
                 type = BrownieTextTypeEnum.TITLE_LARGE,
-                titleRes = R.string.onboarding_subtitle_text,
+                titleRes = R.string.signin_secondary_title_text,
                 textAlign = TextAlign.Center,
                 textBold = true
             )
@@ -43,7 +45,7 @@ fun SignInScreenContent(
                     .padding(top = 16.dp, bottom = 6.dp)
                     .fillMaxWidth(),
                 type = BrownieTextTypeEnum.TITLE_MEDIUM,
-                titleRes = R.string.signin_secondary_title_text,
+                titleRes = R.string.signin_description_text,
                 textAlign = TextAlign.Center
             )
             BrownieDefaultTextField(
@@ -72,6 +74,7 @@ fun SignInScreenContent(
                 leadingIconRes = R.drawable.icon_secret,
                 onValueChanged = actionsListener::onPasswordChanged
             )
+            Spacer(modifier = Modifier.height(20.dp))
             BrownieButton(
                 modifier  = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -80,6 +83,7 @@ fun SignInScreenContent(
                 type = BrownieButtonTypeEnum.LARGE,
                 onClick = actionsListener::onSignIn
             )
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
