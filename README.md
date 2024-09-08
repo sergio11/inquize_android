@@ -37,6 +37,12 @@ Whether you're at a museum 🖼️, exploring nature 🌳, or simply at home �
 - **Delete Functionality** 🗑️: Manage your Inquizes by deleting any that are no longer needed.
 - **Detailed View** 👁️: Access the details of each Inquize, where you can continue the conversation by asking more questions and receiving answers.
 
+## ✨ User Experience Enhancements
+
+- **Optimized Performance** ⚡: Leveraging coroutines for asynchronous operations ensures smooth, lag-free interactions.
+- **Intuitive Navigation** 🧭: The UI, built with **Jetpack Compose**, offers a modern, fluid experience that adapts to user input, making the app feel natural and easy to use.
+- **Dynamic Responses** 🎯: The combination of the Gemini SDK and MVI architecture provides precise, dynamic answers that evolve with user input, creating a responsive and personalized experience.
+  
 ## 🛠️ Clean Architecture & MVI for a Robust Foundation
 
 Inquize is built on **Clean Architecture** principles, ensuring that the application is scalable, maintainable, and testable. This architecture promotes a clear separation of concerns, with well-defined layers for data, domain, and presentation, leading to a robust codebase that integrates seamlessly with the **Gemini SDK**.
@@ -82,12 +88,6 @@ Brownie encourages the use of the Model-View-Intent (MVI) architecture pattern f
 This setup leverages Brownie's components and ViewModel to accelerate the development of robust features while adhering to best practices in architecture and UI design.
 
 For more information, check out the [Brownie UI Library on GitHub](https://github.com/sergio11/brownie_ui_library) and give it a ⭐ star to show your support!
-
-## ✨ User Experience Enhancements
-
-- **Optimized Performance** ⚡: Leveraging coroutines for asynchronous operations ensures smooth, lag-free interactions.
-- **Intuitive Navigation** 🧭: The UI, built with **Jetpack Compose**, offers a modern, fluid experience that adapts to user input, making the app feel natural and easy to use.
-- **Dynamic Responses** 🎯: The combination of the Gemini SDK and MVI architecture provides precise, dynamic answers that evolve with user input, creating a responsive and personalized experience.
 
 ## 🔄 Use Cases Covered by Inquize
 
