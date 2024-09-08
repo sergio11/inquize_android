@@ -58,6 +58,31 @@ By using **Model-View-Intent (MVI)** as the UI architectural pattern, Inquize pr
 - **Retrofit** 🌐: Manages network communication with external APIs.
 - **Coil** 🎨: Image loading library that seamlessly integrates with Jetpack Compose for high-performance image handling.
 
+## Developed with Brownie UI Library
+
+🍫 **Brownie**: [Jetpack Compose UI Library](https://github.com/sergio11/brownie_ui_library) 🚀
+
+Brownie is a 🌟 Jetpack Compose library module that provides a set of pre-defined components to accelerate the development of Android interfaces and applications. It is designed to help developers apply best practices in screen state management and utilize the most effective design patterns in their projects.
+
+### Features 🎉
+
+- **Pre-defined Components**: Brownie offers a variety of ready-to-use components, from buttons to lists and cards, to facilitate the creation of attractive and consistent user interfaces.
+- **State Management**: Facilitates screen state management by implementing patterns such as MVI (Model-View-Intent) or MVVM (Model-View-ViewModel).
+- **Customization**: Brownie components are highly customizable and can easily adapt to the visual style of any application.
+- **Jetpack Compose Compatibility**: Fully integrated with Jetpack Compose, the modern Android UI library, to ensure optimal performance and a smooth development experience.
+
+### Model-View-Intent (MVI) Architecture 🏗️
+
+Brownie encourages the use of the Model-View-Intent (MVI) architecture pattern for effective screen state management. In this pattern:
+
+- **Model**: Represents the state of the UI. Brownie provides a `BrownieViewModel` class that extends from `ViewModel` and handles the UI state.
+- **View**: Renders the UI based on the state provided by the ViewModel. Brownie components are seamlessly integrated with Compose to create a declarative UI.
+- **Intent**: Represents user actions or events that trigger state changes. Brownie's components, like buttons and text fields, are designed to emit these intents efficiently.
+
+This setup leverages Brownie's components and ViewModel to accelerate the development of robust features while adhering to best practices in architecture and UI design.
+
+For more information, check out the [Brownie UI Library on GitHub](https://github.com/sergio11/brownie_ui_library) and give it a ⭐ star to show your support!
+
 ## ✨ User Experience Enhancements
 
 - **Optimized Performance** ⚡: Leveraging coroutines for asynchronous operations ensures smooth, lag-free interactions.
