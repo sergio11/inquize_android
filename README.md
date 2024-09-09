@@ -112,8 +112,10 @@ Here are some screenshots from our app to give you a glimpse of its design and f
 <img width="250px" align="left" src="doc/screenshots/picture_17.png" />
 <img width="250px" align="left" src="doc/screenshots/picture_13.png" />
 <img width="250px" align="left" src="doc/screenshots/picture_10.png" />
+
 <img width="250px" align="left" src="doc/screenshots/picture_11.png" />
-<img width="250px" src="doc/screenshots/picture_12.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_12.png" />
+<img width="250px" src="doc/screenshots/picture_18.png" />
 
 ## 🔄 Use Cases Covered by Inquize
 
