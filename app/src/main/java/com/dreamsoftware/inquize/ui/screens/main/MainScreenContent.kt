@@ -18,9 +18,11 @@ fun MainScreenContent(
     with(uiState) {
         BrownieScreenContent(
             hasTopBar = false,
+            enableContentWindowInsets = true,
+            drawBottomBarOverContent = true,
             onBuildBottomBar = {
                 BrownieSlideDownAnimatedVisibility(
-                    visible = shouldShowBottomNav && hasSession,
+                    visible = shouldShowBottomNav && hasSession
                 ) {
                     with(MaterialTheme.colorScheme) {
                         BrownieBottomBar(
