@@ -89,6 +89,32 @@ This setup leverages Brownie's components and ViewModel to accelerate the develo
 
 For more information, check out the [Brownie UI Library on GitHub](https://github.com/sergio11/brownie_ui_library) and give it a ⭐ star to show your support!
 
+## App Screenshots
+
+Here are some screenshots from our app to give you a glimpse of its design and functionality.
+
+<img width="250px" align="left" src="doc/screenshots/picture_1.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_2.png" />
+<img width="250px" src="doc/screenshots/picture_3.png" />
+
+<img width="250px" align="left" src="doc/screenshots/picture_4.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_5.png" />
+<img width="250px" src="doc/screenshots/picture_6.png" />
+
+<img width="250px" align="left" src="doc/screenshots/picture_7.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_8.png" />
+<img width="250px" src="doc/screenshots/picture_9.png" />
+
+<img width="250px" align="left" src="doc/screenshots/picture_14.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_15.png" />
+<img width="250px" src="doc/screenshots/picture_16.png" />
+
+<img width="250px" align="left" src="doc/screenshots/picture_17.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_13.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_10.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_11.png" />
+<img width="250px" src="doc/screenshots/picture_12.png" />
+
 ## 🔄 Use Cases Covered by Inquize
 
 **Inquize** is designed to be a versatile tool that can be applied across various contexts. Here are some of the key use cases:
