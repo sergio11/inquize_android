@@ -5,9 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -113,7 +116,7 @@ fun ChatScreenContent(
                     ChatMessagesList(
                         modifier = Modifier
                             .fillMaxSize()
-                            .height(screenHeight * 0.62f) // Set 62% of the screen height
+                            .height(screenHeight * 0.7f) // Set 70% of the screen height
                             .padding(
                                 start = 4.dp, end = 4.dp,
                                 top = 8.dp, bottom = 0.dp
@@ -121,36 +124,46 @@ fun ChatScreenContent(
                         messageList = messageList
                     )
                     BrownieDivider(color = primary)
-                    AnimatedContent(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally),
-                        targetState = isAssistantResponseLoading,
-                        label = String.EMPTY
-                    ) { isResponseLoading ->
-                        if (isResponseLoading) {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .background(secondary)
-                                    .padding(16.dp)
-                                    .size(64.dp)
-                            )
-                        } else if (isAssistantSpeaking) {
-                            BrownieIconButton(
-                                containerSize = 115.dp,
-                                iconSize = 90.dp,
-                                containerColor = onSecondary,
-                                iconRes = R.drawable.baseline_stop_circle_24,
-                                iconTintColor = secondary
-                            ) {
-                                chatScreenHaptics.provideStopAssistantSpeechHapticFeedback()
-                                actionListener.onAssistantSpeechStopped()
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .background(primaryContainer)) {
+                        AnimatedContent(
+                            modifier = Modifier
+                                .align(Alignment.Center),
+                            targetState = isAssistantResponseLoading,
+                            label = String.EMPTY
+                        ) { isResponseLoading ->
+                            if (isResponseLoading) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .background(secondary)
+                                        .padding(16.dp)
+                                        .size(64.dp)
+                                )
+                            } else if (isAssistantSpeaking) {
+                                Column(
+                                    modifier = Modifier.padding(10.dp),
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    BrownieIconButton(
+                                        iconSize = 100.dp,
+                                        containerSize = 100.dp,
+                                        containerColor = onSecondary,
+                                        iconRes = R.drawable.baseline_stop_circle_24,
+                                        iconTintColor = secondary
+                                    ) {
+                                        chatScreenHaptics.provideStopAssistantSpeechHapticFeedback()
+                                        actionListener.onAssistantSpeechStopped()
+                                    }
+                                }
+
+                            } else {
+                                AnimatedMicButtonWithTranscript(
+                                    userTextTranscription = lastQuestion,
+                                    isListening = isListening,
+                                    onStartListening = actionListener::onStartListening
+                                )
                             }
-                        } else {
-                            AnimatedMicButtonWithTranscript(
-                                userTextTranscription = lastQuestion,
-                                isListening = isListening,
-                                onStartListening = actionListener::onStartListening
-                            )
                         }
                     }
                 }

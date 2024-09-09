@@ -70,9 +70,9 @@ fun AnimatedMicButton(
             },
             shape = RoundedStarShape(rotation = animatedCurrentRotationDegrees),
             colors = ButtonDefaults.buttonColors(containerColor = if(isAnimationRunning) {
-                secondaryContainer
+                secondary
             } else {
-                primaryContainer
+                primary
             })
         ) {
             Icon(
@@ -81,9 +81,9 @@ fun AnimatedMicButton(
                     .size(32.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.outline_mic_24),
                 tint = if(isAnimationRunning) {
-                    onSecondaryContainer
+                    onSecondary
                 } else {
-                    onPrimaryContainer
+                    onPrimary
                 },
                 contentDescription = null,
             )

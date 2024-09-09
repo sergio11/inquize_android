@@ -28,6 +28,7 @@ fun MainScreenContent(
                         BrownieBottomBar(
                             currentItemRouteSelected = currentDestination?.route,
                             items = mainDestinationList,
+                            enableWindowInsets = false,
                             containerColor = primary,
                             iconColorSelected = primary
                         ) {

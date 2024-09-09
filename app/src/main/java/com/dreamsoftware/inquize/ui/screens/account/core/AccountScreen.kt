@@ -44,6 +44,7 @@ fun AccountScreen(
         backgroundRes = screenBackgroundRes,
         enableVerticalScroll = enableVerticalScroll,
         hasTopBar = false,
+        enableContentWindowInsets = true,
         errorMessage = errorMessage,
         infoMessage = infoMessage,
         onErrorMessageCleared = onErrorMessageCleared,
