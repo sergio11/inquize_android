@@ -123,7 +123,8 @@ Here are some screenshots from our app to give you a glimpse of its design and f
 <img width="250px" src="doc/screenshots/picture_21.png" />
 
 <img width="250px" align="left" src="doc/screenshots/picture_22.png" />
-<img width="250px" src="doc/screenshots/picture_23.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_23.png" />
+<img width="250px" src="doc/screenshots/picture_24.png" />
 
 ## 🔄 Use Cases Covered by Inquize
 
