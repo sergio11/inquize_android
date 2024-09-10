@@ -5,6 +5,7 @@ import com.dreamsoftware.brownie.core.IBrownieErrorMapper
 import com.dreamsoftware.inquize.ui.screens.account.signin.SignInScreenSimpleErrorMapper
 import com.dreamsoftware.inquize.ui.screens.account.signup.SignUpScreenSimpleErrorMapper
 import com.dreamsoftware.inquize.ui.screens.chat.ChatSimpleErrorMapper
+import com.dreamsoftware.inquize.ui.screens.detail.InquizeDetailScreenSimpleErrorMapper
 import com.dreamsoftware.inquize.ui.screens.home.HomeSimpleErrorMapper
 import dagger.Module
 import dagger.Provides
@@ -48,4 +49,21 @@ class UiModule {
         @ApplicationContext context: Context
     ): IBrownieErrorMapper =
         ChatSimpleErrorMapper(context = context)
+
+    @Provides
+    @ViewModelScoped
+    @InquizeDetailErrorMapper
+    fun provideInquizeDetailErrorMapper(
+        @ApplicationContext context: Context
+    ): IBrownieErrorMapper =
+        InquizeDetailScreenSimpleErrorMapper(context = context)
+
+
+    @Provides
+    @ViewModelScoped
+    @CreateInquizeErrorMapper
+    fun provideCreateInquizeScreenSimpleErrorMapper(
+        @ApplicationContext context: Context
+    ): IBrownieErrorMapper =
+        InquizeDetailScreenSimpleErrorMapper(context = context)
 }

@@ -14,6 +14,7 @@ import com.dreamsoftware.inquize.data.remote.exception.FetchInquizeByIdRemoteDat
 import com.dreamsoftware.inquize.data.remote.exception.SearchInquizeRemoteDataException
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.tasks.await
 
@@ -30,6 +31,7 @@ internal class InquizeDataSourceImpl(
         const val SUB_COLLECTION_NAME = "questions"
         const val MESSAGE_FIELD_NAME = "messages"
         const val IMAGE_DESCRIPTION_FIELD_NAME = "imageDescription"
+        const val CREATED_AT_FIELD_NAME = "createdAt"
     }
 
     private val inquizeCollection by lazy {
@@ -44,6 +46,7 @@ internal class InquizeDataSourceImpl(
                 .collection(SUB_COLLECTION_NAME)
                 .whereGreaterThanOrEqualTo(IMAGE_DESCRIPTION_FIELD_NAME, term)
                 .whereLessThanOrEqualTo(IMAGE_DESCRIPTION_FIELD_NAME, term + "\uf8ff")
+                .orderBy(CREATED_AT_FIELD_NAME, Query.Direction.DESCENDING)
                 .get()
                 .await()
             snapshot.documents.map { document ->
@@ -117,6 +120,7 @@ internal class InquizeDataSourceImpl(
             val snapshot = inquizeCollection
                 .document(userId)
                 .collection(SUB_COLLECTION_NAME)
+                .orderBy(CREATED_AT_FIELD_NAME, Query.Direction.DESCENDING)
                 .get()
                 .await()
             snapshot.documents.map { document ->

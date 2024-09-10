@@ -2,9 +2,11 @@ package com.dreamsoftware.inquize.ui.screens.create
 
 import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.brownie.core.BrownieViewModel
+import com.dreamsoftware.brownie.core.IBrownieErrorMapper
 import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
 import com.dreamsoftware.brownie.utils.EMPTY
+import com.dreamsoftware.inquize.di.CreateInquizeErrorMapper
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.usecase.CreateInquizeUseCase
 import com.dreamsoftware.inquize.domain.usecase.TranscribeUserQuestionUseCase
@@ -18,7 +20,8 @@ import javax.inject.Inject
 class CreateInquizeViewModel @Inject constructor(
     private val transcribeUserQuestionUseCase: TranscribeUserQuestionUseCase,
     private val endUserSpeechCaptureUseCase: EndUserSpeechCaptureUseCase,
-    private val createInquizeUseCase: CreateInquizeUseCase
+    private val createInquizeUseCase: CreateInquizeUseCase,
+    @CreateInquizeErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<CreateInquizeUiState, CreateInquizeSideEffects>(), CreateInquizeScreenActionListener {
 
     companion object {
@@ -104,7 +107,8 @@ class CreateInquizeViewModel @Inject constructor(
     private fun onMapExceptionToState(ex: Exception, uiState: CreateInquizeUiState) =
         uiState.copy(
             isLoading = false,
-            isListening = false
+            isListening = false,
+            errorMessage = errorMapper.mapToMessage(ex)
         )
 }
 

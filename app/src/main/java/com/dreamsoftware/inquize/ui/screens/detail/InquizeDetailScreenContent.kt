@@ -53,6 +53,24 @@ internal fun InquizeDetailScreenContent(
             backIconRes = R.drawable.ic_back,
             onBackClicked = actionListener::onBackPressed
         ) {
+            Spacer(modifier = Modifier.height(15.dp))
+            BrownieText(
+                type = BrownieTextTypeEnum.BODY_LARGE,
+                titleRes = R.string.inquize_detail_user_question_title,
+                textBold = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BrownieText(
+                type = BrownieTextTypeEnum.BODY_MEDIUM,
+                titleText = title
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            BrownieText(
+                type = BrownieTextTypeEnum.BODY_LARGE,
+                titleRes = R.string.inquize_detail_photo_context_title,
+                textBold = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
             BrownieText(
                 type = BrownieTextTypeEnum.BODY_MEDIUM,
                 titleText = description

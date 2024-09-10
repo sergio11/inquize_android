@@ -45,3 +45,11 @@ annotation class HomeErrorMapper
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ChatErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class InquizeDetailErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class CreateInquizeErrorMapper

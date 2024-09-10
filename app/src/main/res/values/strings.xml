@@ -93,4 +93,8 @@
     <string name="generic_lost_network_connectivity_dialog_title">Network Connection Lost</string>
     <string name="generic_lost_network_connectivity_dialog_description">It seems that your device has lost network connectivity. Please check your connection settings.</string>
     <string name="generic_lost_network_connectivity_dialog_open_settings_button_text">Open Settings</string>
+
+    <!-- Inquize Detail -->
+    <string name="inquize_detail_user_question_title">Your Question 🧐</string>
+    <string name="inquize_detail_photo_context_title">What The Photo Tells Us 📸</string>
 </resources>

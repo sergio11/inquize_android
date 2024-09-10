@@ -1,9 +1,11 @@
 package com.dreamsoftware.inquize.ui.screens.detail
 
 import com.dreamsoftware.brownie.core.BrownieViewModel
+import com.dreamsoftware.brownie.core.IBrownieErrorMapper
 import com.dreamsoftware.brownie.core.SideEffect
 import com.dreamsoftware.brownie.core.UiState
 import com.dreamsoftware.brownie.utils.EMPTY
+import com.dreamsoftware.inquize.di.InquizeDetailErrorMapper
 import com.dreamsoftware.inquize.domain.model.InquizeBO
 import com.dreamsoftware.inquize.domain.usecase.DeleteInquizeByIdUseCase
 import com.dreamsoftware.inquize.domain.usecase.GetInquizeByIdUseCase
@@ -14,6 +16,7 @@ import javax.inject.Inject
 class InquizeDetailViewModel @Inject constructor(
     private val getInquizeByIdUseCase: GetInquizeByIdUseCase,
     private val deleteInquizeByIdUseCase: DeleteInquizeByIdUseCase,
+    @InquizeDetailErrorMapper private val errorMapper: IBrownieErrorMapper
 ) : BrownieViewModel<InquizeDetailUiState, InquizeDetailSideEffects>(), InquizeDetailScreenActionListener {
 
     fun load(id: String) {
@@ -42,7 +45,8 @@ class InquizeDetailViewModel @Inject constructor(
 
     private fun onMapExceptionToState(ex: Exception, uiState: InquizeDetailUiState) =
         uiState.copy(
-            isLoading = false
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
         )
 
     override fun onBackPressed() {
