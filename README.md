@@ -16,11 +16,11 @@ Whether you're at a museum 🖼️, exploring nature 🌳, or simply at home �
 </p>
 
 <p align="center">
-  <img width="250px" src="doc/previewed/image1.jpeg" />
-  <img width="250px" src="doc/previewed/image2.jpeg" />
-  <img width="250px" src="doc/previewed/image3.jpeg" />
-  <img width="250px" src="doc/previewed/image4.jpeg" />
-  <img width="250px" src="doc/previewed/image5.jpeg" />
+  <img width="250px" src="doc/screenshots/previewed/image1.jpeg" />
+  <img width="250px" src="doc/screenshots/previewed/image2.jpeg" />
+  <img width="250px" src="doc/screenshots/previewed/image3.jpeg" />
+  <img width="250px" src="doc/screenshots/previewed/image4.jpeg" />
+  <img width="250px" src="doc/screenshots/previewed/image5.jpeg" />
 </p>
 
 Slides are built using the  template from [Previewed](https://previewed.app/template/AFC0B4CB). I extend my gratitude to them for their remarkable work and contribution.
