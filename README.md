@@ -15,6 +15,16 @@ Whether you're at a museum 🖼️, exploring nature 🌳, or simply at home �
   <img src="https://img.shields.io/badge/Google%20Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white" />
 </p>
 
+<p align="center">
+  <img width="250px" src="doc/previewed/image1.jpeg" />
+  <img width="250px" src="doc/previewed/image2.jpeg" />
+  <img width="250px" src="doc/previewed/image3.jpeg" />
+  <img width="250px" src="doc/previewed/image4.jpeg" />
+  <img width="250px" src="doc/previewed/image5.jpeg" />
+</p>
+
+Slides are built using the  template from [Previewed](https://previewed.app/template/AFC0B4CB). I extend my gratitude to them for their remarkable work and contribution.
+
 ## 🚀 Key Features
 
 - **AI-Powered Visual Exploration** 🤖📷: Leverage the Gemini SDK to recognize objects, places, and concepts through your camera and obtain instant, accurate information.
@@ -172,6 +182,20 @@ Here are some screenshots from our app to give you a glimpse of its design and f
 
 **Inquize** is more than just a mobile app; it's a powerful tool for curiosity, education, and discovery, adaptable to a wide range of use cases across different environments. Whether for personal enrichment, professional development, or simply satisfying your curiosity, **Inquize** empowers users to unlock knowledge anytime, anywhere.
 
+## Contribution
+Contributions to VaultKeeper are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
+
+## Credits
+Inquize is developed and maintained by Sergio Sánchez Sánchez (Dream Software). Special thanks to the open-source community and the contributors who have made this project possible. If you have any questions, feedback, or suggestions, feel free to reach out at dreamsoftware92@gmail.com.
+
+## Acknowledgements 🙏
+
+ - Special thanks to **technophilist** for the Perceive app, which served as a source of inspiration for this project. Visit [Perceive](https://github.com/technophilist/Perceive).
+
+- We express our deep appreciation to [Freepik](https://www.freepik.es/) for generously providing the resources used in this project.
+
+- <div> Icons and images takes from <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es'</a></div>
+- Template mockup from https://previewed.app/template/AFC0B4CB
 
  ## Please Share & Star the repository to keep me motivated.
   <a href = "https://github.com/sergio11/vault_keeper_android/stargazers">
