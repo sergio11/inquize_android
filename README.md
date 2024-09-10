@@ -197,6 +197,10 @@ Inquize is developed and maintained by Sergio Sánchez Sánchez (Dream Software)
 - <div> Icons and images takes from <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es'</a></div>
 - Template mockup from https://previewed.app/template/AFC0B4CB
 
+ ## Visitors Count
+
+ <img width="auto" src="https://profile-counter.glitch.me/inquize_android/count.svg" />
+
  ## Please Share & Star the repository to keep me motivated.
   <a href = "https://github.com/sergio11/vault_keeper_android/stargazers">
      <img src = "https://img.shields.io/github/stars/sergio11/vault_keeper_android" />
