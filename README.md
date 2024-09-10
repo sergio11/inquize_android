@@ -118,6 +118,13 @@ Here are some screenshots from our app to give you a glimpse of its design and f
 <img width="250px" align="left" src="doc/screenshots/picture_12.png" />
 <img width="250px" src="doc/screenshots/picture_18.png" />
 
+<img width="250px" align="left" src="doc/screenshots/picture_19.png" />
+<img width="250px" align="left" src="doc/screenshots/picture_20.png" />
+<img width="250px" src="doc/screenshots/picture_21.png" />
+
+<img width="250px" align="left" src="doc/screenshots/picture_22.png" />
+<img width="250px" src="doc/screenshots/picture_23.png" />
+
 ## 🔄 Use Cases Covered by Inquize
 
 **Inquize** is designed to be a versatile tool that can be applied across various contexts. Here are some of the key use cases:
