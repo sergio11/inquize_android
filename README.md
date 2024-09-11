@@ -1,10 +1,8 @@
 # Inquize - Capture Curiosity. Unlock Knowledge. 🔍📚💡
 
-**Inquize** is a groundbreaking mobile application that redefines how you engage with your surroundings. With the power of the **Gemini SDK**'s advanced AI, Inquize transforms your device into a gateway to knowledge, allowing you to ask questions about any object, place, or concept captured by your camera. Receive precise, real-time answers, turning every moment of curiosity into a learning experience.
+<img width="auto" height="200px" align="left" src="doc/main_logo.png" />
 
-<p align="center">
- <img width="auto" height="200px" src="doc/main_logo.png" />
-</p>
+**Inquize** is a groundbreaking mobile application that redefines how you engage with your surroundings. With the power of the **Gemini SDK**'s advanced AI, Inquize transforms your device into a gateway to knowledge, allowing you to ask questions about any object, place, or concept captured by your camera. Receive precise, real-time answers, turning every moment of curiosity into a learning experience.
 
 Whether you're at a museum 🖼️, exploring nature 🌳, or simply at home 🏠, **Inquize** offers instant access to enriched information, making knowledge discovery as easy as point, ask, and learn! 📱✨
 
